@@ -1,0 +1,194 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(120px, 14vw, 170px);
+  padding-bottom: clamp(72px, 9vw, 120px);
+  background:
+    radial-gradient(60% 50% at 78% 42%, rgb(249 200 70 / 0.08) 0%, transparent 70%),
+    var(--purple);
+}
+
+.hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  min-height: 560px;
+}
+
+.hero__copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 28px;
+}
+
+.hero__title {
+  max-width: 18ch;
+  font-size: clamp(2.5rem, 1.5rem + 3.4vw, 4.25rem);
+}
+
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.hero__line > span {
+  display: block;
+}
+
+.hero__line:nth-child(2) > span {
+  color: var(--on-dark-soft);
+}
+
+.hero__lead {
+  color: var(--on-dark-soft);
+  max-width: 46ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+.hero__note {
+  font-size: var(--fs-small);
+  color: var(--on-dark-muted);
+  max-width: 44ch;
+}
+
+/* ───────────── Les téléphones ───────────── */
+.hero__stage {
+  position: relative;
+  z-index: 1;
+  height: 620px;
+  perspective: 1600px;
+}
+
+.hero__phone {
+  position: absolute;
+}
+
+.hero__phone--front {
+  left: 8%;
+  top: 20px;
+  z-index: 2;
+}
+
+.hero__phone--front .phone {
+  transform: rotateY(-10deg) rotateX(3deg) rotate(-4deg);
+}
+
+.hero__phone--back {
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.hero__phone--back .phone {
+  transform: rotateY(-14deg) rotate(5deg);
+  filter: drop-shadow(0 30px 40px rgb(23 14 32 / 0.5)) brightness(0.86);
+}
+
+/* ───────────── Les lignes du plan ───────────── */
+.hero__lines,
+.hero__node {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero__lines {
+  z-index: 0;
+}
+
+.hero__node {
+  z-index: 3;
+}
+
+.hero__lines path {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero__lines path:nth-child(2) {
+  stroke: var(--rail-inactive-dark);
+}
+
+.hero__node circle {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ───────────── Responsive ───────────── */
+@media (max-width: 1100px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .hero__phone--front {
+    left: 0;
+  }
+
+  .hero__phone--back {
+    right: -6%;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding-top: 112px;
+    padding-bottom: 64px;
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    min-height: 0;
+  }
+
+  .hero__lines,
+  .hero__node {
+    display: none;
+  }
+
+  .hero__stage {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    perspective: none;
+  }
+
+  .hero__phone {
+    position: relative;
+  }
+
+  .hero__phone--front {
+    inset: auto;
+  }
+
+  .hero__phone--front .phone {
+    --z: 0.8;
+    transform: none;
+  }
+
+  .hero__phone--back {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero__phone--front .phone {
+    --z: 0.72;
+  }
+}

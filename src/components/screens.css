@@ -1,0 +1,481 @@
+/* ───────────── Interface de l'application TALORA (dans l'iPhone) ─────────────
+   Palette de la marque, composants réutilisables, hiérarchie crédible. Tailles en px :
+   l'écran est mis à l'échelle par `zoom` sur le cadre. */
+.app {
+  --a-ink: #1b1224;
+  --a-soft: #5e5466;
+  --a-line: rgb(33 21 45 / 0.1);
+  --a-surface: #ffffff;
+  --a-surface-2: #efebe3;
+  --a-purple: #21152d;
+  --a-yellow: #f9c846;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--ivory);
+  color: var(--a-ink);
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.app--dark {
+  --a-ink: #f7f5f0;
+  --a-soft: #cfc4da;
+  --a-line: rgb(247 245 240 / 0.12);
+  --a-surface: #2b1d3a;
+  --a-surface-2: #352644;
+  background: var(--purple);
+}
+
+.app strong {
+  display: block;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.app small {
+  display: block;
+  color: var(--a-soft);
+  font-size: 9.5px;
+  font-weight: 500;
+}
+
+/* barre d'état */
+.app-status {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  padding: 6px 26px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.app-status--dark {
+  color: var(--ivory);
+}
+
+.app-status__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-status svg {
+  fill: currentColor;
+}
+
+/* corps défilant */
+.app-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  padding: 4px 16px 18px;
+  overflow: hidden;
+}
+
+/* en-tête d'écran */
+.app-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.app-head--row > strong {
+  flex: 1;
+  font-size: 14px;
+}
+
+.app-head__brand {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--a-purple);
+  color: var(--ivory);
+  --logo-bg: #21152d;
+}
+
+.app--dark .app-head__brand {
+  background: var(--a-yellow);
+  color: var(--a-purple);
+  --logo-bg: #f9c846;
+}
+
+.app-head__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-head__title strong {
+  font-size: 15px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24;
+  letter-spacing: -0.02em;
+}
+
+.app-head__action {
+  color: var(--a-soft);
+}
+
+/* champ de recherche */
+.app-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+  color: var(--a-ink);
+}
+
+.app-search__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.app-search__value.is-placeholder {
+  color: var(--a-soft);
+  font-weight: 500;
+}
+
+.app-search__value.is-placeholder::after {
+  content: "";
+  display: inline-block;
+  width: 1.5px;
+  height: 12px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--a-purple);
+  animation: app-caret 1s steps(1, end) infinite;
+}
+
+.app--dark .app-search__value.is-placeholder::after {
+  background: var(--a-yellow);
+}
+
+@keyframes app-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.app-search__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--a-surface-2);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* deux parcours */
+.app-paths {
+  display: grid;
+  gap: 8px;
+}
+
+.app-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+}
+
+.app-path.is-active {
+  background: var(--a-purple);
+  color: var(--ivory);
+}
+
+.app-path.is-active small {
+  color: #cfc4da;
+}
+
+.app-path svg {
+  flex: none;
+}
+
+.app-path.is-active svg {
+  color: var(--a-yellow);
+}
+
+/* sections */
+.app-section {
+  display: grid;
+  gap: 8px;
+}
+
+.app-section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.app-section__head strong {
+  font-size: 12px;
+}
+
+.app-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.app-chips--scroll {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  margin-inline: -16px;
+  padding-inline: 16px;
+}
+
+.app-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--a-ink);
+}
+
+.app-chip.is-active {
+  background: var(--a-purple);
+  color: var(--ivory);
+  box-shadow: none;
+}
+
+.app--dark .app-chip.is-active {
+  background: var(--a-yellow);
+  color: var(--a-purple);
+}
+
+.app-recent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--a-soft);
+  font-size: 10.5px;
+}
+
+/* lignes de profils */
+.app-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+}
+
+.app-row__body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.app-row__body strong,
+.app-row__body small {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-row__tags {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+}
+
+.app-row__tags .app-chip {
+  height: 20px;
+  padding: 0 7px;
+  font-size: 9px;
+}
+
+.app-row__tags small {
+  margin-left: auto;
+}
+
+.app-row__chev {
+  color: var(--a-soft);
+  flex: none;
+}
+
+/* médaillon d'initiales */
+.app-avatar {
+  --size: 38px;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: hsl(var(--hue) 34% 88%);
+  color: hsl(var(--hue) 40% 28%);
+  font-size: calc(var(--size) * 0.34);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.app--dark .app-avatar {
+  background: hsl(var(--hue) 30% 32%);
+  color: hsl(var(--hue) 50% 90%);
+}
+
+/* profil */
+.app-profile {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 6px 0 4px;
+  text-align: center;
+}
+
+.app-profile__name {
+  margin-top: 4px;
+  font-size: 15px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24;
+  letter-spacing: -0.02em;
+}
+
+.app-profile__facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--a-line);
+  border-bottom: 1px solid var(--a-line);
+}
+
+.app-profile__facts strong {
+  font-size: 12px;
+}
+
+.app-line {
+  display: grid;
+  gap: 1px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--a-line);
+}
+
+.app-line--row {
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+}
+
+.app-note {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--a-surface-2);
+  color: var(--a-soft);
+  font-size: 9.5px;
+  line-height: 1.4;
+}
+
+/* cartes candidats (espace entreprise) */
+.app-card {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--a-surface);
+}
+
+.app-card__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-card__top .app-chip {
+  flex: none;
+  height: 22px;
+  font-size: 9px;
+}
+
+.app-card__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--a-line);
+}
+
+.app-card__years {
+  margin-left: auto;
+}
+
+/* bouton d'écran */
+.app-cta {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 42px;
+  margin-top: auto;
+  border-radius: 12px;
+  background: var(--a-purple);
+  color: var(--ivory);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.app-cta--yellow {
+  background: var(--a-yellow);
+  color: var(--a-purple);
+}
+
+/* barre d'onglets */
+.app-tabs {
+  display: grid;
+  flex: none;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 8px 10px 22px;
+  border-top: 1px solid var(--a-line);
+  background: var(--a-surface);
+}
+
+.app-tab {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--a-soft);
+}
+
+.app-tab.is-active {
+  color: var(--a-purple);
+}

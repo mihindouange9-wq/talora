@@ -1,0 +1,117 @@
+.gabon {
+  overflow: hidden;
+  background:
+    radial-gradient(50% 40% at 18% 70%, rgb(249 200 70 / 0.07) 0%, transparent 70%),
+    var(--purple);
+}
+
+.gabon__title {
+  display: grid;
+  max-width: 32ch;
+}
+
+.gabon__title-2 {
+  color: var(--on-dark-soft);
+}
+
+.gabon__lead {
+  margin-top: 24px;
+  max-width: 52ch;
+}
+
+/* ───────────── La ligne : trois arrêts, la suite en pointillé ───────────── */
+.gabon__line {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 48px);
+  margin-top: clamp(56px, 7vw, 96px);
+  padding-top: 44px;
+}
+
+.gabon__rail {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 66%;
+  height: 2px;
+  background: var(--yellow);
+}
+
+.gabon__rail--next {
+  left: 66%;
+  width: calc(34% + var(--gutter));
+  height: 0;
+  background: none;
+  border-top: 2px dashed var(--rail-inactive-dark);
+}
+
+.gabon__stop {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding-right: 16px;
+}
+
+.gabon__node {
+  position: absolute;
+  left: 0;
+  top: -44px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid var(--yellow);
+  background: var(--purple);
+  transform: translateY(-1px);
+}
+
+/* première station : le nœud plein et un halo ; dernière : un nœud creux sur la ligne pointillée */
+.gabon__stop--1 .gabon__node {
+  background: var(--yellow);
+  box-shadow: 0 0 0 8px rgb(249 200 70 / 0.16);
+}
+
+.gabon__stop--3 .gabon__node {
+  border-color: var(--rail-inactive-dark);
+}
+
+.gabon__stop .station-label {
+  margin-top: 2px;
+}
+
+.gabon__stop p {
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+@media (max-width: 900px) {
+  .gabon__line {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 48px;
+    padding-top: 0;
+    padding-left: 48px;
+  }
+
+  .gabon__rail {
+    left: 10px;
+    top: 10px;
+    width: 2px;
+    height: 62%;
+  }
+
+  .gabon__rail--next {
+    left: 10px;
+    top: 62%;
+    width: 0;
+    height: 38%;
+    border-top: 0;
+    border-left: 2px dashed var(--rail-inactive-dark);
+  }
+
+  .gabon__node {
+    left: -48px;
+    top: 0;
+  }
+}

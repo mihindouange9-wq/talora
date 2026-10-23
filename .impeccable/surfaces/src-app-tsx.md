@@ -1,0 +1,24 @@
+---
+version: 1
+slug: "src-app-tsx"
+primary_target: "src/App.tsx"
+related_targets: []
+---
+
+# Surface : page d'accueil TALORA (site de présentation aux investisseurs)
+
+Mode : Persuade. Visiteur : investisseur ou partenaire potentiel, lecture sur ordinateur portable au bureau ou sur téléphone en déplacement. Action : comprendre le concept en dix secondes, puis prendre contact. Preuve : les écrans de l'application démontrés en HTML dans des iPhone, un récit ordonné (quoi, problème, publics, fonctionnement, revenus envisagés, Gabon, contact). Contraintes : palette imposée, aucune statistique ni promesse, contact configurable, pas de déploiement.
+
+## Direction contract
+
+THESIS : TALORA est le point où deux lignes se rencontrent, le besoin et la compétence ; la page est un plan de réseau de compétences, pas une page produit SaaS à cartes et dégradés. Elle refuse l'arrangement « hero + grille de bénéfices + témoignages » et la version brutaliste minimaliste.
+
+OWN-WORLD : fonds pleins Obsidian Purple qui portent la moitié de la page (hero, révélation, Gabon, clôture) et feuilles Ivory Mist pour les passages éditoriaux ; une seule grammaire de plan de transport : lignes à 45° de 2 px, nœuds ronds, anneaux de correspondance, étiquettes de station en capitales espacées, filets de quai ; le jaune Sunburst est réservé aux lignes actives, aux nœuds de rencontre et au bouton principal (jamais un fond) ; Warm Stone pour les lignes inactives et les textes secondaires. Bricolage Grotesque pour les titres (opsz, graisse 600-700, interlettrage serré), Onest pour le texte et les interfaces. Segments étiquetés à chiffres tabulaires pour le modèle économique et la confiance (document de voyage). Les contrôles sont des nœuds : un bouton est une pastille sur sa ligne, un onglet est une station allumée.
+
+STORY : le visiteur comprend qu'il manque un point de rencontre entre les besoins et les compétences au Gabon ; il voit l'application faire cette rencontre à l'écran ; il saisit les deux publics, le parcours en trois stations, les revenus envisagés comme hypothèses, le Gabon comme première ligne ; il prend contact.
+
+FIRST VIEWPORT : à gauche, sur fond obsidienne, le titre « Les bons talents. Au bon moment. » en deux lignes à 56-72 px, le texte d'accompagnement sous une ligne de quai, deux actions (pastille jaune « Découvrir le concept », lien-station « Échanger sur le projet ») ; à droite, un iPhone penché en profondeur dont l'écran montre la recherche « Plombier · Libreville » avec des résultats, un second iPhone plus petit et décalé derrière montre un profil ; deux lignes de plan partent du titre, se croisent sur un nœud jaune posé sur l'écran du premier téléphone. Signature : à l'arrivée, les deux lignes se tracent (stroke-dashoffset) puis le nœud s'allume ; le champ de recherche du téléphone fait défiler lentement les métiers (plombier, juriste, designer) à vitesse de lecture. Motion : tracés de lignes et montées courtes, 500-900 ms, jamais en boucle visible hormis le défilement des métiers.
+
+FORM : plan de réseau de transport (lignes, nœuds, correspondances), candidat 6 de ma liste ordonnée (annuaire, cahier emploi, dossier d'investissement, registre d'accréditation, enseignes peintes, plan de réseau, journal économique), clé de tirage 2437937e. Raises nommés : rigueur de cellules et cascade d'état (split-flap concourse) → défilement des métiers par caractères ; segments étiquetés à chiffres tabulaires (boarding pass) → modèle économique et confiance ; une commande propage sur toute la feuille (Miura) → le sélecteur « Entreprises / Professionnels » change le plan et l'écran du téléphone d'un seul geste ; le titre comme matière (alphabet storm) → graisse et taille assumées du titre.
+
+FINISH : unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.

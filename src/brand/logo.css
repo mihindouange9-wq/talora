@@ -1,0 +1,30 @@
+.logo {
+  --logo-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--logo-size) * 0.36);
+  line-height: 1;
+}
+
+.logo--dark {
+  color: var(--ivory);
+  --logo-bg: var(--purple);
+}
+
+.logo--light {
+  color: var(--purple);
+  --logo-bg: var(--ivory);
+}
+
+.logo__mark {
+  flex: none;
+}
+
+.logo__word {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-weight: 700;
+  font-size: calc(var(--logo-size) * 0.78);
+  letter-spacing: 0.04em;
+  transform: translateY(0.02em);
+}

@@ -1,0 +1,87 @@
+.vision__head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.vision__sheet {
+  position: relative;
+  border-top: 2px solid var(--purple);
+}
+
+/* la ligne verticale relie les nœuds des étiquettes */
+.vision__sheet::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line-light-strong);
+}
+
+.vision__row {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 12px clamp(24px, 4vw, 72px);
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.vision__row dt {
+  position: relative;
+  padding-left: 32px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.vision__node {
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  background: var(--ivory);
+}
+
+.vision__row:first-child .vision__node {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.vision__row dd {
+  max-width: 60ch;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.vision__disclaimer {
+  margin-top: 24px;
+  font-size: var(--fs-small);
+  max-width: 60ch;
+}
+
+@media (max-width: 900px) {
+  .vision__head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .vision__row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .vision__row dd {
+    padding-left: 32px;
+  }
+}

@@ -1,0 +1,147 @@
+.cta {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: calc(var(--section-y) + 140px);
+  background:
+    radial-gradient(55% 60% at 70% 30%, rgb(249 200 70 / 0.1) 0%, transparent 70%),
+    var(--purple-deep);
+}
+
+.cta__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(40px, 6vw, 112px);
+}
+
+.cta__copy {
+  display: grid;
+  gap: 28px;
+}
+
+.cta__title {
+  max-width: 14ch;
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+}
+
+.cta__text {
+  color: var(--on-dark-soft);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+/* ───────────── Le bloc de coordonnées : une station à part ───────────── */
+.cta__contact {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 28px 28px 28px 36px;
+  border-radius: var(--radius);
+  background: var(--purple-2);
+  box-shadow:
+    inset 0 0 0 1px var(--line-dark),
+    0 30px 50px -30px rgb(0 0 0 / 0.6);
+}
+
+.cta__contact-node {
+  position: absolute;
+  left: -9px;
+  top: 34px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid var(--yellow);
+  background: var(--purple-deep);
+}
+
+.cta__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  transition: color var(--d-fast) var(--ease);
+}
+
+.cta__email svg {
+  flex: none;
+  color: var(--yellow);
+}
+
+.cta__email:hover {
+  color: var(--yellow);
+}
+
+.cta__missing {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--yellow);
+  text-wrap: balance;
+}
+
+.cta__hint {
+  font-size: var(--fs-small);
+}
+
+/* ───────────── Les lignes de clôture ───────────── */
+.cta__lines {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.cta__lines path {
+  fill: none;
+  stroke: var(--rail-inactive-dark);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.cta__lines path:first-child {
+  stroke: var(--yellow);
+}
+
+.cta__lines circle {
+  fill: var(--purple-deep);
+  stroke: var(--yellow);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (max-width: 900px) {
+  .cta__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .cta__contact {
+    padding: 24px 22px 24px 28px;
+  }
+
+  .cta {
+    padding-bottom: calc(var(--section-y) + 60px);
+  }
+
+  .cta__lines {
+    height: 120px;
+    opacity: 0.35;
+  }
+}

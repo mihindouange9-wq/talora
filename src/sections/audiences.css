@@ -1,0 +1,184 @@
+.audiences__head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+
+/* ───────────── Le sélecteur : deux stations sur une ligne ───────────── */
+.audiences__switch {
+  position: relative;
+  display: flex;
+  gap: clamp(24px, 4vw, 56px);
+  margin-bottom: clamp(40px, 5vw, 72px);
+  padding-bottom: 18px;
+}
+
+.audiences__switch-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--line-dark);
+}
+
+.audiences__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--on-dark-muted);
+  transition: color var(--d-fast) var(--ease);
+}
+
+.audiences__tab:hover {
+  color: var(--on-dark-soft);
+}
+
+.audiences__tab.is-active {
+  color: var(--ivory);
+}
+
+.audiences__tab-node {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  transition:
+    background-color var(--d-fast) var(--ease),
+    border-color var(--d-fast) var(--ease);
+}
+
+.audiences__tab.is-active .audiences__tab-node {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+/* la ligne active sous l'onglet */
+.audiences__tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -18px;
+  height: 2px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--d-base) var(--ease-out-expo);
+}
+
+.audiences__tab.is-active::after {
+  transform: scaleX(1);
+}
+
+/* ───────────── Le panneau : composition miroir selon le public ───────────── */
+.audiences__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 96px);
+}
+
+.audiences__panel--entreprises .audiences__figure {
+  order: -1;
+  justify-self: start;
+}
+
+.audiences__panel--professionnels .audiences__figure {
+  justify-self: end;
+}
+
+.audiences__copy {
+  display: grid;
+  gap: 22px;
+  animation: audiences-in var(--d-slow) var(--ease-out-expo);
+}
+
+@keyframes audiences-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.audiences__message {
+  max-width: 18ch;
+}
+
+.audiences__points {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+  padding-left: 18px;
+  border-left: 1px solid var(--line-dark-strong);
+}
+
+.audiences__points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 550;
+}
+
+.audiences__points svg {
+  flex: none;
+  color: var(--yellow);
+}
+
+.audiences__figure {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  margin: 0;
+}
+
+.audiences__figure figcaption {
+  font-size: var(--fs-small);
+  text-align: center;
+  max-width: 32ch;
+}
+
+@media (max-width: 900px) {
+  .audiences__head,
+  .audiences__panel {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .audiences__switch {
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 0;
+  }
+
+  .audiences__switch-rail {
+    display: none;
+  }
+
+  .audiences__tab {
+    padding: 8px 0;
+  }
+
+  .audiences__tab::after {
+    display: none;
+  }
+
+  .audiences__panel--entreprises .audiences__figure,
+  .audiences__panel--professionnels .audiences__figure {
+    order: 1;
+    justify-self: center;
+  }
+
+  .audiences__figure .phone {
+    --z: 0.7;
+  }
+}

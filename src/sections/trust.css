@@ -1,0 +1,108 @@
+.trust__head {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+/* Six cases d'un même titre : filets haut et bas, séparateurs verticaux, étiquette puis texte */
+.trust__segments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 2px solid var(--purple);
+  border-bottom: 1px solid var(--line-light-strong);
+}
+
+.trust__segment {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 26px 28px 30px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.trust__segment:nth-child(3n + 2),
+.trust__segment:nth-child(3n + 3) {
+  padding-left: 28px;
+  border-left: 1px solid var(--line-light);
+}
+
+.trust__segment:nth-last-child(-n + 3) {
+  border-bottom: 0;
+}
+
+.trust__segment p {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* La réserve : un nœud creux, un texte secondaire mais lisible */
+.trust__caveat {
+  position: relative;
+  max-width: 72ch;
+  margin-top: clamp(32px, 4vw, 48px);
+  padding-left: 32px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--stone-ink);
+  text-wrap: pretty;
+}
+
+.trust__caveat-node {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+}
+
+@media (max-width: 900px) {
+  .trust__head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .trust__segments {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trust__segment {
+    padding: 20px 18px 22px 0;
+  }
+
+  .trust__segment:nth-child(n) {
+    border-left: 0;
+    padding-left: 0;
+    border-bottom: 1px solid var(--line-light);
+  }
+
+  .trust__segment:nth-child(2n) {
+    padding-left: 18px;
+    border-left: 1px solid var(--line-light);
+  }
+
+  .trust__segment:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .trust__segments {
+    grid-template-columns: 1fr;
+  }
+
+  .trust__segment:nth-child(n) {
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--line-light);
+  }
+
+  .trust__segment:last-child {
+    border-bottom: 0;
+  }
+}

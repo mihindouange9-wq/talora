@@ -1,0 +1,89 @@
+.problem__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 112px);
+  align-items: start;
+}
+
+.problem__head {
+  position: sticky;
+  top: 112px;
+  display: grid;
+  gap: 22px;
+}
+
+/* La liste : une ligne pointillée, des stations sans correspondance */
+.problem__list {
+  position: relative;
+  display: grid;
+  padding-left: 40px;
+}
+
+.problem__list::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 14px;
+  bottom: 14px;
+  width: 0;
+  border-left: 2px dashed var(--line-light-strong);
+}
+
+.problem__item {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.problem__item:first-child {
+  padding-top: 6px;
+}
+
+.problem__item:last-child {
+  border-bottom: 0;
+}
+
+.problem__node {
+  position: absolute;
+  left: -40px;
+  top: 32px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  background: var(--ivory);
+}
+
+.problem__item:first-child .problem__node {
+  top: 12px;
+}
+
+.problem__item p {
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+@media (max-width: 900px) {
+  .problem__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .problem__head {
+    position: static;
+  }
+
+  .problem__list {
+    padding-left: 32px;
+  }
+
+  .problem__node {
+    left: -32px;
+  }
+
+  .problem__item {
+    padding: 22px 0;
+  }
+}

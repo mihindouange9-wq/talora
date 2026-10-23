@@ -1,0 +1,64 @@
+/* ───────────── TALORA — jetons de design ─────────────
+   Palette officielle : Sunburst Yellow, Obsidian Purple, Ivory Mist, Warm Stone.
+   Le jaune n'est jamais un fond : il allume une ligne, un nœud, le bouton principal. */
+:root {
+  /* Couleurs de marque */
+  --purple: #21152d;
+  --purple-deep: #170e20;
+  --purple-2: #2b1d3a; /* surfaces posées sur l'obsidienne */
+  --purple-3: #3a2a4c;
+  --yellow: #f9c846;
+  --yellow-deep: #e5b22e; /* survol du bouton principal */
+  --ivory: #f7f5f0;
+  --ivory-2: #efebe3; /* surfaces posées sur l'ivoire */
+  --ivory-3: #e6e0d5;
+  --stone: #b7ada0;
+  --stone-ink: #6b6256; /* texte secondaire sur ivoire, 5.4:1 */
+  --ink: #1b1224; /* texte sur ivoire */
+  --ink-soft: #3d3247;
+
+  /* Sur obsidienne : textes teintés depuis la pourpre, jamais gris */
+  --on-dark: #f7f5f0;
+  --on-dark-soft: #cfc4da; /* 9:1 */
+  --on-dark-muted: #a899b6; /* 5.6:1 */
+
+  /* Filets et lignes du plan */
+  --line-dark: rgb(247 245 240 / 0.14);
+  --line-dark-strong: rgb(247 245 240 / 0.3);
+  --line-light: rgb(33 21 45 / 0.12);
+  --line-light-strong: rgb(33 21 45 / 0.26);
+  --rail-inactive-dark: #5a4a6b; /* ligne inactive sur obsidienne */
+  --rail-inactive-light: var(--stone); /* ligne inactive sur ivoire */
+
+  /* Typographie */
+  --font-display: "Bricolage Grotesque Variable", "Segoe UI", Arial, sans-serif;
+  --font-text: "Onest Variable", "Segoe UI", Arial, sans-serif;
+  --fs-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem); /* 40 → 72 px */
+  --fs-h2: clamp(1.9rem, 1.3rem + 2.2vw, 3.1rem); /* 30 → 50 px */
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --fs-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+  --track-display: -0.03em;
+  --track-label: 0.12em;
+
+  /* Rythme */
+  --container: 1200px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --section-y: clamp(88px, 11vw, 160px);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  /* Mouvement */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --d-fast: 220ms;
+  --d-base: 520ms;
+  --d-slow: 900ms;
+
+  /* Couches */
+  --z-header: 50;
+  --z-menu: 60;
+}

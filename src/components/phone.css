@@ -1,0 +1,156 @@
+/* ───────────── iPhone dessiné en CSS (300 × 620 à l'échelle 1) ─────────────
+   Proportions d'un iPhone Pro récent : cadre titane, écran bord à bord, Dynamic Island,
+   boutons latéraux suggérés. L'appareil physique exact n'est pas reproduit. */
+.phone {
+  --z: 1;
+  position: relative;
+  flex: none;
+  width: 300px;
+  height: 620px;
+  zoom: var(--z);
+  filter: drop-shadow(0 50px 60px rgb(23 14 32 / 0.45)) drop-shadow(0 12px 18px rgb(23 14 32 / 0.25));
+}
+
+.phone__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border-radius: 54px;
+  background: linear-gradient(160deg, #4a3f57 0%, #2a2233 18%, #1a1521 50%, #2d2537 82%, #4a3f57 100%);
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.22),
+    inset 0 0 0 4px #110c17,
+    inset 0 0 0 5px rgb(255 255 255 / 0.05);
+}
+
+/* reflet discret sur l'arête gauche */
+.phone__frame::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 52px;
+  pointer-events: none;
+  background: linear-gradient(100deg, rgb(255 255 255 / 0.12) 0%, transparent 18%, transparent 82%, rgb(255 255 255 / 0.06) 100%);
+}
+
+/* boutons latéraux : action, volume + / −, puis bouton latéral à droite */
+.phone__frame::after,
+.phone > i {
+  content: "";
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #3a3144, #1b1522);
+}
+
+.phone__frame::after {
+  left: -3px;
+  top: 118px;
+  height: 28px;
+  box-shadow:
+    0 50px 0 #221a2b,
+    0 98px 0 #221a2b;
+}
+
+.phone::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 176px;
+  width: 3px;
+  height: 70px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #1b1522, #3a3144);
+}
+
+.phone__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 44px;
+  background: var(--ivory);
+  isolation: isolate;
+}
+
+.phone__island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  z-index: 6;
+  width: 92px;
+  height: 26px;
+  border-radius: 16px;
+  background: #07050a;
+  transform: translateX(-50%);
+}
+
+.phone__island::after {
+  content: "";
+  position: absolute;
+  right: 9px;
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #2b2436, #000 70%);
+}
+
+.phone__home {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  z-index: 6;
+  width: 110px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgb(33 21 45 / 0.75);
+  transform: translateX(-50%);
+}
+
+.phone__screen:has(.app--dark) .phone__home {
+  background: rgb(247 245 240 / 0.8);
+}
+
+/* Écrans empilés : un seul visible, les rangées de l'écran entrant se posent une à une */
+.phone__layer {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 360ms var(--ease),
+    visibility 0s linear 360ms;
+}
+
+.phone__layer.is-active {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity 460ms var(--ease) 100ms,
+    visibility 0s;
+}
+
+.phone__layer.is-active .app-body > * {
+  animation: app-row 80ms steps(1, end) both;
+}
+
+.phone__layer.is-active .app-body > :nth-child(2) { animation-delay: 60ms; }
+.phone__layer.is-active .app-body > :nth-child(3) { animation-delay: 120ms; }
+.phone__layer.is-active .app-body > :nth-child(4) { animation-delay: 180ms; }
+.phone__layer.is-active .app-body > :nth-child(5) { animation-delay: 240ms; }
+.phone__layer.is-active .app-body > :nth-child(n + 6) { animation-delay: 300ms; }
+
+@keyframes app-row {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Sur écran tactile, l'ombre portée coûte cher : plus légère */
+@media (pointer: coarse) {
+  .phone {
+    filter: drop-shadow(0 24px 30px rgb(23 14 32 / 0.4));
+  }
+}

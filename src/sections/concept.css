@@ -1,0 +1,111 @@
+.concept {
+  overflow: hidden;
+  background: var(--purple-deep);
+}
+
+.concept__head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(48px, 6vw, 80px);
+}
+
+/* ───────────── La ligne et ses cinq stations ───────────── */
+.concept__line {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 2.2vw, 36px);
+  width: min(100% - 2 * var(--gutter), 1240px);
+  margin-inline: auto;
+}
+
+.concept__rail {
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  top: calc(384px + 14px + 7px); /* au centre des nœuds, sous les téléphones (620 × 0.62) */
+  height: 2px;
+  background: var(--yellow);
+  opacity: 0.9;
+}
+
+.concept__station {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: 186px;
+}
+
+.concept__phone {
+  position: relative;
+  z-index: 1;
+}
+
+.concept__node {
+  position: relative;
+  z-index: 2;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--yellow);
+  background: var(--purple-deep);
+}
+
+.concept__label {
+  display: grid;
+  gap: 2px;
+  text-align: center;
+}
+
+.concept__label strong {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+.concept__label span {
+  font-size: var(--fs-small);
+  color: var(--on-dark-muted);
+  text-wrap: balance;
+}
+
+.concept__note {
+  margin-top: clamp(32px, 4vw, 48px);
+  font-size: var(--fs-small);
+  max-width: 60ch;
+}
+
+/* ───────────── Responsive : bande défilante par stations ───────────── */
+@media (max-width: 1100px) {
+  .concept__head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .concept__line {
+    justify-content: flex-start;
+    width: auto;
+    margin-inline: 0;
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--yellow) transparent;
+    padding-bottom: 12px;
+  }
+
+  .concept__rail {
+    left: var(--gutter);
+    right: auto;
+    width: calc(5 * 186px + 4 * clamp(16px, 2.2vw, 36px));
+  }
+
+  .concept__station {
+    flex: none;
+    scroll-snap-align: center;
+  }
+}
