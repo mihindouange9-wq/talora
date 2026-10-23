@@ -3,7 +3,7 @@
   overflow: hidden;
   padding-bottom: calc(var(--section-y) + 140px);
   background:
-    radial-gradient(55% 60% at 70% 30%, rgb(249 200 70 / 0.1) 0%, transparent 70%),
+    radial-gradient(55% 60% at 70% 30%, rgb(249 200 70 / 0.05) 0%, transparent 70%),
     var(--purple-deep);
 }
 

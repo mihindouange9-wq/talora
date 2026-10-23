@@ -61,10 +61,11 @@
 }
 
 .concept__label strong {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 24;
-  font-size: 1.0625rem;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-label);
+  font-weight: 650;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ivory);
 }
 
 .concept__label span {

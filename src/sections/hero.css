@@ -4,7 +4,7 @@
   padding-top: clamp(120px, 14vw, 170px);
   padding-bottom: clamp(72px, 9vw, 120px);
   background:
-    radial-gradient(60% 50% at 78% 42%, rgb(249 200 70 / 0.08) 0%, transparent 70%),
+    radial-gradient(60% 50% at 78% 42%, rgb(249 200 70 / 0.04) 0%, transparent 70%),
     var(--purple);
 }
 
@@ -106,7 +106,7 @@
 }
 
 .hero__lines {
-  z-index: 0;
+  z-index: 2;
 }
 
 .hero__node {
@@ -155,11 +155,6 @@
     grid-template-columns: 1fr;
     gap: 48px;
     min-height: 0;
-  }
-
-  .hero__lines,
-  .hero__node {
-    display: none;
   }
 
   .hero__stage {

@@ -31,7 +31,6 @@ export default function Cta() {
 
         <div className="cta__contact" id="coordonnees" data-reveal>
           <span className="cta__contact-node" aria-hidden="true" />
-          <p className="station-label">Contact</p>
           {email ? (
             <a className="cta__email" href={mailto}>
               <Mail size={20} strokeWidth={2} aria-hidden="true" />

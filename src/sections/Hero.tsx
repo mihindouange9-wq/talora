@@ -11,16 +11,17 @@ import "./hero.css";
 
 function layoutLines(scope: HTMLElement) {
   const grid = scope.querySelector<HTMLElement>(".hero__grid");
+  const stage = scope.querySelector<HTMLElement>(".hero__stage");
   const field = scope.querySelector<HTMLElement>(".hero__phone--front .app-search");
   const title = scope.querySelector<HTMLElement>(".hero__title");
   const copy = scope.querySelector<HTMLElement>(".hero__copy");
   const svgs = scope.querySelectorAll<SVGSVGElement>(".hero__lines, .hero__node");
   const [p1, p2] = Array.from(scope.querySelectorAll<SVGPathElement>(".hero__lines path"));
   const circles = scope.querySelectorAll<SVGCircleElement>(".hero__node circle");
-  if (!grid || !field || !title || !copy || !p1 || !p2) return false;
-  if (getComputedStyle(svgs[0]).display === "none") return false;
+  if (!grid || !stage || !field || !title || !copy || !p1 || !p2) return false;
 
   const g = grid.getBoundingClientRect();
+  const s = stage.getBoundingClientRect();
   const f = field.getBoundingClientRect();
   const t = title.getBoundingClientRect();
   const c = copy.getBoundingClientRect();
@@ -28,16 +29,25 @@ function layoutLines(scope: HTMLElement) {
   const wrapper = field.closest<HTMLElement>(".hero__phone");
   const dx = wrapper ? Number(gsap.getProperty(wrapper, "x")) || 0 : 0;
   const dy = wrapper ? Number(gsap.getProperty(wrapper, "y")) || 0 : 0;
-  const nx = f.left + f.width / 2 - g.left - dx;
+  const narrow = window.matchMedia("(max-width: 900px)").matches;
+  // sur téléphone, le nœud se pose à l'extrémité droite du champ pour laisser le texte saisi lisible
+  const nx = (narrow ? f.right - 22 : f.left + f.width / 2) - g.left - dx;
   const ny = f.top + f.height / 2 - g.top - dy;
-  // la ligne haute passe dans la bande libre au-dessus du titre, sous l'en-tête
-  const y1 = Math.max(t.top - 64, 108) - g.top;
-  // la ligne basse court sous le texte, puis remonte sous le téléphone jusqu'au nœud
-  const y2 = c.bottom + 44 - g.top;
-
-  svgs.forEach((s) => s.setAttribute("viewBox", `0 0 ${g.width} ${g.height}`));
-  p1.setAttribute("d", `M 0 ${y1.toFixed(1)} H ${(nx - (ny - y1)).toFixed(1)} L ${nx.toFixed(1)} ${ny.toFixed(1)}`);
-  p2.setAttribute("d", `M 0 ${y2.toFixed(1)} H ${nx.toFixed(1)} V ${ny.toFixed(1)}`);
+  svgs.forEach((el) => el.setAttribute("viewBox", `0 0 ${g.width} ${g.height}`));
+  if (narrow) {
+    // Téléphone : une seule ligne part sous le texte, traverse jusqu'à l'aplomb du nœud et descend sur le champ
+    const y0 = c.bottom + 20 - g.top;
+    p1.setAttribute("d", `M 0 ${y0.toFixed(1)} H ${nx.toFixed(1)} V ${ny.toFixed(1)}`);
+    p2.setAttribute("d", "");
+  } else {
+    // la ligne haute passe dans la bande libre au-dessus du titre, puis descend à 45° jusqu'au nœud
+    const y1 = Math.max(t.top - 64, 108) - g.top;
+    // la ligne basse court sous le texte, remonte dans l'intervalle avant les téléphones, puis entre dans le champ
+    const y2 = c.bottom + 44 - g.top;
+    const riser = s.left - g.left - 36;
+    p1.setAttribute("d", `M 0 ${y1.toFixed(1)} H ${(nx - (ny - y1)).toFixed(1)} L ${nx.toFixed(1)} ${ny.toFixed(1)}`);
+    p2.setAttribute("d", `M 0 ${y2.toFixed(1)} H ${riser.toFixed(1)} V ${ny.toFixed(1)} H ${nx.toFixed(1)}`);
+  }
   circles.forEach((ci) => {
     ci.setAttribute("cx", nx.toFixed(1));
     ci.setAttribute("cy", ny.toFixed(1));

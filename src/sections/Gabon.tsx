@@ -21,7 +21,6 @@ export default function Gabon() {
           {GABON.steps.map((s, i) => (
             <li className={`gabon__stop gabon__stop--${i + 1}`} key={s.label} data-reveal data-reveal-delay={String(i * 0.08)}>
               <span className="gabon__node" aria-hidden="true" />
-              <span className="station-label">{s.label}</span>
               <h3 className="h3">{s.title}</h3>
               <p className="muted">{s.text}</p>
             </li>

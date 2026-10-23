@@ -76,10 +76,6 @@
   border-color: var(--rail-inactive-dark);
 }
 
-.gabon__stop .station-label {
-  margin-top: 2px;
-}
-
 .gabon__stop p {
   max-width: 34ch;
   text-wrap: pretty;
