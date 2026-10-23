@@ -79,7 +79,7 @@ function LocalTime() {
 /** Badge circulaire : la mention tourne lentement autour du symbole. */
 function OrbitBadge() {
   return (
-    <span className="hero__orbit" aria-label="Projet en développement, lancement envisagé au Gabon">
+    <span className="hero__orbit" role="img" aria-label="Projet en développement, lancement envisagé au Gabon">
       <svg viewBox="0 0 120 120" aria-hidden="true">
         <defs>
           <path id="hero-orbit-path" d="M60 60 m -46 0 a 46 46 0 1 1 92 0 a 46 46 0 1 1 -92 0" />

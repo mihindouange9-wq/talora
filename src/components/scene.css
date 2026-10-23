@@ -53,9 +53,9 @@ html.scene body {
   display: grid;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 96;
-  font-size: 64px;
+  font-size: 72px;
   font-weight: 640;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
@@ -77,6 +77,7 @@ html.scene body {
 }
 
 .scene__foot {
+  margin-top: 20px;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.14em;

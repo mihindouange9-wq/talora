@@ -38,7 +38,7 @@ export default function Scene() {
       .from(".scene__mark circle", { scale: 0, transformOrigin: "center", duration: 0.6, ease: "back.out(2)", stagger: 0.1 }, 0.9)
       .to(markPaths[1], { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 1.3)
       .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 1.6)
-      .from(".scene__tag span", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.1)
+      .from(".scene__p1 .scene__tag span", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.1)
       .to(".scene__p1", { autoAlpha: 0, y: -40, duration: 0.6, ease: "power2.in" }, 3.6);
 
     /* ---- plan 2 : décrire le besoin ---- */

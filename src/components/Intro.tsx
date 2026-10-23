@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Captions, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { getLenis, prefersReducedMotion } from "../lib/motion";
 import "./intro.css";
 
@@ -24,7 +24,15 @@ export function introPending() {
 export default function Intro() {
   const [state, setState] = useState<"playing" | "leaving" | "done">(() => (introPending() ? "playing" : "done"));
   const [muted, setMuted] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [captions, setCaptions] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
+
+  // sous-titres : la piste est cachée par défaut, un bouton l'affiche
+  useEffect(() => {
+    const track = video.current?.textTracks?.[0];
+    if (track) track.mode = captions ? "showing" : "hidden";
+  }, [captions, state]);
 
   useEffect(() => {
     if (state === "done") return;
@@ -99,8 +107,30 @@ export default function Intro() {
         preload="auto"
         onEnded={finish}
         onError={finish}
-      />
+        onPlay={() => setPaused(false)}
+        onPause={() => setPaused(true)}
+      >
+        <track kind="captions" src="/intro/talora-intro.fr.vtt" srcLang="fr" label="Français" />
+      </video>
       <div className="intro__bar">
+        <button
+          type="button"
+          className="intro__btn"
+          onClick={() => {
+            const v = video.current;
+            if (!v) return;
+            if (v.paused) v.play().catch(() => {});
+            else v.pause();
+          }}
+          aria-label={paused ? "Reprendre la lecture" : "Mettre en pause"}
+        >
+          {paused ? <Play size={18} /> : <Pause size={18} />}
+          <span>{paused ? "Lecture" : "Pause"}</span>
+        </button>
+        <button type="button" className="intro__btn" onClick={() => setCaptions((c) => !c)} aria-pressed={captions} aria-label="Sous-titres">
+          <Captions size={18} />
+          <span>Sous-titres</span>
+        </button>
         <button
           type="button"
           className="intro__btn"

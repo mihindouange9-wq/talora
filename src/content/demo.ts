@@ -22,7 +22,7 @@ export type Pro = {
 const avatar = (id: string) => `/avatars/${id}.svg`;
 
 export const PROS: Pro[] = [
-  { id: "p1", name: "Aurèle Nzoghe", initials: "AN", job: "Plombier", area: "Libreville · Nzeng-Ayong", tags: ["Dépannage", "Sanitaire", "Chauffe-eau"], years: 9, rate: "Sur devis", hue: 34, avatar: avatar("p1"), pitch: "Dépannage le jour même dans le Grand Libreville." },
+  { id: "p1", name: "Aurélie Nzoghe", initials: "AN", job: "Plombier", area: "Libreville · Nzeng-Ayong", tags: ["Dépannage", "Sanitaire", "Chauffe-eau"], years: 9, rate: "Sur devis", hue: 34, avatar: avatar("p1"), pitch: "Dépannage le jour même dans le Grand Libreville." },
   { id: "p2", name: "Mireille Obame", initials: "MO", job: "Juriste d'affaires", area: "Libreville · Centre", tags: ["Contrats", "Droit des sociétés", "Baux"], years: 11, rate: "Sur rendez-vous", hue: 48, avatar: avatar("p2"), pitch: "Contrats relus en 48 h, création de société accompagnée." },
   { id: "p3", name: "Kévin Mba", initials: "KM", job: "Designer UI", area: "Akanda", tags: ["Interfaces", "Identité", "Prototypage"], years: 6, rate: "Forfait projet", hue: 40, avatar: avatar("p3"), pitch: "Interfaces et identités pour les jeunes entreprises." },
   { id: "p4", name: "Sandrine Ella", initials: "SE", job: "Comptable", area: "Port-Gentil", tags: ["Tenue de comptes", "Déclarations", "Paie"], years: 8, rate: "Mensuel", hue: 24, avatar: avatar("p4"), pitch: "Comptabilité mensuelle et déclarations, à distance ou sur place." },
@@ -63,7 +63,7 @@ export const CANDIDATES: Candidate[] = [
   { id: "c1", name: "Lydie Mouketou", initials: "LM", title: "Responsable logistique", area: "Libreville", skills: ["Supply chain", "Import", "Gestion d'équipe"], years: 7, availability: "Disponible", hue: 48, avatar: avatar("c1"), pitch: "Sept ans en logistique portuaire et distribution." },
   { id: "c2", name: "Yann Bouanga", initials: "YB", title: "Développeur web", area: "Libreville", skills: ["React", "Node.js", "Accessibilité"], years: 4, availability: "Préavis 1 mois", hue: 34, avatar: avatar("c2"), pitch: "Applications web pour la banque et le commerce." },
   { id: "c3", name: "Prisca Mengue", initials: "PM", title: "Chargée de clientèle", area: "Franceville", skills: ["Relation client", "CRM", "Anglais"], years: 5, availability: "Disponible", hue: 40, avatar: avatar("c3"), pitch: "Relation client et suivi de portefeuille, bilingue." },
-  { id: "c4", name: "Ulrich Moussavou", initials: "UM", title: "Technicien de maintenance", area: "Port-Gentil", skills: ["Électromécanique", "Sécurité", "Permis"], years: 9, availability: "Disponible", hue: 24, avatar: avatar("c4"), pitch: "Maintenance industrielle, habilitations à jour." },
+  { id: "c4", name: "Carine Moussavou", initials: "CM", title: "Technicien de maintenance", area: "Port-Gentil", skills: ["Électromécanique", "Sécurité", "Permis"], years: 9, availability: "Disponible", hue: 24, avatar: avatar("c4"), pitch: "Maintenance industrielle, habilitations à jour." },
   { id: "c5", name: "Ornella Ntoutoume", initials: "ON", title: "Assistante de direction", area: "Libreville", skills: ["Organisation", "Rédaction", "Anglais"], years: 6, availability: "Préavis 2 semaines", hue: 52, avatar: avatar("c5"), pitch: "Organisation d'agenda, rédaction, accueil des partenaires." },
 ];
 

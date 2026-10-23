@@ -31,9 +31,10 @@
   right: 0;
   bottom: 0;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 20px clamp(20px, 4vw, 48px) max(20px, env(safe-area-inset-bottom));
   background: linear-gradient(180deg, transparent, rgb(26 15 3 / 0.7));
 }
@@ -63,6 +64,10 @@
   color: var(--bistre);
 }
 
+.intro__btn--skip {
+  margin-left: auto;
+}
+
 .intro__btn--skip::after {
   content: "";
   width: 8px;
@@ -73,6 +78,15 @@
 
 .intro__btn--skip:hover::after {
   background: var(--bistre);
+}
+
+/* sous-titres : lisibles sur la vidéo, au-dessus de la barre de boutons */
+.intro__video::cue {
+  background: rgb(26 15 3 / 0.78);
+  color: #faf6e6;
+  font-family: "Onest Variable", sans-serif;
+  font-size: clamp(16px, 2vw, 24px);
+  line-height: 1.4;
 }
 
 html.intro-active {
