@@ -89,6 +89,46 @@
   line-height: 1.4;
 }
 
+/* en attendant les premières images (premier envoi depuis le CDN) */
+.intro__loading {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgb(37 22 5 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(250 246 230 / 0.2);
+  color: var(--on-dark-soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.intro__loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  animation: intro-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes intro-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__loading-dot {
+    animation: none;
+  }
+}
+
 html.intro-active {
   overflow: hidden;
 }

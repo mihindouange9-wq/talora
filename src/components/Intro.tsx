@@ -32,6 +32,8 @@ export default function Intro() {
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
   const [captions, setCaptions] = useState(false);
+  // « Chargement du film… » si la lecture n'a pas démarré après deux secondes (premier envoi depuis le CDN)
+  const [loading, setLoading] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
   const [source] = useState(pickSource);
 
@@ -90,10 +92,15 @@ export default function Intro() {
     const guard = window.setTimeout(() => {
       const v = video.current;
       if (!v || v.error || v.readyState === 0) finish();
-    }, 12000);
+    }, 25000);
+    const wait = window.setTimeout(() => {
+      const v = video.current;
+      if (v && (v.paused || v.currentTime === 0)) setLoading(true);
+    }, 2000);
     return () => {
       window.removeEventListener("keydown", onKey);
       window.clearTimeout(guard);
+      window.clearTimeout(wait);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
@@ -114,10 +121,17 @@ export default function Intro() {
         onEnded={finish}
         onError={finish}
         onPlay={() => setPaused(false)}
+        onPlaying={() => setLoading(false)}
         onPause={() => setPaused(true)}
       >
         <track kind="captions" src="/intro/talora-intro.fr.vtt" srcLang="fr" label="Français" />
       </video>
+      {loading && (
+        <p className="intro__loading" role="status">
+          <span className="intro__loading-dot" aria-hidden="true" />
+          Chargement du film…
+        </p>
+      )}
       <div className="intro__bar">
         <button
           type="button"
