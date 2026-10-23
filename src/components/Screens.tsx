@@ -1,25 +1,26 @@
 import type { CSSProperties, ReactNode } from "react";
 import {
   ArrowLeft,
-  Bookmark,
   Briefcase,
-  ChevronRight,
   Clock,
-  Layers,
   MapPin,
   MessageCircle,
   Search,
+  Share2,
   SlidersHorizontal,
+  Star,
   UserRound,
 } from "lucide-react";
-import { LogoMark } from "../brand/Logo";
-import { MessageCircle as Chat, Sparkles } from "lucide-react";
+import { LogoMark, NodeO } from "../brand/Logo";
 import Deck from "./Deck";
 import { AREAS, CANDIDATES, MAIN_PRO, PROFILE_EXPERIENCE, PROFILE_SERVICES, PROS, SEARCH_SUGGESTIONS, type Pro } from "../content/demo";
 import type { ScreenId } from "../content/site";
 import "./screens.css";
 
-/* ───────────── Éléments communs ───────────── */
+/* ───────────── Éléments communs ─────────────
+   L'interface reprend les codes des applications de rencontre demandés par le client : barre de marque en
+   haut, carte photo pleine hauteur, rangée de boutons ronds, barre d'onglets à icônes, grille des profils
+   gardés, fiche à grande photo, écran de correspondance aux deux portraits. Palette TALORA. */
 
 function StatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
   return (
@@ -42,66 +43,52 @@ function StatusBar({ tone = "light" }: { tone?: "light" | "dark" }) {
   );
 }
 
-const TABS = [
-  { id: "home", label: "Découvrir", Icon: Layers },
-  { id: "search", label: "Recherche", Icon: Search },
-  { id: "messages", label: "Messages", Icon: MessageCircle },
-  { id: "profile", label: "Profil", Icon: UserRound },
-] as const;
-
-function TabBar({ active }: { active: (typeof TABS)[number]["id"] }) {
+/* barre de marque : le logo à gauche, les filtres à droite */
+function TopBar({ space, children }: { space?: string; children?: ReactNode }) {
   return (
-    <div className="app-tabs">
-      {TABS.slice(0, 2).map(({ id, label, Icon }) => (
-        <span key={id} className={`app-tab ${id === active ? "is-active" : ""}`}>
-          <Icon size={17} strokeWidth={id === active ? 2.4 : 1.8} />
-          {label}
-        </span>
-      ))}
-      <span className="app-tab app-tab--fab" aria-hidden="true">
-        <span className="app-fab">
-          <Sparkles size={18} strokeWidth={2.2} />
+    <header className="app-top">
+      <span className="app-top__brand">
+        <LogoMark size={24} />
+        <span className="app-top__word">
+          TAL
+          <NodeO />
+          RA
         </span>
       </span>
-      {TABS.slice(2).map(({ id, label, Icon }) => (
-        <span key={id} className={`app-tab ${id === active ? "is-active" : ""}`}>
-          <Icon size={17} strokeWidth={id === active ? 2.4 : 1.8} />
-          {label}
+      {space && <span className="app-top__space">{space}</span>}
+      <span className="app-top__actions">
+        {children}
+        <span className="app-top__btn">
+          <SlidersHorizontal size={15} strokeWidth={2.2} />
         </span>
-      ))}
-    </div>
+      </span>
+    </header>
   );
 }
 
-/* Correspondance : l'intérêt est partagé, les deux profils se rejoignent sur un nœud. */
-function MatchScreen() {
-  const pro = MAIN_PRO;
+type TabId = "home" | "search" | "selection" | "messages" | "profile";
+
+/* barre d'onglets à icônes : découvrir, rechercher, sélection, messages, profil */
+function TabBar({ active }: { active: TabId }) {
+  const cls = (id: TabId) => `app-tab ${id === active ? "is-active" : ""}`;
   return (
-    <div className="app app--dark app--match">
-      <StatusBar tone="dark" />
-      <div className="app-body">
-        <div className="match">
-          <div className="match__pair" style={{ "--hue": pro.hue } as CSSProperties}>
-            <span className="match__face" aria-hidden="true">
-              Vous
-            </span>
-            <span className="match__rail" aria-hidden="true" />
-            <span className="match__node" aria-hidden="true" />
-            <Avatar src={pro.avatar} hue={pro.hue} size={78} />
-          </div>
-          <strong className="match__title">C'est une correspondance.</strong>
-          <small className="match__text">{pro.name.split(" ")[0]} souhaite aussi échanger avec vous.</small>
-          <span className="match__chips">
-            <Chip active>{pro.job}</Chip>
-            <Chip>{pro.area.split(" · ")[0]}</Chip>
-          </span>
-        </div>
-        <span className="app-cta app-cta--yellow">
-          <Chat size={14} strokeWidth={2.4} />
-          Envoyer un message
-        </span>
-        <span className="app-link">Plus tard</span>
-      </div>
+    <div className="app-tabs" aria-hidden="true">
+      <span className={cls("home")}>
+        <LogoMark size={22} />
+      </span>
+      <span className={cls("search")}>
+        <Search size={21} strokeWidth={active === "search" ? 2.6 : 2} />
+      </span>
+      <span className={cls("selection")}>
+        <Star size={21} strokeWidth={active === "selection" ? 2.6 : 2} />
+      </span>
+      <span className={cls("messages")}>
+        <MessageCircle size={21} strokeWidth={active === "messages" ? 2.6 : 2} />
+        <i className="app-tab__badge" />
+      </span>
+      <span className={cls("profile")}>
+        <UserRound size={21} strokeWidth={active === "profile" ? 2.6 : 2} />
+      </span>
     </div>
   );
 }
@@ -116,29 +103,6 @@ function Avatar({ src, hue, size = 38 }: { src: string; hue: number; size?: numb
 
 function Chip({ children, active }: { children: ReactNode; active?: boolean }) {
   return <span className={`app-chip ${active ? "is-active" : ""}`}>{children}</span>;
-}
-
-function ProRow({ pro, compact }: { pro: Pro; compact?: boolean }) {
-  return (
-    <div className="app-row">
-      <Avatar src={pro.avatar} hue={pro.hue} />
-      <span className="app-row__body">
-        <strong>{pro.name}</strong>
-        <small>
-          {pro.job} · {pro.area}
-        </small>
-        {!compact && (
-          <span className="app-row__tags">
-            {pro.tags.slice(0, 2).map((t) => (
-              <Chip key={t}>{t}</Chip>
-            ))}
-            <small className="tabular">{pro.years} ans</small>
-          </span>
-        )}
-      </span>
-      <ChevronRight size={15} className="app-row__chev" />
-    </div>
-  );
 }
 
 function SearchField({ value, placeholder, location }: { value?: string; placeholder?: string; location?: string }) {
@@ -160,29 +124,13 @@ function SearchField({ value, placeholder, location }: { value?: string; placeho
 
 /* ───────────── Écrans ───────────── */
 
-/* Découverte : les professionnels défilent en cartes, on garde ou on passe. */
+/* Découverte : on décrit le besoin, puis les professionnels défilent en cartes, on garde ou on passe. */
 function HomeScreen() {
   return (
     <div className="app">
       <StatusBar />
       <div className="app-body">
-        <header className="app-head">
-          <span className="app-head__brand">
-            <LogoMark size={22} />
-          </span>
-          <span className="app-head__title">
-            <small>Bonjour</small>
-            <strong>Que cherchez-vous ?</strong>
-          </span>
-          <span className="app-paths app-paths--compact" aria-hidden="true">
-            <span className="app-path">
-              <Briefcase size={13} strokeWidth={2.2} />
-            </span>
-            <span className="app-path is-active">
-              <UserRound size={13} strokeWidth={2.2} />
-            </span>
-          </span>
-        </header>
+        <TopBar />
         <SearchField placeholder="Plombier" />
         <Deck items={PROS.map((p) => ({ ...p, meta: p.rate }))} labels={{ yes: "Garder", no: "Passer" }} />
       </div>
@@ -196,8 +144,10 @@ function SearchScreen() {
     <div className="app">
       <StatusBar />
       <div className="app-body">
-        <header className="app-head app-head--row">
-          <ArrowLeft size={18} />
+        <header className="app-head">
+          <span className="app-head__back">
+            <ArrowLeft size={16} strokeWidth={2.4} />
+          </span>
           <strong>Recherche</strong>
         </header>
         <SearchField value="Plombier" location="Libreville" />
@@ -243,18 +193,22 @@ function SearchScreen() {
   );
 }
 
+/* Sélection : les profils gardés, en grille de photos. */
 function ResultsScreen() {
+  const kept = [PROS[0], PROS[4], PROS[6], PROS[3]];
   return (
     <div className="app">
       <StatusBar />
       <div className="app-body">
-        <header className="app-head app-head--row">
-          <ArrowLeft size={18} />
+        <header className="app-head">
+          <span className="app-head__back">
+            <ArrowLeft size={16} strokeWidth={2.4} />
+          </span>
           <span className="app-head__title">
             <strong>Profils gardés</strong>
-            <small>Plombier · Libreville · à comparer</small>
+            <small>Plombier · Libreville</small>
           </span>
-          <SlidersHorizontal size={17} className="app-head__action" />
+          <span className="app-count tabular">{kept.length}</span>
         </header>
         <span className="app-chips app-chips--scroll">
           <Chip active>Disponible</Chip>
@@ -262,46 +216,74 @@ function ResultsScreen() {
           <Chip>Sanitaire</Chip>
           <Chip>Moins de 5 km</Chip>
         </span>
-        {[PROS[0], PROS[4], PROS[6], PROS[3]].map((p) => (
-          <ProRow key={p.id} pro={p} />
-        ))}
+        <div className="app-grid">
+          {kept.map((p) => (
+            <figure key={p.id} className="app-tile" style={{ "--hue": p.hue } as CSSProperties}>
+              <img src={p.avatar} alt="" width="320" height="400" loading="lazy" decoding="async" />
+              <figcaption>
+                <strong>{p.name.split(" ")[0]}</strong>
+                <small>{p.job}</small>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
-      <TabBar active="search" />
+      <TabBar active="selection" />
     </div>
   );
 }
 
+/* Fiche : grande photo, puis les sections de la fiche. */
 function ProfileScreen() {
-  const pro = MAIN_PRO;
+  const pro: Pro = MAIN_PRO;
   return (
-    <div className="app">
-      <StatusBar />
-      <div className="app-body">
-        <header className="app-head app-head--row">
-          <ArrowLeft size={18} />
-          <strong>Profil</strong>
-          <Bookmark size={17} className="app-head__action" />
-        </header>
-        <div className="app-profile" style={{ "--hue": pro.hue } as CSSProperties}>
-          <Avatar src={pro.avatar} hue={pro.hue} size={64} />
-          <strong className="app-profile__name">{pro.name}</strong>
+    <div className="app app--profile">
+      <StatusBar tone="dark" />
+      <div className="app-hero" style={{ "--hue": pro.hue } as CSSProperties}>
+        <img src={pro.avatar} alt="" width="640" height="800" loading="lazy" decoding="async" />
+        <span className="app-hero__back">
+          <ArrowLeft size={16} strokeWidth={2.4} />
+        </span>
+        <span className="app-hero__share">
+          <Share2 size={14} strokeWidth={2.4} />
+        </span>
+        <span className="app-hero__dots" aria-hidden="true">
+          <i className="is-on" />
+          <i />
+          <i />
+        </span>
+        <div className="app-hero__text">
+          <strong>{pro.name}</strong>
           <small>
-            {pro.job} · {pro.area}
+            <Briefcase size={11} strokeWidth={2.4} />
+            {pro.job}
           </small>
-          <span className="app-profile__facts tabular">
-            <span>
-              <strong>{pro.years} ans</strong>
-              <small>d'expérience</small>
-            </span>
-            <span>
-              <strong>{pro.rate}</strong>
-              <small>tarif</small>
-            </span>
-            <span>
-              <strong>48 h</strong>
-              <small>délai indicatif</small>
-            </span>
+          <small>
+            <MapPin size={11} strokeWidth={2.4} />
+            {pro.area}
+          </small>
+        </div>
+      </div>
+      <div className="app-body app-body--profile">
+        <span className="app-facts tabular">
+          <span>
+            <strong>{pro.years} ans</strong>
+            <small>d'expérience</small>
           </span>
+          <span>
+            <strong>{pro.rate}</strong>
+            <small>tarif</small>
+          </span>
+          <span>
+            <strong>48 h</strong>
+            <small>délai indicatif</small>
+          </span>
+        </span>
+        <div className="app-section">
+          <span className="app-section__head">
+            <strong>À propos</strong>
+          </span>
+          <p className="app-text">{pro.pitch}</p>
         </div>
         <div className="app-section">
           <span className="app-section__head">
@@ -345,27 +327,53 @@ function ProfileScreen() {
   );
 }
 
-/* Espace entreprise : les candidats défilent de la même manière, l'entreprise garde ceux qui l'intéressent. */
+/* Espace entreprise : les candidats défilent de la même manière, l'entreprise retient ceux qui l'intéressent. */
 function CandidatesScreen() {
   return (
     <div className="app app--dark">
       <StatusBar tone="dark" />
       <div className="app-body">
-        <header className="app-head app-head--row">
-          <span className="app-head__brand">
-            <LogoMark size={22} />
-          </span>
-          <span className="app-head__title">
-            <small>Espace entreprise</small>
-            <strong>Candidats</strong>
-          </span>
-          <SlidersHorizontal size={17} className="app-head__action" />
-        </header>
+        <TopBar space="Entreprise" />
         <SearchField value="Responsable logistique" location="Libreville" />
         <Deck
           items={CANDIDATES.map((c) => ({ id: c.id, name: c.name, job: c.title, area: c.area, tags: c.skills, years: c.years, avatar: c.avatar, hue: c.hue, pitch: c.pitch, meta: c.availability }))}
           labels={{ yes: "Retenir", no: "Passer" }}
         />
+      </div>
+      <TabBar active="home" />
+    </div>
+  );
+}
+
+/* Correspondance : l'intérêt est partagé, les deux portraits se rejoignent. */
+function MatchScreen() {
+  const pro = MAIN_PRO;
+  return (
+    <div className="app app--dark app--match">
+      <StatusBar tone="dark" />
+      <div className="app-body app-body--center">
+        <div className="match">
+          <div className="match__pair" style={{ "--hue": pro.hue } as CSSProperties}>
+            <span className="match__face" aria-hidden="true">
+              Vous
+            </span>
+            <Avatar src={pro.avatar} hue={pro.hue} size={96} />
+            <span className="match__node" aria-hidden="true">
+              <Star size={13} strokeWidth={3} />
+            </span>
+          </div>
+          <strong className="match__title">C'est une correspondance.</strong>
+          <small className="match__text">{pro.name.split(" ")[0]} souhaite aussi échanger avec vous.</small>
+          <span className="match__chips">
+            <Chip active>{pro.job}</Chip>
+            <Chip>{pro.area.split(" · ")[0]}</Chip>
+          </span>
+        </div>
+        <span className="app-cta app-cta--yellow">
+          <MessageCircle size={14} strokeWidth={2.4} />
+          Envoyer un message
+        </span>
+        <span className="app-link">Continuer à découvrir</span>
       </div>
     </div>
   );

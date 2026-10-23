@@ -88,6 +88,7 @@ export default function Hero() {
       const phones = scope.querySelectorAll<HTMLElement>(".hero__phone");
       const paths = scope.querySelectorAll<SVGPathElement>(".hero__lines path");
       const node = scope.querySelector<SVGGElement>(".hero__node g");
+      const lines = scope.querySelector<SVGSVGElement>(".hero__lines");
       const field = scope.querySelector<HTMLElement>(".hero__phone--front .app-search__value[data-cycle]");
 
       let drawn = false;
@@ -117,7 +118,8 @@ export default function Hero() {
       tl.from(letters, { yPercent: 110, duration: 1.2, stagger: 0.06 }, 0)
         .from(title, { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.5)
         .from(rest, { autoAlpha: 0, y: 18, duration: 0.9, stagger: 0.1 }, 0.9)
-        .from(phones, { autoAlpha: 0, y: 40, duration: 1.3, stagger: 0.12, ease: "power3.out" }, 0.7);
+        // l'entrée joue sur yPercent : la dérive au défilement garde y pour elle et part bien de zéro
+        .from(phones, { autoAlpha: 0, yPercent: 6, duration: 1.3, stagger: 0.12, ease: "power3.out" }, 0.7);
       paths.forEach((p, i) => tl.add(drawPath(p, { duration: 1.1 }), 1.3 + i * 0.15));
       if (node) tl.from(node, { scale: 0, transformOrigin: "center", duration: 0.6, ease: "back.out(2)" }, 2.4);
       tl.add(() => gsap.set(paths, { clearProps: "strokeDasharray,strokeDashoffset" }));
@@ -137,8 +139,9 @@ export default function Hero() {
         gsap.delayedCall(2.8, type);
       }
 
-      // Mouvement secondaire presque imperceptible : les téléphones dérivent au défilement
-      gsap.to([phones[1], node].filter(Boolean), { y: -36, ease: "none", scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: 0.6 } });
+      // Mouvement secondaire presque imperceptible : les téléphones dérivent au défilement ;
+      // le nœud et les lignes suivent le téléphone de devant pour rester posés sur le champ
+      gsap.to([phones[1], node, lines].filter(Boolean), { y: -36, ease: "none", scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: 0.6 } });
       gsap.to(phones[0], { y: -70, ease: "none", scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: 0.6 } });
       gsap.to(letters, { yPercent: -18, ease: "none", stagger: 0.02, scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: 0.4 } });
 

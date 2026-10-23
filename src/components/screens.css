@@ -1,6 +1,6 @@
 /* ───────────── Interface de l'application TALORA (dans l'iPhone) ─────────────
-   Palette de la marque, composants réutilisables, hiérarchie crédible. Tailles en px :
-   l'écran est mis à l'échelle par `zoom` sur le cadre. */
+   Les codes des applications de rencontre, dans la palette de la marque. Tailles en px :
+   l'écran (280 × 600) est mis à l'échelle par `zoom` sur le cadre. */
 .app {
   --a-ink: #1f1406;
   --a-soft: #6a5a3e;
@@ -72,45 +72,117 @@
   fill: currentColor;
 }
 
-/* corps défilant */
+/* corps */
 .app-body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
-  padding: 4px 16px 18px;
+  padding: 2px 14px 10px;
   overflow: hidden;
 }
 
-/* en-tête d'écran */
-.app-head {
+.app-body--center {
+  justify-content: center;
+  gap: 12px;
+  padding-bottom: 26px;
+}
+
+/* ───────────── barre de marque ───────────── */
+.app-top {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-top: 6px;
-}
-
-.app-head--row > strong {
-  flex: 1;
-  font-size: 14px;
-}
-
-.app-head__brand {
-  display: grid;
-  place-items: center;
-  width: 34px;
+  justify-content: space-between;
+  gap: 8px;
   height: 34px;
-  border-radius: 11px;
-  background: var(--a-bistre);
+  flex: none;
+}
+
+.app-top__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--a-bistre);
+  --logo-bg: #faf6e6;
+  --logo-dot: #fae311;
+}
+
+.app--dark .app-top__brand {
   color: var(--ivory);
   --logo-bg: #251605;
 }
 
-.app--dark .app-head__brand {
+.app-top__word {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-weight: 760;
+  font-size: 15px;
+  letter-spacing: 0.035em;
+}
+
+.app-top__word .logo__o {
+  width: 0.86em;
+  height: 0.86em;
+  margin: 0 0.035em 0 0.06em;
+}
+
+.app-top__space {
+  margin-right: auto;
+  padding: 3px 8px;
+  border-radius: 999px;
   background: var(--a-yellow);
   color: var(--a-bistre);
-  --logo-bg: #fae311;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-top__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-top__btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+  color: var(--a-ink);
+}
+
+/* en-tête d'écran secondaire */
+.app-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  min-height: 34px;
+}
+
+.app-head > strong {
+  flex: 1;
+  font-size: 15px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24;
+  letter-spacing: -0.02em;
+}
+
+.app-head__back {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
 }
 
 .app-head__title {
@@ -120,22 +192,32 @@
 
 .app-head__title strong {
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 15px;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 24;
   letter-spacing: -0.02em;
 }
 
-.app-head__action {
-  color: var(--a-soft);
+.app-count {
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--a-bistre);
+  color: var(--ivory);
+  font-size: 10.5px;
+  font-weight: 700;
 }
 
-/* champ de recherche */
+/* champ de recherche : décrire le besoin */
 .app-search {
   display: flex;
+  flex: none;
   align-items: center;
   gap: 8px;
-  height: 40px;
+  height: 38px;
   padding: 0 12px;
   border-radius: 12px;
   background: var(--a-surface);
@@ -189,43 +271,10 @@
   white-space: nowrap;
 }
 
-/* deux parcours */
-.app-paths {
-  display: grid;
-  gap: 8px;
-}
-
-.app-path {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--a-surface);
-  box-shadow: inset 0 0 0 1px var(--a-line);
-}
-
-.app-path.is-active {
-  background: var(--a-bistre);
-  color: var(--ivory);
-}
-
-.app-path.is-active small {
-  color: #dccfae;
-}
-
-.app-path svg {
-  flex: none;
-}
-
-.app-path.is-active svg {
-  color: var(--a-yellow);
-}
-
 /* sections */
 .app-section {
   display: grid;
-  gap: 8px;
+  gap: 7px;
 }
 
 .app-section__head {
@@ -239,6 +288,13 @@
   font-size: 12px;
 }
 
+.app-text {
+  margin: 0;
+  color: var(--a-soft);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
 .app-chips {
   display: flex;
   flex-wrap: wrap;
@@ -246,10 +302,11 @@
 }
 
 .app-chips--scroll {
+  flex: none;
   flex-wrap: nowrap;
   overflow: hidden;
-  margin-inline: -16px;
-  padding-inline: 16px;
+  margin-inline: -14px;
+  padding-inline: 14px;
 }
 
 .app-chip {
@@ -285,54 +342,54 @@
   font-size: 10.5px;
 }
 
-/* lignes de profils */
-.app-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
-  border-radius: 12px;
-  background: var(--a-surface);
-  box-shadow: inset 0 0 0 1px var(--a-line);
-}
-
-.app-row__body {
-  flex: 1;
-  min-width: 0;
+/* ───────────── grille des profils gardés ───────────── */
+.app-grid {
   display: grid;
-  gap: 2px;
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 8px;
+  min-height: 0;
 }
 
-.app-row__body strong,
-.app-row__body small {
+.app-tile {
+  position: relative;
+  margin: 0;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  border-radius: 14px;
+  background: hsl(var(--hue) 30% 70%);
 }
 
-.app-row__tags {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 3px;
+.app-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
 }
 
-.app-row__tags .app-chip {
-  height: 20px;
-  padding: 0 7px;
+.app-tile figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 9px 8px;
+  background: linear-gradient(180deg, transparent, hsl(var(--hue) 35% 8% / 0.85));
+  color: #fff;
+}
+
+.app-tile figcaption strong {
+  font-size: 12px;
+  color: #fff;
+}
+
+.app-tile figcaption small {
   font-size: 9px;
+  color: rgb(255 255 255 / 0.85);
 }
 
-.app-row__tags small {
-  margin-left: auto;
-}
-
-.app-row__chev {
-  color: var(--a-soft);
-  flex: none;
-}
-
-/* médaillon : le portrait remplit le cercle */
+/* ───────────── médaillon ───────────── */
 .app-avatar {
   --size: 38px;
   display: grid;
@@ -353,66 +410,138 @@
   object-position: 50% 25%;
 }
 
-.app--dark .app-avatar {
-  background: linear-gradient(180deg, hsl(var(--hue) 30% 40%), hsl(var(--hue) 32% 28%));
+/* ───────────── fiche ───────────── */
+.app--profile {
+  background: var(--a-surface);
 }
 
-/* bascule compacte des deux parcours, dans l'en-tête de l'écran Découvrir */
-.app-paths--compact {
+.app--profile .app-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.app-hero {
+  position: relative;
+  flex: none;
+  height: 46%;
+  overflow: hidden;
+  background: hsl(var(--hue) 30% 70%);
+}
+
+.app-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+
+.app-hero::after {
+  content: "";
+  position: absolute;
+  inset: 40% 0 0;
+  background: linear-gradient(180deg, transparent, hsl(var(--hue) 35% 8% / 0.9));
+}
+
+.app-hero__back,
+.app-hero__share {
+  position: absolute;
+  top: 52px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+}
+
+.app-hero__back {
+  left: 12px;
+}
+
+.app-hero__share {
+  right: 12px;
+}
+
+.app-hero__dots {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 44px;
+  z-index: 2;
   display: flex;
   gap: 4px;
-  padding: 3px;
-  border-radius: 999px;
-  background: var(--a-surface);
-  box-shadow: inset 0 0 0 1px var(--a-line);
 }
 
-.app-paths--compact .app-path {
-  padding: 6px;
-  border-radius: 50%;
-  box-shadow: none;
-  color: var(--a-soft);
+.app-hero__dots i {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.35);
 }
 
-.app-paths--compact .app-path.is-active {
-  color: var(--a-yellow);
+.app-hero__dots i.is-on {
+  background: #fff;
 }
 
-/* profil */
-.app-profile {
+.app-hero__text {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 2;
   display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 6px 0 4px;
+  gap: 3px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+.app-hero__text strong {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24;
+  font-size: 20px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.app-hero__text small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: rgb(255 255 255 / 0.92);
+}
+
+.app-body--profile {
+  gap: 9px;
+  padding-top: 10px;
+}
+
+.app-facts {
+  display: grid;
+  flex: none;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--a-line);
   text-align: center;
 }
 
-.app-profile__name {
-  margin-top: 4px;
-  font-size: 15px;
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 24;
-  letter-spacing: -0.02em;
-}
-
-.app-profile__facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  margin-top: 10px;
-  padding: 8px 0;
-  border-top: 1px solid var(--a-line);
-  border-bottom: 1px solid var(--a-line);
-}
-
-.app-profile__facts strong {
+.app-facts strong {
   font-size: 12px;
 }
 
 .app-line {
   display: grid;
   gap: 1px;
-  padding: 7px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--a-line);
 }
 
@@ -431,47 +560,16 @@
   line-height: 1.4;
 }
 
-/* cartes candidats (espace entreprise) */
-.app-card {
-  display: grid;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 12px;
-  background: var(--a-surface);
-}
-
-.app-card__top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.app-card__top .app-chip {
-  flex: none;
-  height: 22px;
-  font-size: 9px;
-}
-
-.app-card__skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--a-line);
-}
-
-.app-card__years {
-  margin-left: auto;
-}
-
 /* bouton d'écran */
 .app-cta {
-  display: grid;
-  place-items: center;
+  display: flex;
   flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   height: 42px;
   margin-top: auto;
-  border-radius: 12px;
+  border-radius: 999px;
   background: var(--a-bistre);
   color: var(--ivory);
   font-size: 12px;
@@ -483,46 +581,47 @@
   color: var(--a-bistre);
 }
 
-/* barre d'onglets */
+/* ───────────── barre d'onglets à icônes ───────────── */
 .app-tabs {
   display: grid;
   flex: none;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 8px 10px 22px;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 8px 10px 20px;
   border-top: 1px solid var(--a-line);
   background: var(--a-surface);
+  --logo-bg: #ffffff;
+  --logo-dot: #fae311;
+}
+
+.app--dark .app-tabs {
+  --logo-bg: #3a2810;
 }
 
 .app-tab {
+  position: relative;
   display: grid;
-  justify-items: center;
-  gap: 3px;
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--a-soft);
+  place-items: center;
+  height: 30px;
+  color: var(--taupe);
 }
 
 .app-tab.is-active {
   color: var(--a-bistre);
 }
 
-/* action centrale de la barre d'onglets */
-.app-tab--fab {
-  position: relative;
+.app--dark .app-tab.is-active {
+  color: var(--a-yellow);
 }
 
-.app-fab {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  margin-top: -26px;
+.app-tab__badge {
+  position: absolute;
+  top: 3px;
+  right: calc(50% - 15px);
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--a-yellow);
-  color: var(--a-bistre);
-  box-shadow:
-    0 10px 20px -10px rgb(37 22 5 / 0.6),
-    0 0 0 5px var(--a-surface);
+  box-shadow: 0 0 0 2px var(--a-surface);
 }
 
 /* bouton en ligne */
@@ -541,29 +640,25 @@
     linear-gradient(180deg, #3a2810 0%, #251605 70%, #1a0f03 100%);
 }
 
-.app-cta svg {
-  margin-right: 6px;
-}
-
 .match {
   position: relative;
   display: grid;
-  flex: 1;
   justify-items: center;
-  align-content: center;
   gap: 10px;
   text-align: center;
 }
 
+/* les deux portraits se chevauchent, légèrement inclinés */
 .match__pair {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 54px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .match__pair .app-avatar {
+  margin-left: -18px;
+  transform: rotate(6deg);
   box-shadow:
     0 0 0 4px var(--a-yellow),
     0 18px 30px -16px rgb(0 0 0 / 0.7);
@@ -572,45 +667,45 @@
 .match__face {
   display: grid;
   place-items: center;
-  width: 78px;
-  height: 78px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  background: var(--a-yellow);
-  color: var(--a-bistre);
+  background: var(--a-surface-2);
+  color: var(--ivory);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: -0.02em;
-  box-shadow: 0 18px 30px -16px rgb(0 0 0 / 0.7);
+  transform: rotate(-6deg);
+  box-shadow:
+    0 0 0 4px var(--ivory),
+    0 18px 30px -16px rgb(0 0 0 / 0.7);
 }
 
-.match__rail {
-  position: absolute;
-  left: 78px;
-  right: 78px;
-  top: 50%;
-  height: 2px;
-  background: var(--a-yellow);
-}
-
+/* le nœud de rencontre, posé au recouvrement des deux portraits */
 .match__node {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
+  bottom: -6px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 3px solid var(--a-yellow);
-  background: #251605;
-  transform: translate(-50%, -50%);
+  background: var(--a-yellow);
+  color: var(--a-bistre);
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 3px #251605;
 }
 
 .match__title {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 32;
-  font-size: 22px;
+  font-size: 23px;
   letter-spacing: -0.025em;
-  line-height: 1.1;
+  line-height: 1.08;
+  max-width: 10ch;
 }
 
 .match__text {
@@ -621,5 +716,5 @@
 .match__chips {
   display: flex;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: 4px;
 }

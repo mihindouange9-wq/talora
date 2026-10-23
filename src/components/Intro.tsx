@@ -12,13 +12,16 @@ export function introPending() {
   return !window.location.search.includes("nointro");
 }
 
-/** Deux encodages du même film : 1080p sur grand écran, 720p sur téléphone ou connexion économe. */
+/** Trois encodages du même film : vertical sur les écrans en hauteur (téléphones), 1080p sur grand écran,
+    720p sur les petits écrans en largeur ou les connexions économes. */
 function pickSource() {
-  if (typeof window === "undefined") return "/intro/talora-intro-720.mp4";
+  const paysage = { src: "/intro/talora-intro-720.mp4", poster: "/intro/talora-intro-affiche.webp" };
+  if (typeof window === "undefined") return paysage;
+  if (window.innerHeight > window.innerWidth) return { src: "/intro/talora-intro-portrait.mp4", poster: "/intro/talora-intro-affiche-portrait.webp" };
   const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } };
   const slow = Boolean(nav.connection?.saveData) || /(^|\b)(slow-2g|2g|3g)$/.test(nav.connection?.effectiveType ?? "");
   const small = Math.max(window.innerWidth, window.innerHeight) < 1100;
-  return slow || small ? "/intro/talora-intro-720.mp4" : "/intro/talora-intro-1080.mp4";
+  return slow || small ? paysage : { src: "/intro/talora-intro-1080.mp4", poster: paysage.poster };
 }
 
 /* Le film de 30 secondes en tête de page : il se joue à chaque ouverture, sans son par défaut
@@ -102,8 +105,8 @@ export default function Intro() {
       <video
         ref={video}
         className="intro__video"
-        src={source}
-        poster="/intro/talora-intro-affiche.jpg"
+        src={source.src}
+        poster={source.poster}
         autoPlay
         muted={muted}
         playsInline

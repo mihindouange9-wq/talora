@@ -1,10 +1,11 @@
-/* ───────────── Le jeu de cartes (dans l'écran du téléphone) ───────────── */
+/* ───────────── Le jeu de cartes (dans l'écran du téléphone) ─────────────
+   Construit comme celui des applications de rencontre : photo pleine carte, dégradé sombre en bas,
+   nom en grand, lignes d'information, pastille, étiquettes, tampons de geste et rangée de boutons ronds. */
 .deck {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-height: 0;
-  gap: 10px;
 }
 
 .deck__stack {
@@ -16,139 +17,139 @@
 .deck__card {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   border-radius: 18px;
-  background: var(--a-surface);
+  background: hsl(var(--hue) 30% 70%);
   box-shadow:
-    0 14px 28px -16px hsl(var(--hue) 40% 20% / 0.45),
-    inset 0 0 0 1px var(--a-line);
-  transform: translateY(calc(var(--k) * 9px)) scale(calc(1 - var(--k) * 0.045));
+    0 18px 36px -18px rgb(37 22 5 / 0.55),
+    inset 0 0 0 1px rgb(37 22 5 / 0.08);
+  transform: translateY(calc(var(--k) * 8px)) scale(calc(1 - var(--k) * 0.04));
   transform-origin: center bottom;
-  opacity: calc(1 - var(--k) * 0.18);
+  opacity: calc(1 - var(--k) * 0.15);
   z-index: calc(3 - var(--k));
   transition:
     transform 560ms var(--ease-out-expo),
     opacity 420ms var(--ease);
 }
 
+/* la carte part comme on la jette : vers la droite pour garder, vers la gauche pour passer */
 .deck__card.is-leaving-yes {
-  transform: translate(118%, -4%) rotate(14deg);
+  transform: translate(120%, -6%) rotate(16deg);
   opacity: 0;
 }
 
 .deck__card.is-leaving-no {
-  transform: translate(-118%, -4%) rotate(-14deg);
+  transform: translate(-120%, -6%) rotate(-16deg);
   opacity: 0;
 }
 
-/* le portrait en pleine image, comme sur les applications de rencontre ;
-   la teinte du métier colore le voile du bas, sous le nom */
-.deck__portrait {
-  position: relative;
-  flex: none;
-  height: 60%;
-  overflow: hidden;
-  background: hsl(var(--hue) 30% 72%);
-}
-
-.app--dark .deck__portrait {
-  background: hsl(var(--hue) 30% 34%);
-}
-
-.deck__portrait img {
+.deck__photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 22%;
+  object-position: 50% 18%;
 }
 
-.deck__portrait::after {
+/* le voile sombre qui porte le texte, teinté par le métier */
+.deck__card::after {
   content: "";
   position: absolute;
-  inset: 48% 0 0;
-  background: linear-gradient(180deg, transparent 0%, hsl(var(--hue) 40% 10% / 0.72) 100%);
+  inset: 36% 0 0;
+  background: linear-gradient(180deg, transparent 0%, hsl(var(--hue) 35% 10% / 0.55) 50%, hsl(var(--hue) 35% 8% / 0.92) 100%);
 }
 
-.deck__years {
+.deck__dots {
   position: absolute;
-  top: 10px;
+  top: 9px;
+  left: 10px;
   right: 10px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.78);
-  color: var(--a-bistre);
-  font-size: 9.5px;
-  font-weight: 650;
-}
-
-.app--dark .deck__years {
-  background: rgb(26 15 3 / 0.6);
-  color: var(--ivory);
-}
-
-.deck__body {
-  display: grid;
+  z-index: 2;
+  display: flex;
   gap: 4px;
-  padding: 9px 12px 11px;
 }
 
-/* le nom, posé sur la photo */
-.deck__title {
+.deck__dots i {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.35);
+}
+
+.deck__dots i.is-on {
+  background: #fff;
+}
+
+.deck__info {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 9px;
-  z-index: 1;
+  left: 14px;
+  right: 54px;
+  bottom: 62px;
+  z-index: 2;
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+.deck__name {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  color: var(--ivory);
-  text-shadow: 0 1px 2px rgb(26 15 3 / 0.5);
+  gap: 7px;
+  max-width: 100%;
 }
 
-.deck__title strong {
+.deck__name strong {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 24;
-  font-size: 15px;
+  font-size: 20px;
+  line-height: 1.05;
   letter-spacing: -0.02em;
+  color: #fff;
 }
 
-.deck__title small {
+.deck__name small {
   flex: none;
-  color: var(--amber);
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.9);
 }
 
-.deck__job {
+.deck__line {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--a-ink);
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.94);
 }
 
-.deck__area {
+.deck__line svg {
+  flex: none;
+  opacity: 0.9;
+}
+
+.deck__pill {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  color: var(--a-soft);
-  font-weight: 500;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #fff;
 }
 
-.deck__pitch {
-  margin: 0;
-  font-size: 10px;
-  line-height: 1.35;
-  color: var(--a-soft);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.deck__pill i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
 }
 
 .deck__tags {
@@ -159,44 +160,57 @@
 }
 
 .deck__tags span {
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: 999px;
-  background: hsl(var(--hue) 36% 92%);
-  color: hsl(var(--hue) 40% 30%);
+  border: 1px solid rgb(255 255 255 / 0.5);
   font-size: 9px;
   font-weight: 600;
+  color: #fff;
 }
 
-.app--dark .deck__tags span {
-  background: hsl(var(--hue) 30% 30%);
-  color: hsl(var(--hue) 50% 88%);
+/* ouvrir la fiche */
+.deck__more {
+  position: absolute;
+  right: 14px;
+  bottom: 70px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
 }
 
 /* le tampon qui s'imprime au moment du geste */
 .deck__stamp {
   position: absolute;
-  top: 14px;
-  padding: 5px 10px;
-  border: 2px solid currentColor;
-  border-radius: 8px;
-  font-size: 12px;
+  top: 26px;
+  z-index: 3;
+  padding: 4px 10px;
+  border: 3px solid currentColor;
+  border-radius: 6px;
+  font-size: 17px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  line-height: 1.2;
   opacity: 0;
   transition: opacity 200ms var(--ease);
 }
 
 .deck__stamp--yes {
-  left: 12px;
-  color: var(--moss);
-  transform: rotate(-12deg);
+  left: 16px;
+  color: var(--yellow);
+  transform: rotate(-18deg);
 }
 
 .deck__stamp--no {
-  right: 12px;
-  color: var(--brick);
-  transform: rotate(12deg);
+  right: 16px;
+  color: #fff;
+  transform: rotate(18deg);
 }
 
 .is-leaving-yes .deck__stamp--yes,
@@ -204,33 +218,50 @@
   opacity: 1;
 }
 
-/* les deux gestes */
+/* la rangée de gestes, qui chevauche le bas de la carte */
 .deck__actions {
+  position: relative;
+  z-index: 4;
   display: flex;
   flex: none;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
+  justify-content: center;
+  gap: 12px;
+  margin-top: -29px;
+  padding-bottom: 2px;
 }
 
 .deck__btn {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--a-surface);
+  background: var(--a-surface, #fff);
   box-shadow:
-    0 8px 18px -10px rgb(37 22 5 / 0.5),
-    inset 0 0 0 1.5px var(--a-line);
+    0 8px 18px -8px rgb(37 22 5 / 0.5),
+    inset 0 0 0 1px rgb(37 22 5 / 0.06);
   transition:
     transform 240ms var(--ease-out-expo),
     background-color 240ms var(--ease),
     color 240ms var(--ease);
 }
 
+.deck__btn--big {
+  width: 58px;
+  height: 58px;
+}
+
+.deck__btn--undo {
+  color: var(--taupe);
+}
+
 .deck__btn--no {
   color: var(--brick);
+}
+
+.deck__btn--star {
+  color: var(--moss);
 }
 
 .deck__btn--yes {
@@ -238,7 +269,7 @@
 }
 
 .deck__btn.is-on {
-  transform: scale(1.14);
+  transform: scale(1.12);
   color: #fff;
 }
 
@@ -250,12 +281,25 @@
   background: var(--moss);
 }
 
-.deck__hint {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--a-soft);
+/* sur fond sombre (espace entreprise) */
+.app--dark .deck__btn {
+  box-shadow:
+    0 10px 20px -8px rgb(0 0 0 / 0.6),
+    inset 0 0 0 1px rgb(250 246 230 / 0.1);
+}
+
+.app--dark .deck__btn--undo {
+  color: var(--on-dark-muted);
+}
+
+.app--dark .deck__btn--star,
+.app--dark .deck__btn--yes {
+  color: var(--yellow);
+}
+
+.app--dark .deck__btn--yes.is-on {
+  background: var(--yellow);
+  color: var(--bistre);
 }
 
 @media (prefers-reduced-motion: reduce) {

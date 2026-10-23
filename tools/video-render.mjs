@@ -3,8 +3,9 @@
 // WebCodecs dans une seconde page Chrome (video/encodeur.html).
 // node tools/video-render.mjs                 → public/intro/talora-intro-1080.mp4 et -720.mp4 (+ affiche), copies dans livrables/
 // node tools/video-render.mjs --apercu        → planche-contact video/apercu.jpg (images clés) sans encoder
+// node tools/video-render.mjs --portrait      → public/intro/talora-intro-portrait.mp4 (1080 × 1920, téléphones) + affiche
 // Options : --url http://127.0.0.1:5196  --ips 30  --debit 10000 (kb/s, 1080p)  --debit-mobile 4500 (kb/s, 720p)
-//           --echelle 1 (1920 × 1080)  --sans-mobile (pas de second encodage)
+//           --debit-portrait 4500 (kb/s)  --echelle 1  --sans-mobile (pas de second encodage)
 // Les images sont capturées en PNG (sans perte) ; l'encodeur matériel H.264 High fait le reste.
 import http from "node:http";
 import { spawn } from "node:child_process";
@@ -24,9 +25,12 @@ const IPS = option("ips", 30);
 const DEBIT = option("debit", 10000) * 1000;
 const DEBIT_MOBILE = option("debit-mobile", 4500) * 1000;
 const SANS_MOBILE = args.includes("--sans-mobile");
+const PORTRAIT = args.includes("--portrait");
+const DEBIT_PORTRAIT = option("debit-portrait", 4500) * 1000;
 const ECHELLE = option("echelle", 1);
 const SITE = texte("url", "http://127.0.0.1:5196");
-const L = 1920, H = 1080;
+const L = PORTRAIT ? 1080 : 1920, H = PORTRAIT ? 1920 : 1080;
+const SUFFIXE = PORTRAIT ? "-portrait" : "";
 const CHROME = process.env.CHROME || "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const DOSSIER = join(tmpdir(), `talora-video-${Date.now()}`);
 await mkdir(join(DOSSIER, "frames"), { recursive: true });
@@ -63,7 +67,7 @@ async function ouvrirChrome(taille) {
 const largeur = Math.round((L * ECHELLE) / 2) * 2, hauteur = Math.round((H * ECHELLE) / 2) * 2;
 const scene = await ouvrirChrome(`${L},${H}`);
 await scene.envoyer("Emulation.setDeviceMetricsOverride", { width: L, height: H, deviceScaleFactor: ECHELLE, mobile: false });
-await scene.envoyer("Page.navigate", { url: `${SITE}/?scene` });
+await scene.envoyer("Page.navigate", { url: `${SITE}/?scene${PORTRAIT ? "&portrait" : ""}` });
 for (let i = 0; i < 120; i++) { if (await scene.evaluer("window.pret === true")) break; await attendre(250); }
 if (!(await scene.evaluer("window.pret === true"))) { console.error("scène non prête", scene.erreurs); process.exit(1); }
 await attendre(800); // portraits et polices
@@ -81,15 +85,15 @@ if (APERCU) {
   for (const t of temps) vignettes.push({ t, data: (await image(t)).toString("base64") });
   const planche = await scene.evaluer(`(async () => {
     const vignettes = ${JSON.stringify(vignettes)};
-    const vw = 480, vh = 270, cols = 4, rows = Math.ceil(vignettes.length / cols);
+    const vw = ${PORTRAIT ? 270 : 480}, vh = ${PORTRAIT ? 480 : 270}, cols = ${PORTRAIT ? 6 : 4}, rows = Math.ceil(vignettes.length / cols);
     const c = document.createElement('canvas'); c.width = vw * cols; c.height = vh * rows; const g = c.getContext('2d');
     g.fillStyle = '#222'; g.fillRect(0, 0, c.width, c.height);
     for (let i = 0; i < vignettes.length; i++) { const img = new Image(); img.src = 'data:image/jpeg;base64,' + vignettes[i].data; await img.decode(); const x = (i % cols) * vw, y = Math.floor(i / cols) * vh; g.drawImage(img, x + 2, y + 2, vw - 4, vh - 4); g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(x + 2, y + 2, 70, 26); g.fillStyle = '#fff'; g.font = '600 15px sans-serif'; g.fillText(vignettes[i].t.toFixed(1) + ' s', x + 10, y + 21); }
     return c.toDataURL('image/jpeg', 0.86).split(',')[1];
   })()`, 120000);
   await mkdir(VIDEO, { recursive: true });
-  await writeFile(join(VIDEO, "apercu.jpg"), Buffer.from(planche, "base64"));
-  console.log(`video/apercu.jpg : ${temps.length} images clés · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
+  await writeFile(join(VIDEO, `apercu${SUFFIXE}.jpg`), Buffer.from(planche, "base64"));
+  console.log(`video/apercu${SUFFIXE}.jpg : ${temps.length} images clés · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
   scene.fermer(); serveur.close(); await attendre(600); await rm(DOSSIER, { recursive: true, force: true }).catch(() => {});
   process.exit(0);
 }
@@ -101,15 +105,15 @@ for (let i = 0; i < total; i++) {
   if (i % 60 === 0) process.stdout.write(`  capture ${i}/${total} (${((Date.now() - debut) / 1000).toFixed(0)} s)\r`);
 }
 console.log(`  capture ${total}/${total} en ${((Date.now() - debut) / 1000).toFixed(0)} s · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
-const affiche = await image(0.05);
+const affiche = await image(0.05, "webp");
 scene.fermer();
 
 /* ---------- 2. encodage : 1080p pour les grands écrans, 720p pour les téléphones ---------- */
 const enc = await ouvrirChrome("800,600");
 await enc.envoyer("Page.navigate", { url: `${BASE}/encodeur.html` });
 for (let i = 0; i < 80; i++) { if (await enc.evaluer("window.pret === true")) break; await attendre(250); }
-const cibles = [{ nom: String(hauteur), largeur, hauteur, debit: DEBIT }];
-if (!SANS_MOBILE && largeur > 1280) cibles.push({ nom: "720", largeur: 1280, hauteur: 720, debit: DEBIT_MOBILE });
+const cibles = [{ nom: PORTRAIT ? "portrait" : String(hauteur), largeur, hauteur, debit: PORTRAIT ? DEBIT_PORTRAIT : DEBIT }];
+if (!SANS_MOBILE && !PORTRAIT && largeur > 1280) cibles.push({ nom: "720", largeur: 1280, hauteur: 720, debit: DEBIT_MOBILE });
 const reperes = [10.5, 12.1, 13.6]; // les trois gestes du plan 3
 await mkdir(join(RACINE, "public", "intro"), { recursive: true });
 await mkdir(join(RACINE, "livrables"), { recursive: true });
@@ -125,13 +129,14 @@ for (const c of cibles) {
   for (let d = 0; d < taille; d += 8_000_000) morceaux.push(Buffer.from(await enc.evaluer(`window.tranche(${d}, ${Math.min(taille, d + 8_000_000)})`, 120000), "base64"));
   const web = join(RACINE, "public", "intro", `talora-intro-${c.nom}.mp4`);
   await writeFile(web, Buffer.concat(morceaux));
-  await copyFile(web, join(RACINE, "livrables", `TALORA-intro-30s-${c.nom}p.mp4`));
+  await copyFile(web, join(RACINE, "livrables", `TALORA-intro-30s-${c.nom === "portrait" ? "vertical" : c.nom + "p"}.mp4`));
   sorties.push({ web, taille: (await stat(web)).size });
 }
 enc.fermer();
-await writeFile(join(RACINE, "public", "intro", "talora-intro-affiche.jpg"), affiche);
+await writeFile(join(RACINE, "public", "intro", `talora-intro-affiche${SUFFIXE}.webp`), affiche);
+await rm(join(RACINE, "public", "intro", `talora-intro-affiche${SUFFIXE}.jpg`), { force: true });
 await rm(join(RACINE, "public", "intro", "talora-intro.mp4"), { force: true });
 await rm(join(RACINE, "livrables", "TALORA-intro-30s.mp4"), { force: true });
 serveur.close();
 await attendre(600); await rm(DOSSIER, { recursive: true, force: true }).catch(() => {});
-console.log(`\n${sorties.map((s) => `  ${s.web} · ${(s.taille / 1048576).toFixed(1)} Mo`).join("\n")}\n  ${DUREE} s · audio AAC : ${audio ? "oui" : "non"} · copies dans livrables/ · affiche : public/intro/talora-intro-affiche.jpg`);
+console.log(`\n${sorties.map((s) => `  ${s.web} · ${(s.taille / 1048576).toFixed(1)} Mo`).join("\n")}\n  ${DUREE} s · audio AAC : ${audio ? "oui" : "non"} · copies dans livrables/ · affiche : public/intro/talora-intro-affiche${SUFFIXE}.webp`);

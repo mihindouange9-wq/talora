@@ -60,7 +60,7 @@ export const CONCEPT = {
     { id: "candidates", label: "Candidats", caption: "Côté entreprise, les candidats défilent" },
     { id: "match", label: "Correspondance", caption: "L'intérêt est partagé : on entre en contact" },
   ],
-  note: "Maquettes de démonstration. L'application n'est pas commercialisée ; les noms et informations sont fictifs, les portraits sont des illustrations.",
+  note: "Maquettes de démonstration. L'application n'est pas commercialisée ; les noms et informations sont fictifs, les portraits proviennent d'une banque d'images.",
 } as const;
 
 export const PROBLEM = {

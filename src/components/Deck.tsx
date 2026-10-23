@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { Check, MapPin, X } from "lucide-react";
+import { Briefcase, ChevronUp, Heart, MapPin, RotateCcw, Star, X } from "lucide-react";
 import { prefersReducedMotion } from "../lib/motion";
 import "./deck.css";
 
@@ -13,21 +13,23 @@ export type DeckItem = {
   avatar: string;
   hue: number;
   pitch: string;
-  /** Mention courte à droite du nom (tarif, disponibilité). */
+  /** Mention courte (tarif, disponibilité), affichée en pastille sur la photo. */
   meta?: string;
 };
 
 type Props = {
   items: DeckItem[];
-  /** Libellés des deux gestes. */
+  /** Libellés des deux gestes (tampons). */
   labels?: { yes: string; no: string };
   /** Fait défiler les profils tout seul (démonstration) ; immobile en mouvement réduit. */
   auto?: boolean;
   className?: string;
 };
 
-/* Le jeu de cartes : les profils défilent un à un, on garde ou on passe. Trois cartes sont visibles,
-   la suivante avance quand la première part. Démonstration : les gestes s'enchaînent d'eux-mêmes. */
+/* Le jeu de cartes, construit comme celui des applications de rencontre : la photo occupe toute la carte,
+   le nom et les informations sont posés sur un dégradé en bas, les gestes sont une rangée de boutons ronds
+   qui chevauchent la carte. Trois cartes sont visibles, la suivante avance quand la première part.
+   Démonstration : les gestes s'enchaînent d'eux-mêmes. */
 export default function Deck({ items, labels = { yes: "Garder", no: "Passer" }, auto = true, className }: Props) {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState<"yes" | "no" | null>(null);
@@ -67,29 +69,41 @@ export default function Deck({ items, labels = { yes: "Garder", no: "Passer" }, 
             className={`deck__card ${k === 0 && leaving ? `is-leaving-${leaving}` : ""}`}
             style={{ "--hue": item.hue, "--k": k } as CSSProperties}
           >
-            <div className="deck__portrait">
-              <img src={item.avatar} alt="" width="640" height="800" loading="lazy" decoding="async" />
-              <span className="deck__years tabular">{item.years} ans</span>
-              <span className="deck__title">
+            <img className="deck__photo" src={item.avatar} alt="" width="640" height="800" loading="lazy" decoding="async" />
+            {/* indicateurs de photos, comme sur une fiche à plusieurs images */}
+            <span className="deck__dots" aria-hidden="true">
+              <i className="is-on" />
+              <i />
+              <i />
+            </span>
+            <div className="deck__info">
+              <span className="deck__name">
                 <strong>{item.name}</strong>
-                {item.meta && <small>{item.meta}</small>}
+                <small className="tabular">{item.years} ans</small>
               </span>
-            </div>
-            <div className="deck__body">
-              <small className="deck__job">
+              <span className="deck__line">
+                <Briefcase size={12} strokeWidth={2.4} />
                 {item.job}
-                <span className="deck__area">
-                  <MapPin size={10} strokeWidth={2.4} />
-                  {item.area}
+              </span>
+              <span className="deck__line">
+                <MapPin size={12} strokeWidth={2.4} />
+                {item.area}
+              </span>
+              {item.meta && (
+                <span className="deck__pill">
+                  <i />
+                  {item.meta}
                 </span>
-              </small>
-              <p className="deck__pitch">{item.pitch}</p>
+              )}
               <span className="deck__tags">
                 {item.tags.slice(0, 3).map((t) => (
                   <span key={t}>{t}</span>
                 ))}
               </span>
             </div>
+            <span className="deck__more" aria-hidden="true">
+              <ChevronUp size={16} strokeWidth={2.6} />
+            </span>
             {k === 0 && (
               <>
                 <span className="deck__stamp deck__stamp--yes" aria-hidden="true">
@@ -104,12 +118,17 @@ export default function Deck({ items, labels = { yes: "Garder", no: "Passer" }, 
         ))}
       </div>
       <div className="deck__actions" aria-hidden="true">
-        <span className={`deck__btn deck__btn--no ${leaving === "no" ? "is-on" : ""}`}>
-          <X size={20} strokeWidth={2.6} />
+        <span className="deck__btn deck__btn--undo">
+          <RotateCcw size={18} strokeWidth={2.4} />
         </span>
-        <span className="deck__hint">{labels.no} · {labels.yes}</span>
-        <span className={`deck__btn deck__btn--yes ${leaving === "yes" ? "is-on" : ""}`}>
-          <Check size={20} strokeWidth={2.8} />
+        <span className={`deck__btn deck__btn--big deck__btn--no ${leaving === "no" ? "is-on" : ""}`}>
+          <X size={26} strokeWidth={2.8} />
+        </span>
+        <span className="deck__btn deck__btn--star">
+          <Star size={19} strokeWidth={2.4} />
+        </span>
+        <span className={`deck__btn deck__btn--big deck__btn--yes ${leaving === "yes" ? "is-on" : ""}`}>
+          <Heart size={24} strokeWidth={2.6} />
         </span>
       </div>
     </div>

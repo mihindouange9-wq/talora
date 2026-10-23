@@ -44,6 +44,18 @@ async function fresh(w, h, touch = false) {
     const cx = innerWidth > 900 ? fr.left + 20 : fr.right - 22;
     return Math.abs(r.left + r.width / 2 - cx) < 6 && Math.abs(r.top + r.height / 2 - (fr.top + fr.height / 2)) < 6;
   }));
+  // le nœud reste posé sur le champ pendant le défilement (dérive du téléphone, du nœud et des lignes ensemble)
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await sleep(2500);
+  ok("le nœud suit le champ de recherche au défilement", await page.evaluate(() => {
+    const c = document.querySelector(".hero__node circle").getBoundingClientRect(); const fr = document.querySelector(".hero__phone--front .app-search").getBoundingClientRect();
+    const p = document.querySelector(".hero__lines path"); const svg = p.ownerSVGElement.getBoundingClientRect(); const vb = p.ownerSVGElement.viewBox.baseVal;
+    const fin = p.getPointAtLength(p.getTotalLength()); const finY = svg.top + fin.y * (svg.height / vb.height);
+    const cy = c.top + c.height / 2;
+    return Math.abs(cy - (fr.top + fr.height / 2)) < 6 && Math.abs(finY - cy) < 6;
+  }));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await sleep(1200);
   // sélecteur de publics : clic puis flèches
   // avec le défilement lissé, on passe par le défilement natif (scrollIntoView viserait l'enveloppe fixe)
   await page.evaluate(() => window.scrollTo(0, document.querySelector("#publics").offsetTop - 84));

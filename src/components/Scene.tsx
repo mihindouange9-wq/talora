@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Logo, LogoMark, MARK_NODE, MARK_PATHS, MARK_VIEWBOX } from "../brand/Logo";
+import { Logo, LogoMark, MARK_BAR, MARK_NODE, MARK_STEM, MARK_VIEWBOX } from "../brand/Logo";
 import Phone from "./Phone";
 import { gsap } from "../lib/motion";
 import "./scene.css";
@@ -21,6 +21,8 @@ declare global {
 
 export default function Scene() {
   const root = useRef<HTMLDivElement>(null);
+  // en hauteur, le texte est au-dessus du téléphone : celui-ci ne glisse pas sur le côté
+  const portrait = typeof document !== "undefined" && document.documentElement.classList.contains("scene--portrait");
 
   useEffect(() => {
     const scope = root.current!;
@@ -28,16 +30,12 @@ export default function Scene() {
     const qa = (s: string) => Array.from(scope.querySelectorAll<HTMLElement>(s));
     const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out", duration: 1 } });
 
-    /* ---- plan 1 : le logo se trace, la signature ---- */
-    const markPaths = qa(".scene__mark path");
-    markPaths.forEach((p) => {
-      const len = (p as unknown as SVGPathElement).getTotalLength();
-      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
-    });
-    // les trois lettres se tracent l'une après l'autre : la tige et la barre du T, la boucle et la jambe du R, le pied du L
-    const trace: Array<[number, number, number]> = [[0, 0.2, 0.55], [1, 0.45, 0.6], [2, 0.85, 0.6], [3, 1.25, 0.5], [4, 1.5, 0.45]];
-    trace.forEach(([i, t, d]) => tl.to(markPaths[i], { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t));
-    tl.from(".scene__mark circle", { scale: 0, transformOrigin: "center", duration: 0.55, ease: "back.out(2.2)", stagger: 0.08 }, 1.75)
+    /* ---- plan 1 : le monogramme se construit, la signature ---- */
+    // la barre arrive de la gauche, la tige descend, le nœud se perce et le point s'allume
+    tl.from(".scene__mark .mark-bar", { scaleX: 0, transformOrigin: "left center", duration: 0.7, ease: "power4.out" }, 0.25)
+      .from(".scene__mark .mark-stem", { scaleY: 0, transformOrigin: "center top", duration: 0.6, ease: "power4.out" }, 0.75)
+      .from(".scene__mark .mark-hole", { scale: 0, transformOrigin: "center", duration: 0.45, ease: "back.out(2)" }, 1.3)
+      .from(".scene__mark .mark-dot", { scale: 0, transformOrigin: "center", duration: 0.5, ease: "back.out(3)" }, 1.55)
       .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 2.0)
       .from(".scene__p1 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.4)
       .to(".scene__p1", { autoAlpha: 0, y: -40, duration: 0.6, ease: "power2.in" }, 3.7);
@@ -65,7 +63,7 @@ export default function Scene() {
       // les cartes suivantes avancent
       cards.slice(k + 1, k + 3).forEach((n, j) => tl.to(n, { y: j * 9, scale: 1 - j * 0.045, autoAlpha: 1 - j * 0.18, duration: 0.5 }, t + 0.2));
     };
-    tl.to(".scene__p2 .scene__phone-a", { x: -560, duration: 1.1, ease: "power3.inOut" }, 8.6)
+    tl.to(".scene__p2 .scene__phone-a", { x: portrait ? 0 : -560, duration: 1.1, ease: "power3.inOut" }, 8.6)
       .from(".scene__p3", { autoAlpha: 0, duration: 0.01 }, 9.2)
       .from(".scene__p3 .scene__claim > span > i", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 9.4)
       .from(".scene__p3 .scene__sub", { autoAlpha: 0, y: 16, duration: 0.7 }, 10.0);
@@ -120,16 +118,11 @@ export default function Scene() {
     <div className="scene" ref={root}>
       {/* plan 1 */}
       <section className="scene__plan scene__p1">
-        <svg className="scene__mark" viewBox={MARK_VIEWBOX} fill="none" aria-hidden="true">
-          <g stroke="currentColor" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round">
-            <path d={MARK_PATHS.stem} />
-            <path d={MARK_PATHS.bar} />
-            <path d={MARK_PATHS.bowl} />
-            <path d={MARK_PATHS.leg} />
-            <path d={MARK_PATHS.foot} />
-          </g>
-          <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.r} fill="#251605" stroke="currentColor" strokeWidth="7" />
-          <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.dot} fill="#fae311" />
+        <svg className="scene__mark" viewBox={MARK_VIEWBOX} aria-hidden="true">
+          <rect className="mark-bar" {...MARK_BAR} fill="currentColor" />
+          <rect className="mark-stem" {...MARK_STEM} fill="currentColor" />
+          <circle className="mark-hole" cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.r} fill="#251605" />
+          <circle className="mark-dot" cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.dot} fill="#fae311" />
         </svg>
         <div className="scene__wordmark">
           <Logo size={72} withMark={false} />
@@ -152,7 +145,7 @@ export default function Scene() {
           <span className="scene__node-a" />
         </div>
         <div className="scene__phone-a">
-          <Phone screen="home" scale={1.42} eager />
+          <Phone screen="home" scale={portrait ? 1.5 : 1.42} eager />
         </div>
       </section>
       <section className="scene__plan scene__p3">
@@ -177,13 +170,13 @@ export default function Scene() {
         </p>
         <div className="scene__duo">
           <div className="scene__phone-b">
-            <Phone screen="candidates" scale={1.0} eager />
+            <Phone screen="candidates" scale={portrait ? 1.3 : 1.0} eager />
             <span className="scene__label">Entreprises et recruteurs</span>
           </div>
           <span className="scene__rail-b" />
           <span className="scene__node-b" />
           <div className="scene__phone-c">
-            <Phone screen="profile" scale={1.0} eager />
+            <Phone screen="profile" scale={portrait ? 1.3 : 1.0} eager />
             <span className="scene__label">Professionnels et prestataires</span>
           </div>
         </div>
@@ -199,7 +192,7 @@ export default function Scene() {
           <p className="scene__sub">La rencontre devient un échange.</p>
         </div>
         <div className="scene__phone-d">
-          <Phone screen="match" scale={1.42} eager />
+          <Phone screen="match" scale={portrait ? 1.5 : 1.42} eager />
         </div>
       </section>
 

@@ -37,7 +37,7 @@ export default function Phone({ screen, screens, active = 0, scale, className, l
           io.disconnect();
         }
       },
-      { rootMargin: "900px 0px 900px 0px" },
+      { rootMargin: "400px 0px 400px 0px" },
     );
     io.observe(root.current);
     return () => io.disconnect();

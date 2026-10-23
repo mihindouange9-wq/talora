@@ -292,3 +292,100 @@ html.scene body {
   background: var(--bistre);
   transform: translateX(-50%);
 }
+
+/* ───────────── version verticale (1080 × 1920), servie aux téléphones ─────────────
+   Même ligne de temps, autre composition : le texte au-dessus, le téléphone en dessous. */
+html.scene--portrait,
+html.scene--portrait body {
+  width: 1080px;
+  height: 1920px;
+}
+
+.scene--portrait .scene {
+  width: 1080px;
+  height: 1920px;
+}
+
+.scene--portrait .scene__p1,
+.scene--portrait .scene__p6 {
+  gap: 44px;
+}
+
+.scene--portrait .scene__mark {
+  width: 240px;
+  height: 240px;
+}
+
+.scene--portrait .scene__tag {
+  font-size: 50px;
+}
+
+.scene--portrait .scene__copy,
+.scene--portrait .scene__copy--right {
+  left: 90px;
+  right: auto;
+  top: 150px;
+  width: 900px;
+  text-align: center;
+}
+
+.scene--portrait .scene__claim {
+  font-size: 96px;
+}
+
+.scene--portrait .scene__sub {
+  font-size: 32px;
+}
+
+.scene--portrait .scene__rail-a {
+  left: 70px;
+  width: 760px;
+}
+
+.scene--portrait .scene__node-a {
+  left: 810px;
+}
+
+.scene--portrait .scene__gestes {
+  justify-content: center;
+}
+
+.scene--portrait .scene__phone-a,
+.scene--portrait .scene__phone-d {
+  left: 315px;
+  right: auto;
+  top: 640px;
+}
+
+.scene--portrait .scene__p4 {
+  padding-top: 150px;
+}
+
+.scene--portrait .scene__title {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  font-size: 80px;
+}
+
+.scene--portrait .scene__duo {
+  gap: 70px;
+  margin-top: 90px;
+}
+
+.scene--portrait .scene__rail-b {
+  top: 400px;
+  width: 400px;
+}
+
+.scene--portrait .scene__node-b {
+  top: 388px;
+}
+
+.scene--portrait .scene__partner {
+  bottom: 140px;
+}
+
+.scene--portrait .scene__partner-logo {
+  height: 72px;
+}

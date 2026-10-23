@@ -1,14 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <rect width="64" height="64" rx="14" fill="#251605"/>
-  <g transform="translate(6 6) scale(0.52)" fill="none">
-    <g transform="translate(8 0)" stroke="#FAF6E6" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M44 14V86"/>
-      <path d="M4 14H80"/>
-      <path d="M62 14A18 18 0 0 1 62 50H44"/>
-      <path d="M44 50L80 86"/>
-      <path d="M44 86H80"/>
-    </g>
-    <circle cx="52" cy="50" r="10" fill="#251605" stroke="#FAF6E6" stroke-width="7"/>
-    <circle cx="52" cy="50" r="4" fill="#FAE311"/>
+  <g transform="translate(8 7.5) scale(0.48)">
+    <path d="M6 12H94V40H63V90H37V40H6Z" fill="#FAF6E6"/>
+    <circle cx="50" cy="30" r="11.5" fill="#251605"/>
+    <circle cx="50" cy="30" r="5" fill="#FAE311"/>
   </g>
 </svg>
