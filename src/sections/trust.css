@@ -1,3 +1,7 @@
+.trust {
+  background: linear-gradient(180deg, var(--ivory) 0%, var(--linen) 100%);
+}
+
 .trust__head {
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
@@ -10,7 +14,7 @@
 .trust__segments {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 2px solid var(--purple);
+  border-top: 2px solid var(--bistre);
   border-bottom: 1px solid var(--line-light-strong);
 }
 
@@ -58,7 +62,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid var(--purple);
+  border: 2px solid var(--bistre);
 }
 
 @media (max-width: 900px) {

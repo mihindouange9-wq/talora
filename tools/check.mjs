@@ -38,11 +38,14 @@ async function fresh(w, h, touch = false) {
     const c = document.querySelector(".hero__node circle"); const f = document.querySelector(".hero__phone--front .app-search");
     if (!c || !f) return false;
     const r = c.getBoundingClientRect(); const fr = f.getBoundingClientRect();
-    return Math.abs(r.left + r.width / 2 - (fr.left + fr.width / 2)) < 6 && Math.abs(r.top + r.height / 2 - (fr.top + fr.height / 2)) < 6;
+    // sur ordinateur le nœud se pose à l'extrémité gauche du champ (20 px du bord), à droite sur téléphone
+    const cx = innerWidth > 900 ? fr.left + 20 : fr.right - 22;
+    return Math.abs(r.left + r.width / 2 - cx) < 6 && Math.abs(r.top + r.height / 2 - (fr.top + fr.height / 2)) < 6;
   }));
   // sélecteur de publics : clic puis flèches
-  await page.evaluate(() => document.querySelector("#publics").scrollIntoView({ behavior: "instant" }));
-  await sleep(900);
+  // avec le défilement lissé, on passe par le défilement natif (scrollIntoView viserait l'enveloppe fixe)
+  await page.evaluate(() => window.scrollTo(0, document.querySelector("#publics").offsetTop - 84));
+  await sleep(2200);
   await page.click('[role="tab"]:nth-child(3)');
   await sleep(700);
   const tab = await page.evaluate(() => ({
@@ -58,7 +61,7 @@ async function fresh(w, h, touch = false) {
   await page.evaluate(() => window.scrollTo(0, 0));
   await sleep(300);
   await page.click('.header__nav a[href="#fonctionnement"]');
-  await sleep(1400);
+  await sleep(2000);
   const top = await page.$eval("#fonctionnement", (s) => Math.round(s.getBoundingClientRect().top));
   ok("navigation : « Fonctionnement » amène à la section", Math.abs(top - 84) < 40, `haut à ${top} px`);
   ok("navigation : le focus suit l'ancre", await page.evaluate(() => document.activeElement?.id === "fonctionnement"));

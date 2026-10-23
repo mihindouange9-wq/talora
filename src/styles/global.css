@@ -9,7 +9,7 @@
 
 html {
   color-scheme: light;
-  background: var(--purple);
+  background: var(--bistre);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
@@ -22,7 +22,7 @@ body {
   font-size: var(--fs-body);
   line-height: 1.6;
   font-weight: 450;
-  background: var(--ivory);
+  background: var(--bistre-deep);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -81,7 +81,7 @@ strong {
 /* Surfaces du navigateur : sélection, focus, caret, barre de défilement */
 ::selection {
   background: var(--yellow);
-  color: var(--purple);
+  color: var(--bistre);
 }
 
 :focus-visible {
@@ -92,11 +92,11 @@ strong {
 
 [data-tone="light"] :focus-visible,
 .tone-light :focus-visible {
-  outline-color: var(--purple);
+  outline-color: var(--bistre);
 }
 
 html {
-  scrollbar-color: var(--purple-3) var(--ivory-2);
+  scrollbar-color: var(--bistre-3) var(--ivory-2);
 }
 
 /* ───────────── Typographie ───────────── */
@@ -179,8 +179,68 @@ html {
   padding-block: var(--section-y);
 }
 
+/* ───────────── Sauts de page : chaque section reste collée en haut pendant que la suivante la recouvre,
+   et la suivante arrive avec un bord coupé à 45°, comme une ligne du plan ───────────── */
+main {
+  position: relative;
+  background: var(--bistre-deep);
+}
+
+main > section {
+  --cut: clamp(28px, 4.5vw, 72px);
+  position: sticky;
+  top: 0;
+  padding-top: calc(var(--section-y) + var(--cut));
+  clip-path: polygon(0 var(--cut), 100% 0, 100% 100%, 0 100%);
+}
+
+main > section:nth-of-type(even) {
+  clip-path: polygon(0 0, 100% var(--cut), 100% 100%, 0 100%);
+}
+
+main > section:first-of-type {
+  clip-path: none;
+}
+
+main > section:nth-of-type(1) { z-index: 1; }
+main > section:nth-of-type(2) { z-index: 2; }
+main > section:nth-of-type(3) { z-index: 3; }
+main > section:nth-of-type(4) { z-index: 4; }
+main > section:nth-of-type(5) { z-index: 5; }
+main > section:nth-of-type(6) { z-index: 6; }
+main > section:nth-of-type(7) { z-index: 7; }
+main > section:nth-of-type(8) { z-index: 8; }
+main > section:nth-of-type(9) { z-index: 9; }
+main > section:nth-of-type(10) { z-index: 10; }
+
+/* le contenu recule quand la page suivante le recouvre : l'origine est au centre haut */
+main > section > .container,
+main > section > .hero__grid {
+  transform-origin: 50% 20%;
+}
+
+/* le pied de page recouvre la dernière section */
+.footer {
+  position: relative;
+  z-index: 12;
+}
+
+/* titres découpés en mots : chaque mot monte dans sa fenêtre */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0.02em 0.12em;
+  margin: -0.06em -0.02em -0.12em;
+}
+
+.w > i {
+  display: inline-block;
+  font-style: normal;
+}
+
 [data-tone="dark"] {
-  background: var(--purple);
+  background: var(--bistre);
   color: var(--on-dark);
 }
 
@@ -208,7 +268,7 @@ html {
   z-index: 100;
   padding: 10px 16px;
   background: var(--yellow);
-  color: var(--purple);
+  color: var(--bistre);
   font-weight: 650;
   border-radius: var(--radius-pill);
   transform: translateY(-200%);
@@ -256,13 +316,13 @@ html {
 
 .btn--primary {
   background: var(--yellow);
-  color: var(--purple);
-  box-shadow: 0 10px 24px -14px rgb(249 200 70 / 0.65);
+  color: var(--bistre);
+  box-shadow: 0 10px 24px -14px rgb(250 227 17 / 0.65);
 }
 
 .btn--primary:hover {
   background: var(--yellow-deep);
-  box-shadow: 0 14px 28px -14px rgb(249 200 70 / 0.8);
+  box-shadow: 0 14px 28px -14px rgb(250 227 17 / 0.8);
 }
 
 /* Lien-station : un nœud puis le libellé, le nœud s'allume au survol */
@@ -297,12 +357,12 @@ html {
 }
 
 .btn--dark {
-  background: var(--purple);
+  background: var(--bistre);
   color: var(--ivory);
 }
 
 .btn--dark:hover {
-  background: var(--purple-deep);
+  background: var(--bistre-deep);
 }
 
 /* ───────────── Lignes du plan : filets de quai ───────────── */

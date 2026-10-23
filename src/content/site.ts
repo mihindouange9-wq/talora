@@ -51,15 +51,16 @@ export const HERO = {
 
 export const CONCEPT = {
   title: "Une application, deux parcours : recruter un candidat, trouver un prestataire.",
-  lead: "TALORA réunit le recrutement professionnel et la recherche de prestataires dans une seule expérience. Chaque écran ci-dessous est une station du parcours imaginé.",
+  lead: "TALORA réunit le recrutement professionnel et la recherche de prestataires dans une seule expérience : les profils défilent en cartes, on garde ou on passe, et la mise en relation se fait si l'intérêt est partagé. Chaque écran ci-dessous est une station du parcours imaginé.",
   stations: [
-    { id: "home", label: "Accueil", caption: "Découvrir des professionnels près de soi" },
+    { id: "home", label: "Découvrir", caption: "Les profils défilent : on garde ou on passe" },
     { id: "search", label: "Recherche", caption: "Par métier, compétence ou localisation" },
-    { id: "results", label: "Résultats", caption: "Comparer des profils adaptés au besoin" },
+    { id: "results", label: "Sélection", caption: "Comparer les profils gardés" },
     { id: "profile", label: "Profil", caption: "Compétences, expériences, services, contact" },
-    { id: "candidates", label: "Candidats", caption: "La recherche côté entreprise" },
+    { id: "candidates", label: "Candidats", caption: "Côté entreprise, les candidats défilent" },
+    { id: "match", label: "Correspondance", caption: "L'intérêt est partagé : on entre en contact" },
   ],
-  note: "Maquettes de démonstration. L'application n'est pas commercialisée ; les noms, portraits et informations sont fictifs.",
+  note: "Maquettes de démonstration. L'application n'est pas commercialisée ; les noms et informations sont fictifs, les portraits sont des illustrations.",
 } as const;
 
 export const PROBLEM = {
@@ -102,7 +103,7 @@ export const HOW = {
     {
       n: "02",
       title: "Découvrir les profils pertinents",
-      text: "La plateforme présente des profils correspondant aux critères disponibles, avec une présentation commune des compétences.",
+      text: "Les profils correspondant aux critères défilent un à un, portrait, métier et compétences : on garde ceux qui conviennent, on passe les autres.",
       screen: "results",
     },
     {
@@ -123,7 +124,7 @@ export const AUDIENCES = {
       label: "Entreprises et recruteurs",
       message: "Trouvez les compétences dont votre activité a besoin.",
       text: "Décrire un poste ou une mission, filtrer les candidats par compétence, expérience et localisation, puis identifier des profils adaptés avant de prendre contact.",
-      points: ["Découverte de candidats", "Filtres de recherche", "Profils comparables", "Prise de contact directe"],
+      points: ["Candidats qui défilent, à retenir ou à passer", "Filtres de recherche", "Profils comparables", "Prise de contact directe"],
       screen: "candidates",
       screenCaption: "Vue de recherche de candidats, côté entreprise",
     },
@@ -132,7 +133,7 @@ export const AUDIENCES = {
       label: "Professionnels et prestataires",
       message: "Faites découvrir votre savoir-faire.",
       text: "Présenter ses compétences, ses expériences et ses services dans un profil structuré, visible par les entreprises et les particuliers qui cherchent précisément ce que vous proposez.",
-      points: ["Profil professionnel", "Compétences et expériences", "Services proposés", "Moyens de contact envisagés"],
+      points: ["Profil avec portrait, présenté en carte", "Compétences et expériences", "Services proposés", "Moyens de contact envisagés"],
       screen: "profile",
       screenCaption: "Profil professionnel détaillé, tel qu'un client le découvrirait",
     },
@@ -206,4 +207,4 @@ export const FOOTER = {
   demo: "Les écrans, profils et données présentés sont des illustrations fictives du concept.",
 } as const;
 
-export type ScreenId = "home" | "search" | "results" | "profile" | "candidates";
+export type ScreenId = "home" | "search" | "results" | "profile" | "candidates" | "match";

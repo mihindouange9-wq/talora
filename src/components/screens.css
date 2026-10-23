@@ -2,13 +2,13 @@
    Palette de la marque, composants réutilisables, hiérarchie crédible. Tailles en px :
    l'écran est mis à l'échelle par `zoom` sur le cadre. */
 .app {
-  --a-ink: #1b1224;
-  --a-soft: #5e5466;
-  --a-line: rgb(33 21 45 / 0.1);
+  --a-ink: #1f1406;
+  --a-soft: #6a5a3e;
+  --a-line: rgb(37 22 5 / 0.1);
   --a-surface: #ffffff;
-  --a-surface-2: #efebe3;
-  --a-purple: #21152d;
-  --a-yellow: #f9c846;
+  --a-surface-2: #f3ecd6;
+  --a-purple: #251605;
+  --a-yellow: #fae311;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -23,12 +23,12 @@
 }
 
 .app--dark {
-  --a-ink: #f7f5f0;
-  --a-soft: #cfc4da;
-  --a-line: rgb(247 245 240 / 0.12);
-  --a-surface: #2b1d3a;
-  --a-surface-2: #352644;
-  background: var(--purple);
+  --a-ink: #faf6e6;
+  --a-soft: #dccfae;
+  --a-line: rgb(250 246 230 / 0.12);
+  --a-surface: #3a2810;
+  --a-surface-2: #46301a;
+  background: var(--bistre);
 }
 
 .app strong {
@@ -104,13 +104,13 @@
   border-radius: 11px;
   background: var(--a-purple);
   color: var(--ivory);
-  --logo-bg: #21152d;
+  --logo-bg: #251605;
 }
 
 .app--dark .app-head__brand {
   background: var(--a-yellow);
   color: var(--a-purple);
-  --logo-bg: #f9c846;
+  --logo-bg: #fae311;
 }
 
 .app-head__title {
@@ -119,7 +119,8 @@
 }
 
 .app-head__title strong {
-  font-size: 15px;
+  white-space: nowrap;
+  font-size: 14px;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 24;
   letter-spacing: -0.02em;
@@ -210,7 +211,7 @@
 }
 
 .app-path.is-active small {
-  color: #cfc4da;
+  color: #dccfae;
 }
 
 .app-path svg {
@@ -339,17 +340,42 @@
   place-items: center;
   width: var(--size);
   height: var(--size);
+  overflow: hidden;
   border-radius: 50%;
-  background: hsl(var(--hue) 34% 88%);
-  color: hsl(var(--hue) 40% 28%);
-  font-size: calc(var(--size) * 0.34);
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, hsl(var(--hue) 38% 88%), hsl(var(--hue) 36% 78%));
+  box-shadow: inset 0 0 0 1px hsl(var(--hue) 30% 60% / 0.35);
+}
+
+.app-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateY(6%) scale(1.15);
 }
 
 .app--dark .app-avatar {
-  background: hsl(var(--hue) 30% 32%);
-  color: hsl(var(--hue) 50% 90%);
+  background: linear-gradient(180deg, hsl(var(--hue) 30% 40%), hsl(var(--hue) 32% 28%));
+}
+
+/* bascule compacte des deux parcours, dans l'en-tête de l'écran Découvrir */
+.app-paths--compact {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--a-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+}
+
+.app-paths--compact .app-path {
+  padding: 6px;
+  border-radius: 50%;
+  box-shadow: none;
+  color: var(--a-soft);
+}
+
+.app-paths--compact .app-path.is-active {
+  color: var(--a-yellow);
 }
 
 /* profil */
@@ -478,4 +504,122 @@
 
 .app-tab.is-active {
   color: var(--a-purple);
+}
+
+/* action centrale de la barre d'onglets */
+.app-tab--fab {
+  position: relative;
+}
+
+.app-fab {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-top: -26px;
+  border-radius: 50%;
+  background: var(--a-yellow);
+  color: var(--a-purple);
+  box-shadow:
+    0 10px 20px -10px rgb(37 22 5 / 0.6),
+    0 0 0 5px var(--a-surface);
+}
+
+/* bouton en ligne */
+.app-link {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--a-soft);
+}
+
+/* ───────────── Correspondance ───────────── */
+.app--match {
+  background:
+    radial-gradient(70% 50% at 50% 30%, rgb(250 227 17 / 0.16) 0%, transparent 70%),
+    linear-gradient(180deg, #3a2810 0%, #251605 70%, #1a0f03 100%);
+}
+
+.app-cta svg {
+  margin-right: 6px;
+}
+
+.match {
+  position: relative;
+  display: grid;
+  flex: 1;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.match__pair {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 54px;
+  margin-bottom: 14px;
+}
+
+.match__pair .app-avatar {
+  box-shadow:
+    0 0 0 4px var(--a-yellow),
+    0 18px 30px -16px rgb(0 0 0 / 0.7);
+}
+
+.match__face {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--a-yellow);
+  color: var(--a-purple);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  box-shadow: 0 18px 30px -16px rgb(0 0 0 / 0.7);
+}
+
+.match__rail {
+  position: absolute;
+  left: 78px;
+  right: 78px;
+  top: 50%;
+  height: 2px;
+  background: var(--a-yellow);
+}
+
+.match__node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--a-yellow);
+  background: #251605;
+  transform: translate(-50%, -50%);
+}
+
+.match__title {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.match__text {
+  font-size: 11px;
+  max-width: 22ch;
+}
+
+.match__chips {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
 }

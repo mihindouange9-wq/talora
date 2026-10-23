@@ -1,33 +1,44 @@
 /* ───────────── TALORA — jetons de design ─────────────
-   Palette officielle : Sunburst Yellow, Obsidian Purple, Ivory Mist, Warm Stone.
+   Palette : Aureolin #FAE311 et Bistre #251605 (palette chromatique du client, 23 oct. 2026),
+   déclinés en nuances : bistre profond, bistre levé, umber, taupe, lin, crème, sable, ambre.
    Le jaune n'est jamais un fond : il allume une ligne, un nœud, le bouton principal. */
 :root {
   /* Couleurs de marque */
-  --purple: #21152d;
-  --purple-deep: #170e20;
-  --purple-2: #2b1d3a; /* surfaces posées sur l'obsidienne */
-  --purple-3: #3a2a4c;
-  --yellow: #f9c846;
-  --yellow-deep: #e5b22e; /* survol du bouton principal */
-  --ivory: #f7f5f0;
-  --ivory-2: #efebe3; /* surfaces posées sur l'ivoire */
-  --ivory-3: #e6e0d5;
-  --stone: #b7ada0;
-  --stone-ink: #6b6256; /* texte secondaire sur ivoire, 5.4:1 */
-  --ink: #1b1224; /* texte sur ivoire */
-  --ink-soft: #3d3247;
+  --bistre: #251605;
+  --bistre-deep: #1a0f03;
+  --bistre-2: #3a2810; /* surfaces posées sur l'obsidienne */
+  --bistre-3: #4d3718;
+  --yellow: #fae311;
+  --yellow-deep: #e0ca0c; /* survol du bouton principal */
+  --ivory: #faf6e6;
+  --ivory-2: #f3ecd6; /* surfaces posées sur l'ivoire */
+  --ivory-3: #e9dfc3;
+  --stone: #b9a98b;
+  --stone-ink: #6a5a3e; /* texte secondaire sur ivoire, 5.4:1 */
 
-  /* Sur obsidienne : textes teintés depuis la pourpre, jamais gris */
-  --on-dark: #f7f5f0;
-  --on-dark-soft: #cfc4da; /* 9:1 */
-  --on-dark-muted: #a899b6; /* 5.6:1 */
+  /* Nuances : la palette déclinée en tons, pour que chaque feuille et chaque carte ait sa lumière */
+  --umber: #5a4120; /* bistre éclairci, surfaces levées sur le bistre */
+  --taupe: #9c8460; /* brun adouci, filets et icônes secondaires sur sombre */
+  --linen: #efe4c8; /* lin, surface teintée sur la crème */
+  --sand: #f3ebd6; /* ivoire chaud, feuille du modèle économique */
+  --cream: #fff9d6; /* jaune presque blanc, lueurs sur l'ivoire */
+  --amber: #fdf0a0; /* jaune pâle, tampons et accents doux */
+  --moss: #b89f00; /* geste « garder » dans l'application */
+  --brick: #8a6e4a; /* geste « passer » dans l'application */
+  --ink: #1f1406; /* texte sur ivoire */
+  --ink-soft: #3d2d14;
+
+  /* Sur bistre : textes teintés depuis le brun, jamais gris */
+  --on-dark: #faf6e6;
+  --on-dark-soft: #dccfae; /* 9:1 */
+  --on-dark-muted: #b5a47f; /* 5.6:1 */
 
   /* Filets et lignes du plan */
-  --line-dark: rgb(247 245 240 / 0.14);
-  --line-dark-strong: rgb(247 245 240 / 0.3);
-  --line-light: rgb(33 21 45 / 0.12);
-  --line-light-strong: rgb(33 21 45 / 0.26);
-  --rail-inactive-dark: #5a4a6b; /* ligne inactive sur obsidienne */
+  --line-dark: rgb(250 246 230 / 0.14);
+  --line-dark-strong: rgb(250 246 230 / 0.3);
+  --line-light: rgb(37 22 5 / 0.12);
+  --line-light-strong: rgb(37 22 5 / 0.26);
+  --rail-inactive-dark: #6b5431; /* ligne inactive sur bistre */
   --rail-inactive-light: var(--stone); /* ligne inactive sur ivoire */
 
   /* Typographie */

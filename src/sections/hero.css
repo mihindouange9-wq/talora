@@ -1,11 +1,11 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding-top: clamp(120px, 14vw, 170px);
+  padding-top: clamp(96px, 9vw, 120px);
   padding-bottom: clamp(72px, 9vw, 120px);
   background:
-    radial-gradient(60% 50% at 78% 42%, rgb(249 200 70 / 0.04) 0%, transparent 70%),
-    var(--purple);
+    radial-gradient(60% 50% at 78% 42%, rgb(250 227 17 / 0.04) 0%, transparent 70%),
+    var(--bistre);
 }
 
 .hero__grid {
@@ -61,6 +61,111 @@
   max-width: 44ch;
 }
 
+/* ───────────── Le nom, sur toute la largeur ───────────── */
+.hero__wordmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin: 0 auto clamp(24px, 4vw, 56px);
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96;
+  font-weight: 780;
+  font-size: clamp(64px, 16.4vw, 236px);
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+}
+
+.hero__wordmark > span {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0.02em 0.1em;
+  margin: -0.04em -0.02em -0.1em;
+}
+
+.hero__wordmark-o {
+  display: flex;
+  align-items: center;
+  height: 0.86em;
+}
+
+.hero__wordmark-o .logo__o {
+  width: 0.84em;
+  height: 0.84em;
+  margin: 0;
+  transform: translateY(0.02em);
+}
+
+/* bouton film : un nœud sombre et un libellé */
+.btn--film {
+  gap: 8px;
+  padding-inline: 16px 20px;
+  color: var(--on-dark-soft);
+}
+
+.btn--film:hover {
+  color: var(--ivory);
+}
+
+.btn--film svg {
+  color: var(--yellow);
+}
+
+/* l'heure de Libreville, dans la note */
+.hero__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 14px;
+  color: var(--on-dark-soft);
+  white-space: nowrap;
+}
+
+.hero__time-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 0 4px rgb(250 227 17 / 0.18);
+}
+
+/* badge circulaire : la mention tourne autour du symbole */
+.hero__orbit {
+  position: absolute;
+  left: -6%;
+  bottom: 24px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 124px;
+  height: 124px;
+  color: var(--ivory);
+}
+
+.hero__orbit svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: hero-orbit 26s linear infinite;
+}
+
+.hero__orbit-text {
+  font-family: var(--font-text);
+  font-size: 11.6px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  fill: var(--on-dark-soft);
+}
+
+@keyframes hero-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ───────────── Les téléphones ───────────── */
 .hero__stage {
   position: relative;
@@ -91,7 +196,7 @@
 
 .hero__phone--back .phone {
   transform: rotateY(-14deg) rotate(5deg);
-  filter: drop-shadow(0 30px 40px rgb(23 14 32 / 0.5)) brightness(0.86);
+  filter: drop-shadow(0 30px 40px rgb(26 15 3 / 0.5)) brightness(0.86);
 }
 
 /* ───────────── Les lignes du plan ───────────── */
@@ -177,8 +282,19 @@
     transform: none;
   }
 
-  .hero__phone--back {
+  .hero__phone--back,
+  .hero__orbit {
     display: none;
+  }
+
+  .hero__wordmark {
+    font-size: clamp(56px, 20vw, 120px);
+    margin-bottom: 32px;
+  }
+
+  .hero__time {
+    display: flex;
+    margin: 8px 0 0;
   }
 }
 

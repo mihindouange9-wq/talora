@@ -1,6 +1,6 @@
 .concept {
   overflow: hidden;
-  background: var(--purple-deep);
+  background: linear-gradient(180deg, var(--bistre-deep) 0%, var(--bistre) 60%, var(--umber) 100%);
 }
 
 .concept__head {
@@ -11,21 +11,70 @@
   margin-bottom: clamp(48px, 6vw, 80px);
 }
 
-/* ───────────── La ligne et ses cinq stations ───────────── */
+/* ───────────── Le bandeau : Besoin + Compétence = Rencontre ───────────── */
+.strip {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: clamp(56px, 7vw, 96px);
+  padding-bottom: 22px;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 32;
+  font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.strip__word {
+  color: var(--on-dark-muted);
+}
+
+.strip__word--last {
+  color: var(--yellow) !important;
+}
+
+.strip__sign {
+  color: var(--yellow);
+  font-weight: 500;
+}
+
+.strip__rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--line-dark);
+  overflow: hidden;
+}
+
+.strip__fill {
+  display: block;
+  height: 100%;
+  background: var(--yellow);
+  transform-origin: left center;
+}
+
+/* ───────────── La ligne et ses six stations ───────────── */
 .concept__line {
   position: relative;
   display: flex;
   justify-content: center;
-  gap: clamp(16px, 2.2vw, 36px);
-  width: min(100% - 2 * var(--gutter), 1240px);
+  gap: clamp(14px, 1.8vw, 28px);
+  width: min(100% - 2 * var(--gutter), 1280px);
   margin-inline: auto;
+  perspective: 1400px;
 }
 
 .concept__rail {
   position: absolute;
   left: 2%;
   right: 2%;
-  top: calc(384px + 14px + 7px); /* au centre des nœuds, sous les téléphones (620 × 0.62) */
+  top: calc(347px + 14px + 7px); /* au centre des nœuds, sous les téléphones (620 × 0.56) */
   height: 2px;
   background: var(--yellow);
   opacity: 0.9;
@@ -36,7 +85,7 @@
   display: grid;
   justify-items: center;
   gap: 14px;
-  width: 186px;
+  width: 172px;
 }
 
 .concept__phone {
@@ -51,12 +100,12 @@
   height: 14px;
   border-radius: 50%;
   border: 3px solid var(--yellow);
-  background: var(--purple-deep);
+  background: var(--bistre);
 }
 
 .concept__label {
   display: grid;
-  gap: 2px;
+  gap: 4px;
   text-align: center;
 }
 
@@ -81,7 +130,7 @@
 }
 
 /* ───────────── Responsive : bande défilante par stations ───────────── */
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .concept__head {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -97,12 +146,13 @@
     scrollbar-width: thin;
     scrollbar-color: var(--yellow) transparent;
     padding-bottom: 12px;
+    perspective: none;
   }
 
   .concept__rail {
     left: var(--gutter);
     right: auto;
-    width: calc(5 * 186px + 4 * clamp(16px, 2.2vw, 36px));
+    width: calc(6 * 172px + 5 * clamp(14px, 1.8vw, 28px));
   }
 
   .concept__station {

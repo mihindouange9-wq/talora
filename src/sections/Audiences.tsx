@@ -73,7 +73,9 @@ export default function Audiences() {
             </ul>
           </div>
           <figure className="audiences__figure">
-            <Phone screens={screens} active={active} scale={0.78} label={tab.screenCaption} />
+            <div className="audiences__flip" key={tab.id}>
+              <Phone screens={screens} active={active} scale={0.78} label={tab.screenCaption} />
+            </div>
             <figcaption className="muted">{tab.screenCaption}</figcaption>
           </figure>
         </div>

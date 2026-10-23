@@ -2,17 +2,17 @@
   --logo-size: 28px;
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--logo-size) * 0.36);
+  gap: calc(var(--logo-size) * 0.38);
   line-height: 1;
 }
 
 .logo--dark {
   color: var(--ivory);
-  --logo-bg: var(--purple);
+  --logo-bg: var(--bistre);
 }
 
 .logo--light {
-  color: var(--purple);
+  color: var(--bistre);
   --logo-bg: var(--ivory);
 }
 
@@ -21,10 +21,20 @@
 }
 
 .logo__word {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 32;
-  font-weight: 700;
-  font-size: calc(var(--logo-size) * 0.78);
-  letter-spacing: 0.04em;
+  font-weight: 760;
+  font-size: calc(var(--logo-size) * 0.86);
+  letter-spacing: 0.035em;
+  transform: translateY(0.02em);
+}
+
+/* le O : un nœud de la hauteur des capitales, légèrement espacé des lettres */
+.logo__o {
+  width: 0.86em;
+  height: 0.86em;
+  margin: 0 0.035em 0 0.06em;
   transform: translateY(0.02em);
 }

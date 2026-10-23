@@ -1,5 +1,5 @@
 .model {
-  background: var(--ivory-2);
+  background: var(--sand);
 }
 
 .model__grid {
@@ -29,7 +29,7 @@
 /* Les pistes : un index tabulaire, le texte, un statut à droite, comme une fiche d'itinéraire */
 .model__tracks {
   display: grid;
-  border-top: 2px solid var(--purple);
+  border-top: 2px solid var(--bistre);
 }
 
 .model__track {
@@ -81,7 +81,7 @@
 }
 
 .model__status--hyp {
-  background: var(--purple);
+  background: var(--bistre);
   color: var(--ivory);
 }
 
@@ -90,7 +90,7 @@
 }
 
 .model__status--study {
-  color: var(--purple);
+  color: var(--bistre);
   box-shadow: inset 0 0 0 1.5px var(--line-light-strong);
 }
 

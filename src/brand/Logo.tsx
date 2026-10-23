@@ -2,13 +2,12 @@ import type { CSSProperties } from "react";
 import "./logo.css";
 
 /* ───────────── Logo TALORA ─────────────
-   Le symbole est une correspondance : deux lignes se rejoignent sur un nœud. Lu de loin, c'est un T ;
-   lu de près, c'est une station où la compétence rencontre le besoin. Le nœud porte la seule touche de jaune.
+   Le symbole est une correspondance : une ligne arrive, rencontre un nœud, et repart en montant à 45°.
+   Dans le mot, le O de TALORA est ce nœud. Le point jaune est la seule touche de couleur.
    Fonctionne seul (icône d'application, favicon) ou avec le nom, sur fond sombre comme sur fond clair. */
 
 type MarkProps = {
   size?: number;
-  /** Couleur du tracé ; le nœud reste jaune. */
   className?: string;
   title?: string;
 };
@@ -25,13 +24,23 @@ export function LogoMark({ size = 28, className, title }: MarkProps) {
       aria-label={title}
       fill="none"
     >
-      {/* la barre : la compétence qui circule */}
-      <path d="M7 13H41" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-      {/* la descente : le besoin qui arrive */}
-      <path d="M24 13V42" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+      {/* la ligne qui arrive */}
+      <path d="M3 31H13" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+      {/* la ligne qui repart en montant : l'opportunité */}
+      <path d="M30 31L45 16" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
       {/* la correspondance */}
-      <circle cx="24" cy="13" r="7.5" fill="var(--logo-bg, #21152d)" stroke="currentColor" strokeWidth="3.5" />
-      <circle cx="24" cy="13" r="2.6" fill="#f9c846" />
+      <circle cx="22" cy="31" r="8" fill="var(--logo-bg, #251605)" stroke="currentColor" strokeWidth="4" />
+      <circle cx="22" cy="31" r="3" fill="#fae311" />
+    </svg>
+  );
+}
+
+/** Le O de TALORA : un nœud de correspondance à la hauteur des capitales. */
+export function NodeO() {
+  return (
+    <svg className="logo__o" viewBox="0 0 40 40" aria-hidden="true" fill="none">
+      <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="6.5" />
+      <circle cx="20" cy="20" r="4.6" fill="#fae311" />
     </svg>
   );
 }
@@ -39,21 +48,24 @@ export function LogoMark({ size = 28, className, title }: MarkProps) {
 type LogoProps = {
   /** Hauteur du symbole en pixels ; le mot suit. */
   size?: number;
-  /** `dark` sur fond obsidienne (tracé ivoire), `light` sur fond ivoire (tracé pourpre). */
+  /** `dark` sur fond bistre (tracé crème), `light` sur fond crème (tracé bistre). */
   tone?: "dark" | "light";
   withWord?: boolean;
+  withMark?: boolean;
   className?: string;
   title?: string;
 };
 
-export function Logo({ size = 28, tone = "dark", withWord = true, className, title = "TALORA" }: LogoProps) {
+export function Logo({ size = 28, tone = "dark", withWord = true, withMark = true, className, title = "TALORA" }: LogoProps) {
   const style = { "--logo-size": `${size}px` } as CSSProperties;
   return (
     <span className={`logo logo--${tone} ${className ?? ""}`} style={style} role="img" aria-label={title}>
-      <LogoMark size={size} className="logo__mark" />
+      {withMark && <LogoMark size={size} className="logo__mark" />}
       {withWord && (
         <span className="logo__word" aria-hidden="true">
-          TALORA
+          TAL
+          <NodeO />
+          RA
         </span>
       )}
     </span>

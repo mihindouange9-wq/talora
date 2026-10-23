@@ -1,8 +1,8 @@
 .gabon {
   overflow: hidden;
   background:
-    radial-gradient(50% 40% at 18% 70%, rgb(249 200 70 / 0.07) 0%, transparent 70%),
-    var(--purple);
+    radial-gradient(50% 40% at 18% 70%, rgb(250 227 17 / 0.07) 0%, transparent 70%),
+    linear-gradient(180deg, var(--umber) 0%, var(--bistre) 40%, var(--bistre-deep) 100%);
 }
 
 .gabon__title {
@@ -62,14 +62,14 @@
   height: 22px;
   border-radius: 50%;
   border: 3px solid var(--yellow);
-  background: var(--purple);
+  background: var(--bistre);
   transform: translateY(-1px);
 }
 
 /* première station : le nœud plein et un halo ; dernière : un nœud creux sur la ligne pointillée */
 .gabon__stop--1 .gabon__node {
   background: var(--yellow);
-  box-shadow: 0 0 0 8px rgb(249 200 70 / 0.16);
+  box-shadow: 0 0 0 8px rgb(250 227 17 / 0.16);
 }
 
 .gabon__stop--3 .gabon__node {

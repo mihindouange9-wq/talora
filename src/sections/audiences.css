@@ -1,3 +1,7 @@
+.audiences {
+  background: linear-gradient(180deg, var(--bistre) 0%, var(--umber) 100%);
+}
+
 .audiences__head {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -139,6 +143,20 @@
   justify-items: center;
   gap: 18px;
   margin: 0;
+  perspective: 1400px;
+}
+
+/* le téléphone pivote d'un quart de tour quand le public change */
+.audiences__flip {
+  animation: audiences-flip 720ms var(--ease-out-expo);
+  transform-origin: center;
+}
+
+@keyframes audiences-flip {
+  from {
+    transform: rotateY(-70deg) translateX(-40px);
+    opacity: 0;
+  }
 }
 
 .audiences__figure figcaption {
