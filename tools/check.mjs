@@ -3,7 +3,9 @@
 // node tools/check.mjs [url]
 import puppeteer from "puppeteer-core";
 
-const url = process.argv[2] ?? "http://127.0.0.1:5196";
+const base = process.argv[2] ?? "http://127.0.0.1:5196";
+// le film d'introduction a son propre test : ici on ouvre le site directement
+const url = base + (base.includes("?") ? "&" : "?") + "nointro";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME ?? "C:/Program Files/Google/Chrome/Application/chrome.exe", headless: "new" });
 const results = [];

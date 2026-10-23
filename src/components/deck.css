@@ -75,7 +75,7 @@
   padding: 4px 8px;
   border-radius: 999px;
   background: rgb(255 255 255 / 0.78);
-  color: var(--a-purple);
+  color: var(--a-bistre);
   font-size: 9.5px;
   font-weight: 650;
 }
@@ -180,13 +180,13 @@
 
 .deck__stamp--yes {
   left: 12px;
-  color: #b89f00;
+  color: var(--moss);
   transform: rotate(-12deg);
 }
 
 .deck__stamp--no {
   right: 12px;
-  color: #8a6e4a;
+  color: var(--brick);
   transform: rotate(12deg);
 }
 
@@ -221,11 +221,11 @@
 }
 
 .deck__btn--no {
-  color: #8a6e4a;
+  color: var(--brick);
 }
 
 .deck__btn--yes {
-  color: #b89f00;
+  color: var(--moss);
 }
 
 .deck__btn.is-on {
@@ -234,11 +234,11 @@
 }
 
 .deck__btn--no.is-on {
-  background: #8a6e4a;
+  background: var(--brick);
 }
 
 .deck__btn--yes.is-on {
-  background: #b89f00;
+  background: var(--moss);
 }
 
 .deck__hint {
