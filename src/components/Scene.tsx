@@ -30,15 +30,13 @@ export default function Scene() {
     const qa = (s: string) => Array.from(scope.querySelectorAll<HTMLElement>(s));
     const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out", duration: 1 } });
 
-    /* ---- plan 1 : le monogramme se construit, la signature ---- */
-    // la barre arrive de la gauche, la tige descend, le nœud se perce et le point s'allume
-    tl.from(".scene__mark .mark-bar", { scaleX: 0, transformOrigin: "left center", duration: 0.7, ease: "power4.out" }, 0.25)
-      .from(".scene__mark .mark-stem", { scaleY: 0, transformOrigin: "center top", duration: 0.6, ease: "power4.out" }, 0.75)
-      .from(".scene__mark .mark-hole", { scale: 0, transformOrigin: "center", duration: 0.45, ease: "back.out(2)" }, 1.3)
-      .from(".scene__mark .mark-dot", { scale: 0, transformOrigin: "center", duration: 0.5, ease: "back.out(3)" }, 1.55)
-      .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 2.0)
-      .from(".scene__p1 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.4)
-      .to(".scene__p1", { autoAlpha: 0, y: -40, duration: 0.6, ease: "power2.in" }, 3.7);
+    /* ---- plan 1 : le monogramme, suspendu et immobile, puis la signature ---- */
+    // le T apparaît en fondu sans bouger (demande du client), le point jaune s'allume ensuite
+    tl.from(".scene__mark", { autoAlpha: 0, duration: 1.0, ease: "power2.out" }, 0.3)
+      .from(".scene__mark .mark-dot", { autoAlpha: 0, duration: 0.5 }, 1.3)
+      .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 1.8)
+      .from(".scene__p1 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.3)
+      .to(".scene__p1", { autoAlpha: 0, duration: 0.6, ease: "power2.in" }, 3.7);
 
     /* ---- plan 2 : décrire le besoin ---- */
     tl.from(".scene__p2", { autoAlpha: 0, duration: 0.01 }, 3.9)
@@ -92,7 +90,7 @@ export default function Scene() {
 
     /* ---- plan 6 : la signature ---- */
     tl.from(".scene__p6", { autoAlpha: 0, duration: 0.01 }, 25.0)
-      .from(".scene__p6 .scene__logo", { scale: 0.7, autoAlpha: 0, duration: 1.1, ease: "power4.out" }, 25.1)
+      .from(".scene__p6 .scene__logo", { autoAlpha: 0, duration: 1.1, ease: "power2.out" }, 25.1)
       .from(".scene__p6 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 26.0)
       .from(".scene__p6 .scene__rails line", { attr: { x2: 0 }, duration: 1.4, ease: "power3.out", stagger: 0.2 }, 25.6)
       // la signature du partenaire qui a conçu le site ferme le film
