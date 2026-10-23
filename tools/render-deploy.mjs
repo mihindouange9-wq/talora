@@ -16,7 +16,7 @@ if (!KEY) {
 
 const REPO = "https://github.com/mihindouange9-wq/talora";
 const NAME = "talora";
-const URL_FINALE = "https://talora.onrender.com";
+const URL_FINALE = "https://talora-3r3e.onrender.com"; // attribuée par Render le 23 oct. 2026 (« talora » seul était pris)
 
 const header = (path, name, value) => ({ path, name, value });
 const SERVICE = {
@@ -87,6 +87,10 @@ async function main() {
 
   if (service) {
     console.log(`Service existant : ${service.id} → ${service.serviceDetails?.url ?? ""}`);
+    // les variables d'environnement suivent render.yaml ; VITE_SITE_URL prend l'adresse réelle du service
+    const vars = SERVICE.envVars.map((v) => (v.key === "VITE_SITE_URL" ? { ...v, value: service.serviceDetails?.url ?? URL_FINALE } : v));
+    await api("PUT", `/services/${service.id}/env-vars`, vars);
+    console.log(`Variables mises à jour : ${vars.map((v) => v.key).join(", ")}`);
     const deploy = await api("POST", `/services/${service.id}/deploys`, { clearCache: "do_not_clear" });
     deployId = deploy.id;
     console.log(`Nouveau déploiement demandé : ${deployId}`);

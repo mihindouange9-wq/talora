@@ -82,8 +82,12 @@ Options : `--debit 10000` (kb/s du 1080p), `--debit-mobile 4500` (kb/s du 720p),
 
 ## Vérifications faites
 
-`npm run verify` : polices chargées, un seul h1, hiérarchie des titres, textes alternatifs, libellés, nœud du hero sur le champ de recherche, sélecteur de publics (clic et flèches), ancres avec focus, destinations des boutons, aucune erreur console, aucun débordement horizontal à 1600, 1280, 768, 390 et 320 px, menu mobile (ouverture, Échap, fermeture au choix), cibles tactiles ≥ 40 px, mouvement réduit sans contenu masqué, focus visible au clavier.
+`npm run verify` : polices chargées, un seul h1, hiérarchie des titres, textes alternatifs, libellés, nœud du hero sur le champ de recherche, sélecteur de publics (clic et flèches), ancres avec focus, destinations des boutons, aucune erreur console, aucun débordement horizontal à 1600, 1280, 768, 390 et 320 px, menu mobile (ouverture, Échap, fermeture au choix), cibles tactiles ≥ 40 px, mouvement réduit sans contenu masqué, focus visible au clavier (34 contrôles). Parcours du film vérifié à part : encodage 1080p choisi sur ordinateur et 720p sur téléphone, lecture automatique, sous-titres, Passer, Revoir avec le son, Échap, rejoué au rechargement, boutons de 44 px dans l'écran.
+
+Lighthouse du 23 oct. 2026 (page d'accueil avec le film) : ordinateur 94 / 100 / 100 / 100, mobile 65 / 100 / 100 / 100 (performance, accessibilité, bonnes pratiques, SEO). Le score mobile est limité par le poids du film (8,5 Mo en 720p) et des scripts d'animation.
 
 ## Déploiement
 
-Non effectué. `render.yaml` décrit un site statique Render ; au moment de déployer, renseigner `VITE_SITE_URL` et `VITE_CONTACT_EMAIL` dans les variables du service. Le film pèse une dizaine de Mo : prévoir un hébergement qui sert les vidéos par plages d'octets (Render le fait).
+En ligne sur Render depuis le 23 oct. 2026 : https://talora-3r3e.onrender.com (site statique `srv-dbdh7kivcj2c73fovj3g`, créé par l'API avec `tools/render-deploy.mjs` depuis le dépôt public https://github.com/mihindouange9-wq/talora). Le nom « talora » seul était déjà pris sur Render, d'où le suffixe.
+
+Mettre à jour le site : `git push`, puis `RENDER_API_KEY=rnd_xxx node tools/render-deploy.mjs` (l'outil remet les variables d'environnement à jour et demande un nouveau déploiement ; un push seul ne redéploie pas tant que l'application GitHub de Render n'est pas installée). La clé API se crée dans Render → Account Settings → API Keys et ne se stocke nulle part. `VITE_CONTACT_EMAIL` reste à renseigner dans les variables du service (ou dans `render.yaml` et l'outil) dès que l'adresse est connue.

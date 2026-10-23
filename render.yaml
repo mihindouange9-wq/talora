@@ -1,6 +1,6 @@
 # Blueprint Render : site statique construit par Vite, servi par le CDN de Render.
-# PRÉPARÉ, NON DÉPLOYÉ : la mise en ligne reste une décision du client (Render → New → Blueprint → ce dépôt).
-# Avant le déploiement : renseigner VITE_SITE_URL (adresse définitive) et VITE_CONTACT_EMAIL (voir README).
+# EN LIGNE depuis le 23 oct. 2026 : service créé par l'API (tools/render-deploy.mjs), https://talora-3r3e.onrender.com.
+# Un push ne redéploie pas forcément : relancer tools/render-deploy.mjs. VITE_CONTACT_EMAIL reste à renseigner (voir README).
 services:
   - type: web
     name: talora
@@ -12,7 +12,7 @@ services:
       - key: NODE_VERSION
         value: 22.12.0
       - key: VITE_SITE_URL
-        value: https://talora.onrender.com
+        value: https://talora-3r3e.onrender.com
       # Adresse de contact affichée par les boutons « Discuter du projet » et « Devenir partenaire ».
       # Laisser vide tant qu'elle n'est pas fournie : le site l'indique alors honnêtement.
       - key: VITE_CONTACT_EMAIL
