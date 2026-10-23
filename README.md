@@ -83,9 +83,9 @@ Options : `--debit 10000` (kb/s du 1080p), `--debit-mobile 4500` (kb/s du 720p),
 
 ## Vérifications faites
 
-`npm run verify` : polices chargées, un seul h1, hiérarchie des titres, textes alternatifs, libellés, nœud du hero sur le champ de recherche, sélecteur de publics (clic et flèches), ancres avec focus, destinations des boutons, aucune erreur console, aucun débordement horizontal à 1600, 1280, 768, 390 et 320 px, menu mobile (ouverture, Échap, fermeture au choix), cibles tactiles ≥ 40 px, mouvement réduit sans contenu masqué, focus visible au clavier (34 contrôles). Parcours du film vérifié à part : encodage 1080p choisi sur ordinateur et 720p sur téléphone, lecture automatique, sous-titres, Passer, Revoir avec le son, Échap, rejoué au rechargement, boutons de 44 px dans l'écran.
+`npm run verify` : polices chargées, un seul h1, hiérarchie des titres, textes alternatifs, libellés, nœud du hero sur le champ de recherche, sélecteur de publics (clic et flèches), ancres avec focus, destinations des boutons, aucune erreur console, aucun débordement horizontal à 1600, 1280, 768, 390 et 320 px, menu mobile (ouverture, Échap, fermeture au choix), cibles tactiles ≥ 40 px, mouvement réduit sans contenu masqué, focus visible au clavier, nœud du hero solidaire du téléphone au défilement (35 contrôles). Parcours du film vérifié à part, en local et sur le site en ligne : encodage 1080p choisi sur ordinateur et film vertical sur téléphone, lecture automatique, sous-titres, Passer, Revoir avec le son, Échap, rejoué au rechargement, boutons de 44 px dans l'écran.
 
-Lighthouse du 23 oct. 2026 (page d'accueil avec le film) : ordinateur 94 / 100 / 100 / 100, mobile 65 / 100 / 100 / 100 (performance, accessibilité, bonnes pratiques, SEO). Le score mobile est limité par le poids du film (8,5 Mo en 720p) et des scripts d'animation.
+Lighthouse du 23 oct. 2026 (page d'accueil avec le film) : ordinateur 93 / 100 / 100 / 100, mobile 64 / 100 / 100 / 100 (performance, accessibilité, bonnes pratiques, SEO). Le score mobile est limité par le poids du film (11 Mo en vertical) et des scripts d'animation ; l'audit visuel section par section (1440 et 390 px) et le détecteur de design n'ont laissé aucun défaut connu.
 
 ## Déploiement
 
