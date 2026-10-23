@@ -30,8 +30,9 @@ function layoutLines(scope: HTMLElement) {
   const dx = wrapper ? Number(gsap.getProperty(wrapper, "x")) || 0 : 0;
   const dy = wrapper ? Number(gsap.getProperty(wrapper, "y")) || 0 : 0;
   const narrow = window.matchMedia("(max-width: 900px)").matches;
-  // sur téléphone, le nœud se pose à l'extrémité droite du champ pour laisser le texte saisi lisible
-  const nx = (narrow ? f.right - 22 : f.left + f.width / 2) - g.left - dx;
+  // le nœud se pose sur une extrémité du champ, jamais sur le métier saisi : à droite sur téléphone
+  // (la ligne arrive par le haut), à gauche sur ordinateur (la ligne entre par le bord du téléphone)
+  const nx = (narrow ? f.right - 22 : f.left + 20) - g.left - dx;
   const ny = f.top + f.height / 2 - g.top - dy;
   svgs.forEach((el) => el.setAttribute("viewBox", `0 0 ${g.width} ${g.height}`));
   if (narrow) {
