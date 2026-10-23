@@ -79,11 +79,15 @@ export default function Intro() {
     if (state !== "playing") return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && finish();
     window.addEventListener("keydown", onKey);
-    // si la lecture automatique est refusée ou le fichier absent, on ne bloque pas le site
+    // si la lecture automatique est refusée ou le fichier absent, on ne bloque pas le site ; un film qui
+    // se charge lentement attend simplement, l'affiche restant visible
+    video.current?.play().catch((err: unknown) => {
+      if (err instanceof DOMException && err.name === "NotAllowedError") finish();
+    });
     const guard = window.setTimeout(() => {
       const v = video.current;
-      if (!v || v.readyState < 2 || v.paused) finish();
-    }, 4000);
+      if (!v || v.error || v.readyState === 0) finish();
+    }, 12000);
     return () => {
       window.removeEventListener("keydown", onKey);
       window.clearTimeout(guard);
