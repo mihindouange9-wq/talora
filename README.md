@@ -1,6 +1,6 @@
 # TALORA — site de présentation
 
-Site vitrine d'une seule page qui présente le concept de TALORA, future plateforme de mise en relation professionnelle (recrutement et prestataires) dont le lancement est envisagé au Gabon, à des partenaires et investisseurs. Le site ne contient pas l'application : les écrans visibles sont des maquettes HTML/CSS de démonstration, avec des données fictives et des portraits illustrés.
+Site vitrine d'une seule page qui présente le concept de TALORA, future plateforme de mise en relation professionnelle (recrutement et prestataires) dont le lancement est envisagé au Gabon, à des partenaires et investisseurs. Le site ne contient pas l'application : les écrans visibles sont des maquettes HTML/CSS de démonstration, avec des données fictives et des portraits de banque d'images (Pexels, licence libre, crédits dans `docs/credits-portraits.md`).
 
 ## Lancer
 
@@ -19,8 +19,8 @@ Node 22 (fichier `.node-version`). Pile : Vite 6, React 19, TypeScript, CSS nati
 
 ## Ce que le site contient
 
-- **Film d'introduction (30 s)** en tête de page : `public/intro/talora-intro.mp4` (1280 × 720, H.264 + AAC), joué une fois par session, sans son par défaut (le navigateur l'exige), avec un bouton pour activer le son et un bouton « Passer ». Quand il se termine, le calque se retire en diagonale et le site apparaît. Le bouton « Revoir le film » du hero le rejoue avec le son. Le film est généré depuis le site lui-même (voir plus bas).
-- **Hero** : le nom TALORA sur toute la largeur (le O est le nœud de rencontre), le titre, deux iPhone en profondeur reliés par les lignes du plan, un badge circulaire tournant, l'heure de Libreville en direct.
+- **Film d'introduction (30 s)** en tête de page : `public/intro/talora-intro-1080.mp4` (1920 × 1080) sur grand écran, `talora-intro-720.mp4` (1280 × 720) sur téléphone ou connexion économe, H.264 + AAC, joué à chaque ouverture et à chaque rafraîchissement (demande du client), sans son par défaut (le navigateur l'exige), avec un bouton pour activer le son et un bouton « Passer ». Quand il se termine, le calque se retire en diagonale et le site apparaît. Le bouton « Revoir le film » du hero le rejoue avec le son. Le film est généré depuis le site lui-même (voir plus bas).
+- **Hero** : le nom TALORA sur toute la largeur (le O est le nœud de rencontre), le titre, deux iPhone en profondeur reliés par les lignes du plan, l'heure de Libreville en direct.
 - **Six écrans d'application** dans des iPhone dessinés en CSS : découverte (les profils défilent en cartes, on garde ou on passe), recherche, sélection, profil détaillé, candidats côté entreprise, correspondance.
 - **Douze sections** dans l'ordre du brief, avec des « sauts de page » : chaque section reste collée pendant que la suivante la recouvre avec un bord coupé à 45°, la section recouverte recule et s'assombrit.
 - **Effets** : défilement à inertie, titres révélés mot à mot, lignes du plan qui se tracent, stations qui se dressent au défilement, bandeau « Besoin + Compétence = Rencontre » à barre de progression, inclinaison des téléphones au pointeur, bascule 3D des écrans selon le public. Tout respecte `prefers-reduced-motion` (le film est alors sauté et le contenu est affiché sans animation).
@@ -47,10 +47,11 @@ Exemple : `VITE_CONTACT_EMAIL=adresse@domaine VITE_SITE_URL=https://www.domaine 
 ```
 index.html              métadonnées, Open Graph, icônes
 public/                 favicon.svg, favicon-32.png, apple-touch-icon.png, og-image.png (tools/build-brand.mjs),
-                        avatars/*.svg (tools/build-avatars.mjs), intro/ (film et affiche, tools/video-render.mjs)
+                        portraits/*.webp (tools/fetch-portraits.mjs), partenaires/ (logo MÉTHODE AURA),
+                        intro/ (films 1080p et 720p, affiche, sous-titres ; tools/video-render.mjs)
 src/content/site.ts     tous les textes publics (français), navigation, contact ; prêt pour un en.ts de même forme
 src/content/demo.ts     données fictives des maquettes (profils, candidats, lieux, nuances)
-src/brand/Logo.tsx      logo SVG : symbole (une ligne arrive, un nœud, une ligne repart en montant) + mot avec le O-nœud
+src/brand/Logo.tsx      logo SVG : monogramme T·L·R (trois lettres sur une tige, croisées en un nœud) + mot avec le O-nœud
 src/components/Phone    cadre iPhone en CSS, écrans empilés, montés à l'approche de l'écran
 src/components/Screens  les six écrans de l'application
 src/components/Deck     le jeu de cartes des profils (garder / passer), défilement automatique en démonstration
@@ -59,25 +60,25 @@ src/components/Scene    la scène du film (1920 × 1080, ligne de temps GSAP pil
 src/sections/           une section = un composant + sa feuille de style
 src/lib/motion.ts       Lenis, révélations, tracé de lignes, empilement des sections, mouvement réduit
 src/styles/             tokens.css (palette, typographie, rythme) et global.css (base, boutons, focus, sauts de page)
-tools/                  build-brand.mjs, build-avatars.mjs, video-render.mjs, shoot.mjs, fullpage.mjs, check.mjs
+tools/                  build-brand.mjs, fetch-portraits.mjs, video-render.mjs, shoot.mjs, fullpage.mjs, check.mjs
 video/                  encodeur.html (WebCodecs), mp4-muxer.js, apercu.jpg (planche-contact)
-docs/                   palette-chromatique.jpg (référence du client)
-livrables/              TALORA-intro-30s.mp4 (hors Git)
+docs/                   palette-chromatique.jpg (référence du client), credits-portraits.md
+livrables/              TALORA-intro-30s-1080p.mp4 et -720p.mp4 (hors Git)
 render.yaml             blueprint Render prêt, non déployé
 PRODUCT.md, DESIGN.md   contexte produit et système de design
 ```
 
-Portraits des profils : illustrations générées avec DiceBear (style « notionists », domaine public), aucun visage réel.
+Portraits des profils : photographies de la banque d'images Pexels (licence Pexels : usage libre, attribution non exigée), téléchargées par `node tools/fetch-portraits.mjs` ; les personnes sont des modèles, les noms et métiers sont inventés. Crédits dans `docs/credits-portraits.md`. Le pied de page et la fin du film signalent la collaboration avec MÉTHODE AURA (logo dans `public/partenaires/`).
 
 ## Régénérer le film
 
 ```
 npm run build && npm run preview          # la scène est servie sur /?scene
 node tools/video-render.mjs --apercu      # planche-contact video/apercu.jpg (24 images clés)
-node tools/video-render.mjs               # capture 900 images puis encode : public/intro/ + livrables/
+node tools/video-render.mjs               # capture 900 images PNG puis encode 1080p et 720p : public/intro/ + livrables/
 ```
 
-Options : `--echelle 1` pour un 1920 × 1080, `--debit 8000` pour une version client en haute qualité. La bande-son est synthétisée dans `video/encodeur.html`.
+Options : `--debit 10000` (kb/s du 1080p), `--debit-mobile 4500` (kb/s du 720p), `--sans-mobile` pour ne produire que le 1080p, `--ips 30`. La capture est sans perte (PNG) et l'encodage H.264 High passe par l'encodeur matériel de Chrome. La bande-son est synthétisée dans `video/encodeur.html`, calée sur les plans du film.
 
 ## Vérifications faites
 

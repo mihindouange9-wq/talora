@@ -6,7 +6,7 @@
 /* Encode les images capturées (frames/iNNNNN.jpg) en MP4 H.264 + AAC par WebCodecs. */
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-/* Bande sonore sobre : nappe chaude, ponctuations discrètes sur les vérifications, respiration finale. */
+/* Bande sonore sobre : nappe chaude, ponctuations discrètes calées sur les plans du film, respiration finale. */
 async function bandeSon(duree, reperes) {
   const sr = 48000;
   const ac = new OfflineAudioContext(2, Math.ceil(duree * sr), sr);
@@ -34,22 +34,35 @@ async function bandeSon(duree, reperes) {
   nappe(7.6, 17.8, [116.54, 174.61, 233.08, 293.66], 0.11, 600);
   nappe(17.4, 23.6, [174.61, 261.63, 349.23, 440], 0.11, 700);
   nappe(23.2, 30.0, [130.81, 196, 261.63, 329.63, 392], 0.12, 900);
-  note(0.25, 587.33, 0.05, 2.2);                 /* le repère se trace */
-  souffle(7.5, 8.7, 0.035);                       /* panneau vert */
-  note(8.5, 440, 0.07, 1.8);                      /* « centralise tout » */
-  souffle(10.2, 11.6, 0.03);                      /* l'appareil monte */
-  [11.6, 12.5, 13.4].forEach((t, i) => note(t, [880, 1046.5, 1174.66][i], 0.035, 0.9));
-  reperes.forEach((t, i) => note(t, [523.25, 587.33, 659.25, 783.99, 880, 1046.5][i], 0.06, 1.1)); /* six critères */
-  note(21.4, 1046.5, 0.05, 1.6);                  /* « Vérifié » */
-  souffle(23.1, 24.2, 0.03);
-  note(24.0, 523.25, 0.06, 2.4); note(24.9, 659.25, 0.05, 2.2);   /* signature */
-  souffle(27.0, 28.0, 0.03);
-  note(27.7, 392, 0.07, 2.6); note(27.72, 587.33, 0.05, 2.6);     /* logo */
+  /* plan 1 : le monogramme se trace trait après trait, le nœud s'allume */
+  note(0.25, 587.33, 0.05, 2.2);
+  [0.5, 0.9, 1.3, 1.55].forEach((t, i) => note(t, [659.25, 783.99, 880, 987.77][i], 0.028, 0.8));
+  note(1.8, 1174.66, 0.05, 1.4);
+  souffle(3.6, 4.4, 0.03);                        /* l'appareil monte */
+  /* plan 2 : le besoin se tape lettre par lettre, le nœud se pose */
+  for (let i = 1; i <= 8; i++) note(5.2 + i * 0.08, 2093, 0.016, 0.06);
+  note(6.3, 1046.5, 0.05, 1.2);
+  souffle(8.5, 9.3, 0.03);                        /* l'appareil glisse */
+  /* plan 3 : trois gestes, on passe puis on garde */
+  reperes.forEach((t, i) => note(t, [392, 880, 1046.5][i], i ? 0.055 : 0.045, 1.0));
+  souffle(14.6, 15.4, 0.03);
+  /* plan 4 : deux publics, une plateforme */
+  note(15.5, 523.25, 0.04, 1.4); note(15.6, 659.25, 0.04, 1.4);
+  note(16.6, 783.99, 0.04, 1.2); note(17.3, 1046.5, 0.05, 1.4);
+  souffle(19.6, 20.3, 0.03);
+  /* plan 5 : la correspondance bat */
+  note(20.6, 587.33, 0.05, 1.6);
+  [21.6, 22.1, 22.6, 23.1].forEach((t) => note(t, 1046.5, 0.035, 0.7));
+  souffle(24.6, 25.2, 0.03);
+  /* plan 6 : la signature, puis le partenaire */
+  note(25.2, 392, 0.07, 2.6); note(25.22, 587.33, 0.05, 2.6);
+  note(26.0, 523.25, 0.05, 2.2);
+  note(27.5, 659.25, 0.045, 2.0);
   return await ac.startRendering();
 }
 
 window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit, reperes }) => {
-  const vcfg = { codec: 'avc1.640028', width: largeur, height: hauteur, bitrate: debit, framerate: ips, avc: { format: 'avc' } };
+  const vcfg = { codec: 'avc1.640028', width: largeur, height: hauteur, bitrate: debit, framerate: ips, bitrateMode: 'variable', latencyMode: 'quality', avc: { format: 'avc' } };
   const acfg = { codec: 'mp4a.40.2', sampleRate: 48000, numberOfChannels: 2, bitrate: 160000 };
   const vs = await VideoEncoder.isConfigSupported(vcfg);
   const as = await AudioEncoder.isConfigSupported(acfg);
@@ -70,9 +83,12 @@ window.encoder = async ({ dossier, total, ips, largeur, hauteur, debit, reperes 
   venc.configure(vcfg);
   const canvas = new OffscreenCanvas(largeur, hauteur);
   const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  window.erreur = '';
   for (let i = 0; i < total; i++) {
     const img = new Image();
-    img.src = dossier + '/i' + String(i).padStart(5, '0') + '.jpg';
+    img.src = dossier + '/i' + String(i).padStart(5, '0') + '.png';
     await img.decode();
     ctx.drawImage(img, 0, 0, largeur, hauteur);
     const vf = new VideoFrame(canvas, { timestamp: Math.round((i * 1e6) / ips), duration: Math.round(1e6 / ips) });

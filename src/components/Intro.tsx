@@ -1,32 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import { Captions, Pause, Play, Volume2, VolumeX } from "lucide-react";
-import { getLenis, prefersReducedMotion } from "../lib/motion";
+import { getLenis } from "../lib/motion";
 import "./intro.css";
 
-const KEY = "talora-intro";
 export const INTRO_EVENT = "talora:intro-done";
 export const INTRO_REPLAY_EVENT = "talora:intro-replay";
 
-/** Vrai tant que l'introduction n'a pas été vue dans cette session (lu avant le premier rendu). */
+/** Le film ouvre chaque visite et chaque rafraîchissement (demande du client) ; `?nointro` le saute pour les tests. */
 export function introPending() {
   if (typeof window === "undefined") return false;
-  if (prefersReducedMotion()) return false;
-  if (window.location.search.includes("nointro")) return false;
-  try {
-    return sessionStorage.getItem(KEY) !== "1";
-  } catch {
-    return true;
-  }
+  return !window.location.search.includes("nointro");
 }
 
-/* Le film de 30 secondes en tête de page : il se joue une fois par session, sans son par défaut
-   (le navigateur l'exige), puis se retire en diagonale et le site apparaît. Un bouton permet de passer. */
+/** Deux encodages du même film : 1080p sur grand écran, 720p sur téléphone ou connexion économe. */
+function pickSource() {
+  if (typeof window === "undefined") return "/intro/talora-intro-720.mp4";
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } };
+  const slow = Boolean(nav.connection?.saveData) || /(^|\b)(slow-2g|2g|3g)$/.test(nav.connection?.effectiveType ?? "");
+  const small = Math.max(window.innerWidth, window.innerHeight) < 1100;
+  return slow || small ? "/intro/talora-intro-720.mp4" : "/intro/talora-intro-1080.mp4";
+}
+
+/* Le film de 30 secondes en tête de page : il se joue à chaque ouverture, sans son par défaut
+   (le navigateur l'exige), puis se retire en diagonale et le site apparaît. Un bouton permet de passer ;
+   en mouvement réduit, la lecture reste possible mais rien d'autre ne bouge. */
 export default function Intro() {
   const [state, setState] = useState<"playing" | "leaving" | "done">(() => (introPending() ? "playing" : "done"));
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
   const [captions, setCaptions] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
+  const [source] = useState(pickSource);
 
   // sous-titres : la piste est cachée par défaut, un bouton l'affiche
   useEffect(() => {
@@ -63,11 +67,6 @@ export default function Intro() {
 
   const finish = () => {
     if (state !== "playing") return;
-    try {
-      sessionStorage.setItem(KEY, "1");
-    } catch {
-      /* stockage indisponible */
-    }
     setState("leaving");
     window.setTimeout(() => {
       setState("done");
@@ -99,7 +98,7 @@ export default function Intro() {
       <video
         ref={video}
         className="intro__video"
-        src="/intro/talora-intro.mp4"
+        src={source}
         poster="/intro/talora-intro-affiche.jpg"
         autoPlay
         muted={muted}

@@ -35,6 +35,14 @@ export default function Footer() {
             <p className="footer__pending">{SITE.legal.privacyStatus}</p>
           </div>
         </div>
+        {/* Le partenaire qui a conçu et réalisé le site : logo ivoire, tel que sa charte le fixe sur fond sombre. */}
+        <p className="footer__partner">
+          <span className="station-label">{FOOTER.partner.label}</span>
+          <a className="footer__partner-link" href={FOOTER.partner.url} target="_blank" rel="noopener" aria-label={`${FOOTER.partner.name} (nouvel onglet)`}>
+            <img className="footer__partner-logo" src="/partenaires/methode-aura.png" alt={FOOTER.partner.name} width="800" height="246" loading="lazy" decoding="async" />
+          </a>
+          <span className="footer__partner-note">{FOOTER.partner.note}</span>
+        </p>
         <div className="footer__bottom">
           <p>
             © <span className="tabular">{year}</span> {SITE.name}. {FOOTER.nameNote}

@@ -81,6 +81,40 @@
   text-wrap: pretty;
 }
 
+/* le partenaire qui a conçu et réalisé le site : logo ivoire, tel que sa charte le fixe sur fond sombre */
+.footer__partner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin: 0;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.footer__partner .station-label {
+  margin: 0;
+}
+
+.footer__partner-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.footer__partner-logo {
+  display: block;
+  width: auto;
+  height: 40px;
+}
+
+.footer__partner-note {
+  font-size: var(--fs-small);
+  font-weight: 560;
+  color: var(--on-dark-muted);
+}
+
 .footer__bottom {
   display: flex;
   flex-wrap: wrap;

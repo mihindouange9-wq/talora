@@ -1,9 +1,11 @@
 // Film TALORA 30 s : charge la scène du site (`/?scene`, servie par `npm run preview`), capture image par
 // image dans Chrome (ligne de temps GSAP placée à chaque instant), puis encode en MP4 H.264 + AAC par
 // WebCodecs dans une seconde page Chrome (video/encodeur.html).
-// node tools/video-render.mjs                 → public/intro/talora-intro.mp4 (+ affiche) et livrables/TALORA-intro-30s.mp4
+// node tools/video-render.mjs                 → public/intro/talora-intro-1080.mp4 et -720.mp4 (+ affiche), copies dans livrables/
 // node tools/video-render.mjs --apercu        → planche-contact video/apercu.jpg (images clés) sans encoder
-// Options : --url http://127.0.0.1:5196  --ips 30  --debit 3200 (kb/s)  --echelle 0.6667 (1280 × 720)
+// Options : --url http://127.0.0.1:5196  --ips 30  --debit 10000 (kb/s, 1080p)  --debit-mobile 4500 (kb/s, 720p)
+//           --echelle 1 (1920 × 1080)  --sans-mobile (pas de second encodage)
+// Les images sont capturées en PNG (sans perte) ; l'encodeur matériel H.264 High fait le reste.
 import http from "node:http";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile, readFile, rm, stat, copyFile } from "node:fs/promises";
@@ -19,8 +21,10 @@ const option = (nom, defaut) => { const i = args.indexOf("--" + nom); return i >
 const texte = (nom, defaut) => { const i = args.indexOf("--" + nom); return i >= 0 ? args[i + 1] : defaut; };
 const APERCU = args.includes("--apercu");
 const IPS = option("ips", 30);
-const DEBIT = option("debit", 3200) * 1000;
-const ECHELLE = option("echelle", 2 / 3);
+const DEBIT = option("debit", 10000) * 1000;
+const DEBIT_MOBILE = option("debit-mobile", 4500) * 1000;
+const SANS_MOBILE = args.includes("--sans-mobile");
+const ECHELLE = option("echelle", 1);
 const SITE = texte("url", "http://127.0.0.1:5196");
 const L = 1920, H = 1080;
 const CHROME = process.env.CHROME || "C:/Program Files/Google/Chrome/Application/chrome.exe";
@@ -28,7 +32,7 @@ const DOSSIER = join(tmpdir(), `talora-video-${Date.now()}`);
 await mkdir(join(DOSSIER, "frames"), { recursive: true });
 
 /* ---------- serveur local : encodeur et dossier des images ---------- */
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".jpg": "image/jpeg" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".jpg": "image/jpeg", ".png": "image/png" };
 const serveur = http.createServer(async (q, r) => {
   const p = decodeURIComponent(q.url.split("?")[0]);
   const fichier = p.startsWith("/frames/") ? join(DOSSIER, p) : join(VIDEO, p);
@@ -67,7 +71,7 @@ const DUREE = await scene.evaluer("window.DUREE");
 const total = Math.round(DUREE * IPS);
 const image = async (t, format = "jpeg") => {
   await scene.evaluer(`new Promise((ok) => { window.seek(${t}); requestAnimationFrame(() => requestAnimationFrame(ok)); })`);
-  const { data } = (await scene.envoyer("Page.captureScreenshot", { format, quality: 92, captureBeyondViewport: false })).result;
+  const { data } = (await scene.envoyer("Page.captureScreenshot", format === "png" ? { format, captureBeyondViewport: false } : { format, quality: 92, captureBeyondViewport: false })).result;
   return Buffer.from(data, "base64");
 };
 
@@ -93,33 +97,41 @@ if (APERCU) {
 console.log(`Film TALORA · ${largeur}×${hauteur} · ${IPS} i/s · ${total} images`);
 const debut = Date.now();
 for (let i = 0; i < total; i++) {
-  await writeFile(join(DOSSIER, "frames", `i${String(i).padStart(5, "0")}.jpg`), await image(i / IPS));
+  await writeFile(join(DOSSIER, "frames", `i${String(i).padStart(5, "0")}.png`), await image(i / IPS, "png"));
   if (i % 60 === 0) process.stdout.write(`  capture ${i}/${total} (${((Date.now() - debut) / 1000).toFixed(0)} s)\r`);
 }
 console.log(`  capture ${total}/${total} en ${((Date.now() - debut) / 1000).toFixed(0)} s · erreurs page : ${scene.erreurs.length ? scene.erreurs.join(" | ") : "aucune"}`);
 const affiche = await image(0.05);
 scene.fermer();
 
-/* ---------- 2. encodage ---------- */
+/* ---------- 2. encodage : 1080p pour les grands écrans, 720p pour les téléphones ---------- */
 const enc = await ouvrirChrome("800,600");
 await enc.envoyer("Page.navigate", { url: `${BASE}/encodeur.html` });
 for (let i = 0; i < 80; i++) { if (await enc.evaluer("window.pret === true")) break; await attendre(250); }
-console.log(`  encodage H.264 ${largeur}×${hauteur} à ${DEBIT / 1000} kb/s…`);
-const reperes = [10.5, 12.1, 13.6, 17.2, 21.6, 26.0];
-const taille = await enc.evaluer(`window.encoder(${JSON.stringify({ dossier: `${BASE}/frames`, total, ips: IPS, largeur, hauteur, debit: DEBIT, reperes })})`, 1800000);
-const erreur = await enc.evaluer("window.erreur || ''");
-if (erreur) { console.error("échec :", erreur); enc.fermer(); process.exit(1); }
-const audio = await enc.evaluer("window.audio");
-const morceaux = [];
-for (let d = 0; d < taille; d += 8_000_000) morceaux.push(Buffer.from(await enc.evaluer(`window.tranche(${d}, ${Math.min(taille, d + 8_000_000)})`, 120000), "base64"));
-enc.fermer();
+const cibles = [{ nom: String(hauteur), largeur, hauteur, debit: DEBIT }];
+if (!SANS_MOBILE && largeur > 1280) cibles.push({ nom: "720", largeur: 1280, hauteur: 720, debit: DEBIT_MOBILE });
+const reperes = [10.5, 12.1, 13.6]; // les trois gestes du plan 3
 await mkdir(join(RACINE, "public", "intro"), { recursive: true });
 await mkdir(join(RACINE, "livrables"), { recursive: true });
-const web = join(RACINE, "public", "intro", "talora-intro.mp4");
-await writeFile(web, Buffer.concat(morceaux));
+let audio = false;
+const sorties = [];
+for (const c of cibles) {
+  console.log(`  encodage H.264 ${c.largeur}×${c.hauteur} à ${c.debit / 1000} kb/s…`);
+  const taille = await enc.evaluer(`window.encoder(${JSON.stringify({ dossier: `${BASE}/frames`, total, ips: IPS, largeur: c.largeur, hauteur: c.hauteur, debit: c.debit, reperes })})`, 2400000);
+  const erreur = await enc.evaluer("window.erreur || ''");
+  if (erreur) { console.error("échec :", erreur); enc.fermer(); process.exit(1); }
+  audio = await enc.evaluer("window.audio");
+  const morceaux = [];
+  for (let d = 0; d < taille; d += 8_000_000) morceaux.push(Buffer.from(await enc.evaluer(`window.tranche(${d}, ${Math.min(taille, d + 8_000_000)})`, 120000), "base64"));
+  const web = join(RACINE, "public", "intro", `talora-intro-${c.nom}.mp4`);
+  await writeFile(web, Buffer.concat(morceaux));
+  await copyFile(web, join(RACINE, "livrables", `TALORA-intro-30s-${c.nom}p.mp4`));
+  sorties.push({ web, taille: (await stat(web)).size });
+}
+enc.fermer();
 await writeFile(join(RACINE, "public", "intro", "talora-intro-affiche.jpg"), affiche);
-await copyFile(web, join(RACINE, "livrables", "TALORA-intro-30s.mp4"));
+await rm(join(RACINE, "public", "intro", "talora-intro.mp4"), { force: true });
+await rm(join(RACINE, "livrables", "TALORA-intro-30s.mp4"), { force: true });
 serveur.close();
 await attendre(600); await rm(DOSSIER, { recursive: true, force: true }).catch(() => {});
-const { size } = await stat(web);
-console.log(`\n  ${web}\n  ${(size / 1048576).toFixed(1)} Mo · ${DUREE} s · audio AAC : ${audio ? "oui" : "non"}\n  copie : livrables/TALORA-intro-30s.mp4 · affiche : public/intro/talora-intro-affiche.jpg`);
+console.log(`\n${sorties.map((s) => `  ${s.web} · ${(s.taille / 1048576).toFixed(1)} Mo`).join("\n")}\n  ${DUREE} s · audio AAC : ${audio ? "oui" : "non"} · copies dans livrables/ · affiche : public/intro/talora-intro-affiche.jpg`);

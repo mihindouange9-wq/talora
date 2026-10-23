@@ -204,7 +204,9 @@ export const CTA = {
 export const FOOTER = {
   mission: SITE.mission,
   nameNote: "TALORA est un nom de travail provisoire.",
-  demo: "Les écrans, profils et données présentés sont des illustrations fictives du concept.",
+  demo: "Les écrans, profils et données présentés sont des illustrations fictives du concept : les noms sont inventés et les portraits proviennent d'une banque d'images.",
+  /* Le partenaire qui a conçu et réalisé le site. */
+  partner: { label: "En collaboration avec", name: "MÉTHODE AURA", note: "Conception et réalisation du site", url: "https://methode-aura.onrender.com" },
 } as const;
 
 export type ScreenId = "home" | "search" | "results" | "profile" | "candidates" | "match";

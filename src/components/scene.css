@@ -70,19 +70,44 @@ html.scene body {
   color: var(--on-dark-soft);
 }
 
+/* les lignes de texte montent derrière leur masque : le conteneur coupe, l'élément intérieur bouge */
+.scene__tag span > i,
+.scene__claim > span > i,
+.scene__title > span > i {
+  display: block;
+  font-style: normal;
+}
+
 .scene__logo {
   display: flex;
   align-items: center;
   gap: 36px;
 }
 
-.scene__foot {
-  margin-top: 20px;
-  font-size: 18px;
+/* la signature du partenaire, sous la ligne jaune */
+.scene__partner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.scene__partner-label {
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--on-dark-muted);
+}
+
+.scene__partner-logo {
+  display: block;
+  width: auto;
+  height: 64px;
 }
 
 .scene__rails {

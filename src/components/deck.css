@@ -43,29 +43,34 @@
   opacity: 0;
 }
 
-/* le portrait sur un aplat teinté : chaque métier a sa nuance */
+/* le portrait en pleine image, comme sur les applications de rencontre ;
+   la teinte du métier colore le voile du bas, sous le nom */
 .deck__portrait {
   position: relative;
   flex: none;
-  height: 54%;
-  background:
-    radial-gradient(90% 70% at 50% 100%, hsl(var(--hue) 45% 62% / 0.55) 0%, transparent 70%),
-    linear-gradient(180deg, hsl(var(--hue) 38% 86%) 0%, hsl(var(--hue) 36% 76%) 100%);
+  height: 60%;
+  overflow: hidden;
+  background: hsl(var(--hue) 30% 72%);
 }
 
 .app--dark .deck__portrait {
-  background:
-    radial-gradient(90% 70% at 50% 100%, hsl(var(--hue) 45% 55% / 0.45) 0%, transparent 70%),
-    linear-gradient(180deg, hsl(var(--hue) 30% 36%) 0%, hsl(var(--hue) 32% 26%) 100%);
+  background: hsl(var(--hue) 30% 34%);
 }
 
 .deck__portrait img {
   position: absolute;
-  left: 50%;
-  bottom: -4%;
-  width: 78%;
-  height: auto;
-  transform: translateX(-50%);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+
+.deck__portrait::after {
+  content: "";
+  position: absolute;
+  inset: 48% 0 0;
+  background: linear-gradient(180deg, transparent 0%, hsl(var(--hue) 40% 10% / 0.72) 100%);
 }
 
 .deck__years {
@@ -87,32 +92,36 @@
 
 .deck__body {
   display: grid;
-  gap: 5px;
-  padding: 10px 12px 12px;
+  gap: 4px;
+  padding: 9px 12px 11px;
 }
 
+/* le nom, posé sur la photo */
 .deck__title {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 9px;
+  z-index: 1;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
+  color: var(--ivory);
+  text-shadow: 0 1px 2px rgb(26 15 3 / 0.5);
 }
 
 .deck__title strong {
   font-family: var(--font-display);
   font-variation-settings: "opsz" 24;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: -0.02em;
 }
 
 .deck__title small {
   flex: none;
-  color: hsl(var(--hue) 40% 34%);
+  color: var(--amber);
   font-weight: 650;
-}
-
-.app--dark .deck__title small {
-  color: hsl(var(--hue) 55% 78%);
 }
 
 .deck__job {

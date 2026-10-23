@@ -2,9 +2,22 @@ import type { CSSProperties } from "react";
 import "./logo.css";
 
 /* ───────────── Logo TALORA ─────────────
-   Le symbole est une correspondance : une ligne arrive, rencontre un nœud, et repart en montant à 45°.
-   Dans le mot, le O de TALORA est ce nœud. Le point jaune est la seule touche de couleur.
-   Fonctionne seul (icône d'application, favicon) ou avec le nom, sur fond sombre comme sur fond clair. */
+   Le monogramme réunit les trois lettres qui portent le nom : T, L et R partagent une seule tige.
+   La barre du T, le pied du L, la boucle et la jambe du R se croisent en un nœud, comme trois lignes
+   d'un plan de réseau se rejoignent à une correspondance. Le point jaune du nœud est la seule couleur.
+   Dans le mot, le O de TALORA reprend ce nœud. Fonctionne seul (icône d'application, favicon) ou avec
+   le nom, sur fond sombre comme sur fond clair. Tracés : trait 11 sur une grille de 100. */
+
+/** Géométrie du monogramme, partagée avec le favicon, l'image de partage et le film. */
+export const MARK_VIEWBOX = "-8 0 100 100";
+export const MARK_PATHS = {
+  stem: "M44 14V86",
+  bar: "M4 14H80",
+  bowl: "M62 14A18 18 0 0 1 62 50H44",
+  leg: "M44 50L80 86",
+  foot: "M44 86H80",
+} as const;
+export const MARK_NODE = { cx: 44, cy: 50, r: 10, dot: 4 } as const;
 
 type MarkProps = {
   size?: number;
@@ -18,19 +31,27 @@ export function LogoMark({ size = 28, className, title }: MarkProps) {
       className={className}
       width={size}
       height={size}
-      viewBox="0 0 48 48"
+      viewBox={MARK_VIEWBOX}
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : true}
       aria-label={title}
       fill="none"
     >
-      {/* la ligne qui arrive */}
-      <path d="M3 31H13" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-      {/* la ligne qui repart en montant : l'opportunité */}
-      <path d="M30 31L45 16" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+      <g stroke="currentColor" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round">
+        {/* la tige commune */}
+        <path d={MARK_PATHS.stem} />
+        {/* la barre du T */}
+        <path d={MARK_PATHS.bar} />
+        {/* la boucle du R, qui revient au nœud */}
+        <path d={MARK_PATHS.bowl} />
+        {/* la jambe du R, qui repart à 45° */}
+        <path d={MARK_PATHS.leg} />
+        {/* le pied du L */}
+        <path d={MARK_PATHS.foot} />
+      </g>
       {/* la correspondance */}
-      <circle cx="22" cy="31" r="8" fill="var(--logo-bg, #251605)" stroke="currentColor" strokeWidth="4" />
-      <circle cx="22" cy="31" r="3" fill="#fae311" />
+      <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.r} fill="var(--logo-bg, #251605)" stroke="currentColor" strokeWidth="7" />
+      <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.dot} fill="#fae311" />
     </svg>
   );
 }

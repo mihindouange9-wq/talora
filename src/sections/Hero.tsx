@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Play } from "lucide-react";
 import Phone from "../components/Phone";
-import { LogoMark, NodeO } from "../brand/Logo";
+import { NodeO } from "../brand/Logo";
 import { HERO } from "../content/site";
 import { drawPath, gsap, prefersReducedMotion, useGSAP } from "../lib/motion";
 import { INTRO_EVENT, INTRO_REPLAY_EVENT } from "../components/Intro";
@@ -76,23 +76,6 @@ function LocalTime() {
   );
 }
 
-/** Badge circulaire : la mention tourne lentement autour du symbole. */
-function OrbitBadge() {
-  return (
-    <span className="hero__orbit" role="img" aria-label="Projet en développement, lancement envisagé au Gabon">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
-        <defs>
-          <path id="hero-orbit-path" d="M60 60 m -46 0 a 46 46 0 1 1 92 0 a 46 46 0 1 1 -92 0" />
-        </defs>
-        <text className="hero__orbit-text">
-          <textPath href="#hero-orbit-path">Projet en développement · Lancement envisagé au Gabon · </textPath>
-        </text>
-      </svg>
-      <LogoMark size={34} />
-    </span>
-  );
-}
-
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
 
@@ -101,7 +84,7 @@ export default function Hero() {
       const scope = root.current!;
       const letters = scope.querySelectorAll<HTMLElement>(".hero__wordmark > span");
       const title = scope.querySelectorAll<HTMLElement>(".hero__line > span");
-      const rest = scope.querySelectorAll<HTMLElement>(".hero__lead, .hero__actions, .hero__note, .hero__orbit");
+      const rest = scope.querySelectorAll<HTMLElement>(".hero__lead, .hero__actions, .hero__note");
       const phones = scope.querySelectorAll<HTMLElement>(".hero__phone");
       const paths = scope.querySelectorAll<SVGPathElement>(".hero__lines path");
       const node = scope.querySelector<SVGGElement>(".hero__node g");
@@ -234,7 +217,6 @@ export default function Hero() {
           <div className="hero__phone hero__phone--front">
             <Phone screen="home" scale={0.94} eager />
           </div>
-          <OrbitBadge />
         </div>
 
         {/* Le nœud de correspondance, posé sur l'écran */}

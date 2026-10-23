@@ -68,14 +68,14 @@ export default function Deck({ items, labels = { yes: "Garder", no: "Passer" }, 
             style={{ "--hue": item.hue, "--k": k } as CSSProperties}
           >
             <div className="deck__portrait">
-              <img src={item.avatar} alt="" width="256" height="256" loading="lazy" decoding="async" />
+              <img src={item.avatar} alt="" width="640" height="800" loading="lazy" decoding="async" />
               <span className="deck__years tabular">{item.years} ans</span>
-            </div>
-            <div className="deck__body">
               <span className="deck__title">
                 <strong>{item.name}</strong>
                 {item.meta && <small>{item.meta}</small>}
               </span>
+            </div>
+            <div className="deck__body">
               <small className="deck__job">
                 {item.job}
                 <span className="deck__area">

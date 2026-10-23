@@ -27,7 +27,7 @@ export default function Header() {
     <header className={`header ${scrolled ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
       <div className="container header__bar">
         <a href="#top" className="header__logo" aria-label="TALORA — haut de page">
-          <Logo size={26} tone="dark" />
+          <Logo size={30} tone="dark" />
         </a>
         <nav className="header__nav" aria-label="Navigation principale">
           {NAV.map((item) => (

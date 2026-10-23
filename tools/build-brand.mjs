@@ -37,19 +37,22 @@ const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8">
 @font-face{font-family:"Onest";src:url("${fontUrl("onest/files/onest-latin-wght-normal.woff2")}") format("woff2");font-weight:100 900;}
 html,body{margin:0;width:1200px;height:630px;background:#251605;color:#faf6e6;font-family:"Onest",sans-serif;overflow:hidden}
 .wrap{position:relative;width:1200px;height:630px;padding:64px 80px 60px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:18px;font-family:"Bricolage";font-weight:700;font-size:34px;letter-spacing:.04em}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:18px;font-family:"Bricolage";font-weight:760;font-size:34px;letter-spacing:.035em}
+.word{display:inline-flex;align-items:center;line-height:1}
+.word svg{margin:0 1px 0 2px}
 h1{margin:0;font-family:"Bricolage";font-weight:640;font-size:84px;line-height:1.02;letter-spacing:-0.03em;max-width:18ch}
 h1 span{display:block;color:#dccfae}
 p{margin:0;font-size:22px;color:#dccfae;max-width:40ch;line-height:1.45}
 .foot{display:flex;justify-content:space-between;align-items:flex-end}
-.tag{font-size:16px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#b5a47f}
+.tag{font-size:16px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#b5a47f;white-space:nowrap}
 svg.lines{position:absolute;inset:0;width:1200px;height:630px}
 svg.lines path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 </style></head><body><div class="wrap">
 <svg class="lines" viewBox="0 0 1200 630"><path d="M 760 630 V 440 L 940 260 H 1200" stroke="#fae311"/><path d="M 1200 540 H 1040 L 940 440 V 260" stroke="#6b5431"/><circle cx="940" cy="260" r="16" fill="#251605" stroke="#fae311" stroke-width="5"/><circle cx="940" cy="260" r="5" fill="#fae311"/></svg>
-<div class="logo"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><path d="M3 31H13" stroke="#faf6e6" stroke-width="5" stroke-linecap="round"/><path d="M30 31L45 16" stroke="#faf6e6" stroke-width="5" stroke-linecap="round"/><circle cx="22" cy="31" r="8" fill="#251605" stroke="#faf6e6" stroke-width="4"/><circle cx="22" cy="31" r="3" fill="#fae311"/></svg>TAL<svg width="30" height="30" viewBox="0 0 40 40" fill="none" style="margin:0 1px 0 2px"><circle cx="20" cy="20" r="14" stroke="#faf6e6" stroke-width="6.5"/><circle cx="20" cy="20" r="4.6" fill="#fae311"/></svg>RA</div>
+<div class="top"><div class="logo"><svg width="48" height="48" viewBox="-8 0 100 100" fill="none"><g stroke="#faf6e6" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M44 14V86"/><path d="M4 14H80"/><path d="M62 14A18 18 0 0 1 62 50H44"/><path d="M44 50L80 86"/><path d="M44 86H80"/></g><circle cx="44" cy="50" r="10" fill="#251605" stroke="#faf6e6" stroke-width="7"/><circle cx="44" cy="50" r="4" fill="#fae311"/></svg><span class="word">TAL<svg width="29" height="29" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="#faf6e6" stroke-width="6.5"/><circle cx="20" cy="20" r="4.6" fill="#fae311"/></svg>RA</span></div><span class="tag">Mise en relation professionnelle · Gabon</span></div>
 <div><h1>Les bons talents.<span>Au bon moment.</span></h1></div>
-<div class="foot"><p>Une nouvelle façon de connecter les entreprises, les particuliers et les professionnels qualifiés.</p><span class="tag">Projet en développement · Gabon</span></div>
+<div class="foot"><p>Une nouvelle façon de connecter les entreprises, les particuliers et les professionnels qualifiés.</p></div>
 </div></body></html>`;
 const tmp = path.join(root, "tools/.tmp-og.html");
 fs.writeFileSync(tmp, html);

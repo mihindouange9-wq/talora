@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Logo, LogoMark } from "../brand/Logo";
+import { Logo, LogoMark, MARK_NODE, MARK_PATHS, MARK_VIEWBOX } from "../brand/Logo";
 import Phone from "./Phone";
 import { gsap } from "../lib/motion";
 import "./scene.css";
@@ -34,17 +34,18 @@ export default function Scene() {
       const len = (p as unknown as SVGPathElement).getTotalLength();
       gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
     });
-    tl.to(markPaths[0], { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 0.3)
-      .from(".scene__mark circle", { scale: 0, transformOrigin: "center", duration: 0.6, ease: "back.out(2)", stagger: 0.1 }, 0.9)
-      .to(markPaths[1], { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 1.3)
-      .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 1.6)
-      .from(".scene__p1 .scene__tag span", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.1)
-      .to(".scene__p1", { autoAlpha: 0, y: -40, duration: 0.6, ease: "power2.in" }, 3.6);
+    // les trois lettres se tracent l'une après l'autre : la tige et la barre du T, la boucle et la jambe du R, le pied du L
+    const trace: Array<[number, number, number]> = [[0, 0.2, 0.55], [1, 0.45, 0.6], [2, 0.85, 0.6], [3, 1.25, 0.5], [4, 1.5, 0.45]];
+    trace.forEach(([i, t, d]) => tl.to(markPaths[i], { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t));
+    tl.from(".scene__mark circle", { scale: 0, transformOrigin: "center", duration: 0.55, ease: "back.out(2.2)", stagger: 0.08 }, 1.75)
+      .from(".scene__wordmark .logo__word", { autoAlpha: 0, y: 30, duration: 0.9 }, 2.0)
+      .from(".scene__p1 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 2.4)
+      .to(".scene__p1", { autoAlpha: 0, y: -40, duration: 0.6, ease: "power2.in" }, 3.7);
 
     /* ---- plan 2 : décrire le besoin ---- */
     tl.from(".scene__p2", { autoAlpha: 0, duration: 0.01 }, 3.9)
       .from(".scene__p2 .scene__phone-a", { y: 500, rotation: 8, duration: 1.3, ease: "power4.out" }, 3.9)
-      .from(".scene__p2 .scene__claim > span", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 4.3)
+      .from(".scene__p2 .scene__claim > span > i", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 4.3)
       .from(".scene__p2 .scene__sub", { autoAlpha: 0, y: 16, duration: 0.7 }, 5.0);
     const word = "Plombier";
     const field = q(".scene__phone-a .app-search__value");
@@ -66,7 +67,7 @@ export default function Scene() {
     };
     tl.to(".scene__p2 .scene__phone-a", { x: -560, duration: 1.1, ease: "power3.inOut" }, 8.6)
       .from(".scene__p3", { autoAlpha: 0, duration: 0.01 }, 9.2)
-      .from(".scene__p3 .scene__claim > span", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 9.4)
+      .from(".scene__p3 .scene__claim > span > i", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 9.4)
       .from(".scene__p3 .scene__sub", { autoAlpha: 0, y: 16, duration: 0.7 }, 10.0);
     swipe(0, "no", 10.4);
     swipe(1, "yes", 12.0);
@@ -75,7 +76,7 @@ export default function Scene() {
 
     /* ---- plan 4 : deux publics, une plateforme ---- */
     tl.from(".scene__p4", { autoAlpha: 0, duration: 0.01 }, 15.0)
-      .from(".scene__p4 .scene__title > span", { yPercent: 110, duration: 0.9, stagger: 0.1, ease: "power4.out" }, 15.1)
+      .from(".scene__p4 .scene__title > span > i", { yPercent: 110, duration: 0.9, stagger: 0.1, ease: "power4.out" }, 15.1)
       .from(".scene__p4 .scene__phone-b", { x: -700, rotation: -10, duration: 1.2, ease: "power4.out" }, 15.4)
       .from(".scene__p4 .scene__phone-c", { x: 700, rotation: 10, duration: 1.2, ease: "power4.out" }, 15.5)
       .from(".scene__p4 .scene__rail-b", { scaleX: 0, transformOrigin: "center", duration: 1.0, ease: "power4.out" }, 16.5)
@@ -86,7 +87,7 @@ export default function Scene() {
     /* ---- plan 5 : la correspondance ---- */
     tl.from(".scene__p5", { autoAlpha: 0, duration: 0.01 }, 20.0)
       .from(".scene__p5 .scene__phone-d", { y: 600, duration: 1.3, ease: "power4.out" }, 20.0)
-      .from(".scene__p5 .scene__claim > span", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 20.6)
+      .from(".scene__p5 .scene__claim > span > i", { yPercent: 110, duration: 0.9, stagger: 0.12, ease: "power4.out" }, 20.6)
       .from(".scene__p5 .scene__sub", { autoAlpha: 0, y: 16, duration: 0.7 }, 21.4)
       .fromTo(".scene__p5 .match__node", { scale: 1 }, { scale: 1.25, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, 21.6)
       .to(".scene__p5", { autoAlpha: 0, duration: 0.6, ease: "power2.in" }, 24.6);
@@ -94,14 +95,20 @@ export default function Scene() {
     /* ---- plan 6 : la signature ---- */
     tl.from(".scene__p6", { autoAlpha: 0, duration: 0.01 }, 25.0)
       .from(".scene__p6 .scene__logo", { scale: 0.7, autoAlpha: 0, duration: 1.1, ease: "power4.out" }, 25.1)
-      .from(".scene__p6 .scene__tag span", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 26.0)
-      .from(".scene__p6 .scene__foot", { autoAlpha: 0, y: 12, duration: 0.8 }, 27.2)
-      .from(".scene__p6 .scene__rails line", { attr: { x2: 0 }, duration: 1.4, ease: "power3.out", stagger: 0.2 }, 25.6);
+      .from(".scene__p6 .scene__tag span > i", { yPercent: 110, duration: 1, stagger: 0.14, ease: "power4.out" }, 26.0)
+      .from(".scene__p6 .scene__rails line", { attr: { x2: 0 }, duration: 1.4, ease: "power3.out", stagger: 0.2 }, 25.6)
+      // la signature du partenaire qui a conçu le site ferme le film
+      .from(".scene__p6 .scene__partner", { autoAlpha: 0, y: 14, duration: 0.8 }, 27.4)
+      .from(".scene__p6 .scene__partner-logo", { scale: 0.92, transformOrigin: "left center", duration: 0.9, ease: "power3.out" }, 27.5);
 
     window.DUREE = 30;
     window.seek = (t: number) => tl.seek(Math.min(30, Math.max(0, t)), false);
     tl.seek(0, false);
-    document.fonts.ready.then(() => {
+    // prêt quand les polices et toutes les images (portraits, logo du partenaire) sont là
+    const images = Array.from(document.images)
+      .filter((i) => !i.complete)
+      .map((i) => new Promise<void>((r) => { i.onload = i.onerror = () => r(); }));
+    Promise.all([document.fonts.ready, ...images]).then(() => {
       window.pret = true;
     });
     return () => {
@@ -113,18 +120,23 @@ export default function Scene() {
     <div className="scene" ref={root}>
       {/* plan 1 */}
       <section className="scene__plan scene__p1">
-        <svg className="scene__mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <path d="M3 31H13" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-          <path d="M30 31L45 16" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-          <circle cx="22" cy="31" r="8" fill="#251605" stroke="currentColor" strokeWidth="4" />
-          <circle cx="22" cy="31" r="3" fill="#fae311" />
+        <svg className="scene__mark" viewBox={MARK_VIEWBOX} fill="none" aria-hidden="true">
+          <g stroke="currentColor" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round">
+            <path d={MARK_PATHS.stem} />
+            <path d={MARK_PATHS.bar} />
+            <path d={MARK_PATHS.bowl} />
+            <path d={MARK_PATHS.leg} />
+            <path d={MARK_PATHS.foot} />
+          </g>
+          <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.r} fill="#251605" stroke="currentColor" strokeWidth="7" />
+          <circle cx={MARK_NODE.cx} cy={MARK_NODE.cy} r={MARK_NODE.dot} fill="#fae311" />
         </svg>
         <div className="scene__wordmark">
           <Logo size={72} withMark={false} />
         </div>
         <p className="scene__tag">
-          <span>Les bons talents.</span>
-          <span>Au bon moment.</span>
+          <span><i>Les bons talents.</i></span>
+          <span><i>Au bon moment.</i></span>
         </p>
       </section>
 
@@ -132,8 +144,8 @@ export default function Scene() {
       <section className="scene__plan scene__p2">
         <div className="scene__copy">
           <p className="scene__claim">
-            <span>Décrivez</span>
-            <span>le besoin.</span>
+            <span><i>Décrivez</i></span>
+            <span><i>le besoin.</i></span>
           </p>
           <p className="scene__sub">Un métier, une compétence, un lieu.</p>
           <span className="scene__rail-a" />
@@ -146,8 +158,8 @@ export default function Scene() {
       <section className="scene__plan scene__p3">
         <div className="scene__copy scene__copy--right">
           <p className="scene__claim">
-            <span>Les profils</span>
-            <span>défilent.</span>
+            <span><i>Les profils</i></span>
+            <span><i>défilent.</i></span>
           </p>
           <p className="scene__sub">On garde ceux qui conviennent. On passe les autres.</p>
           <div className="scene__gestes">
@@ -160,8 +172,8 @@ export default function Scene() {
       {/* plan 4 */}
       <section className="scene__plan scene__p4">
         <p className="scene__title">
-          <span>Deux publics.</span>
-          <span>Une plateforme.</span>
+          <span><i>Deux publics.</i></span>
+          <span><i>Une plateforme.</i></span>
         </p>
         <div className="scene__duo">
           <div className="scene__phone-b">
@@ -181,8 +193,8 @@ export default function Scene() {
       <section className="scene__plan scene__p5">
         <div className="scene__copy">
           <p className="scene__claim">
-            <span>Quand l'intérêt</span>
-            <span>est partagé.</span>
+            <span><i>Quand l'intérêt</i></span>
+            <span><i>est partagé.</i></span>
           </p>
           <p className="scene__sub">La rencontre devient un échange.</p>
         </div>
@@ -202,10 +214,13 @@ export default function Scene() {
           <Logo size={88} withMark={false} />
         </div>
         <p className="scene__tag">
-          <span>Pensé pour commencer au Gabon.</span>
-          <span>Conçu pour évoluer à l'échelle africaine.</span>
+          <span><i>Pensé pour commencer au Gabon.</i></span>
+          <span><i>Conçu pour évoluer à l'échelle africaine.</i></span>
         </p>
-        <p className="scene__foot">Projet en développement · Partenaires et investisseurs</p>
+        <div className="scene__partner">
+          <span className="scene__partner-label">En collaboration avec</span>
+          <img className="scene__partner-logo" src="/partenaires/methode-aura.png" alt="MÉTHODE AURA" width="800" height="246" />
+        </div>
       </section>
     </div>
   );
